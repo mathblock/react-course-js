@@ -1,6 +1,6 @@
 # JOUR 3 : Navigation et État Global - React Router & Context API
 
-## 📊 Vue d'ensemble
+## Vue d'ensemble
 
 **Durée totale** : 7 heures (3h30 matin + 3h30 après-midi)  
 **Niveau** : Intermédiaire/Avancé  
@@ -8,7 +8,7 @@
 
 ---
 
-## 🎯 Objectifs Pédagogiques
+## Objectifs Pédagogiques
 
 À la fin de cette journée, les étudiants seront capables de :
 
@@ -35,11 +35,11 @@
 
 ---
 
-## ⏰ Planning Détaillé
+## Planning Détaillé
 
-### 🌅 MATIN (08h00 - 12h00)
+### MATIN
 
-#### 08h00 - 08h15 | Accueil & Révisions (15 min)
+#### Accueil & Révisions
 **Format** : Discussion + Vérification
 
 **Quiz révision Jour 2** :
@@ -59,10 +59,10 @@
 
 ---
 
-#### 08h15 - 09h45 | React Router : Navigation Multi-Pages (1h30)
+#### React Router : Navigation Multi-Pages
 **Format** : Présentation + Live coding + Exercices
 
-##### 08h15 - 08h35 | Qu'est-ce qu'une SPA ? (20 min)
+##### Qu'est-ce qu'une SPA ?
 
 **Application traditionnelle** (multi-pages server-side) :
 
@@ -99,7 +99,7 @@
 - 📦 Bundle JS plus gros
 - ⏱️ Temps de chargement initial
 
-##### 08h35 - 09h00 | Installation et configuration (25 min)
+##### Installation et configuration
 
 **Installation** :
 
@@ -227,7 +227,7 @@ export default App;
 - `<Route path="menu" ...>` : /menu
 - `<Route path="*" ...>` : 404 pour toutes les autres routes
 
-##### 09h00 - 09h25 | Navigation avec Link (25 min)
+##### Navigation avec Link
 
 **Modifier Header.tsx** :
 
@@ -254,7 +254,7 @@ function Header() {
 export default Header;
 ```
 
-**⚠️ IMPORTANT** : 
+**IMPORTANT** : 
 
 ```typescript
 // ❌ FAUX - Recharge la page
@@ -314,9 +314,9 @@ function Header() {
 }
 ```
 
-##### 09h25 - 09h45 | Exercice navigation (20 min)
+##### Exercice navigation
 
-**🎯 Exercice 1 : Créer les pages manquantes (20 min)**
+**Exercice 1 : Créer les pages manquantes (20 min)**
 
 ```typescript
 // Consignes :
@@ -343,14 +343,14 @@ function AboutPage() {
 
 ---
 
-#### ☕ 09h45 - 10h00 | PAUSE (15 min)
+#### PAUSE (20 min)
 
 ---
 
-#### 10h00 - 12h00 | useNavigate & useParams (2h)
+#### useNavigate & useParams
 **Format** : Live coding + Exercices
 
-##### 10h00 - 10h30 | Navigation programmatique avec useNavigate (30 min)
+##### Navigation programmatique avec useNavigate
 
 **Cas d'usage** : Rediriger après une action (clic, submit, etc.)
 
@@ -436,7 +436,7 @@ function MenuCard({ item }: MenuCardProps) {
 }
 ```
 
-##### 10h30 - 11h15 | Routes dynamiques avec useParams (45 min)
+##### Routes dynamiques avec useParams
 
 **Définir une route avec paramètre** :
 
@@ -552,9 +552,9 @@ function MenuCard({ item, onAddToCart }: MenuCardProps) {
 2. URL change : `/menu/1`, `/menu/2`, etc.
 3. Bouton retour fonctionne
 
-##### 11h15 - 12h00 | Exercice routes dynamiques (45 min)
+##### Exercice routes dynamiques
 
-**🎯 Exercice 2 : Page de catégorie (45 min)**
+**Exercice 2 : Page de catégorie**
 
 ```typescript
 // Consignes :
@@ -586,16 +586,16 @@ function CategoryPage() {
 
 ---
 
-#### 12h00 - 13h00 | 🍽️ PAUSE DÉJEUNER
+#### PAUSE DÉJEUNER
 
 ---
 
-### 🌆 APRÈS-MIDI (13h00 - 17h00)
+### APRÈS-MIDI
 
-#### 13h00 - 13h30 | Le problème du Prop Drilling (30 min)
+#### Le problème du Prop Drilling
 **Format** : Présentation + Démonstration du problème
 
-##### 13h00 - 13h20 | Exercice : Vivre le Prop Drilling (20 min)
+##### Exercice : Vivre le Prop Drilling (20 min)
 
 **Objectif pédagogique** : Les étudiants doivent **ressentir la frustration** avant d'apprendre la solution.
 
@@ -663,7 +663,7 @@ function App() {
 
 **Laisser les étudiants essayer pendant 15 minutes** (ils vont bloquer).
 
-##### 13h20 - 13h30 | Diagnostic du problème (10 min)
+##### Diagnostic du problème
 
 **Demander au groupe** :
 - "Comment vous sentez-vous ?"
@@ -681,10 +681,10 @@ function App() {
 
 ---
 
-#### 13h30 - 15h00 | Context API : État Global (1h30)
+#### Context API : État Global
 **Format** : Live coding progressif
 
-##### 13h30 - 13h50 | Concept du Context (20 min)
+##### Concept du Context
 
 **Analogie** :
 "Context est comme une **radio FM**.
@@ -713,7 +713,7 @@ App (Provider)
 - **Provider** : Fournir les valeurs
 - **useContext** : Consommer les valeurs
 
-##### 13h50 - 14h40 | Implémentation du CartContext (50 min)
+##### Implémentation du CartContext
 
 **Créer `src/context/CartContext.tsx`** :
 
@@ -817,7 +817,7 @@ export function useCart() {
 4. value : L'objet avec toutes les données/fonctions
 5. useCart : Hook custom pour faciliter l'usage
 
-##### 14h40 - 15h00 | Utiliser le CartContext (20 min)
+##### Utiliser le CartContext
 
 **Envelopper l'app dans le Provider** :
 
@@ -912,14 +912,14 @@ function CartPage() {
 
 ---
 
-#### ☕ 15h00 - 15h15 | PAUSE (15 min)
+#### PAUSE (15 min)
 
 ---
 
-#### 15h15 - 16h30 | useReducer pour état complexe (1h15)
+#### useReducer pour état complexe
 **Format** : Présentation + Refactoring
 
-##### 15h15 - 15h40 | Introduction à useReducer (25 min)
+##### Introduction à useReducer
 
 **Pourquoi useReducer ?**
 
@@ -980,7 +980,7 @@ const [count, dispatch] = useReducer(reducer, 0);
 //   valeur  dispatcher            reducer  initial
 ```
 
-##### 15h40 - 16h30 | Refactoring du CartContext avec useReducer (50 min)
+##### Refactoring du CartContext avec useReducer
 
 **Créer le reducer** :
 
@@ -1096,9 +1096,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 ---
 
-#### 16h30 - 17h00 | App.tsx simplifié & Récapitulatif (30 min)
+#### App.tsx simplifié & Récapitulatif
 
-##### 16h30 - 16h45 | App.tsx ultra simple (15 min)
+##### App.tsx ultra simple
 
 **Avant (avec prop drilling)** :
 
@@ -1141,7 +1141,7 @@ function App() {
 
 **Montrer la différence** : Compter les lignes de code.
 
-##### 16h45 - 17h00 | Récapitulatif & Questions (15 min)
+##### Récapitulatif & Questions
 
 **Quiz rapide** :
 
