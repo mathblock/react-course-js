@@ -1,6 +1,6 @@
 # JOUR 4 : Production et Finitions - useEffect, API & Déploiement
 
-## 📊 Vue d'ensemble
+## Vue d'ensemble
 
 **Durée totale** : 7 heures (3h30 matin + 3h30 après-midi)  
 **Niveau** : Avancé  
@@ -8,7 +8,7 @@
 
 ---
 
-## 🎯 Objectifs Pédagogiques
+## Objectifs Pédagogiques
 
 À la fin de cette journée, les étudiants seront capables de :
 
@@ -36,18 +36,18 @@
 
 ---
 
-## ⏰ Planning Détaillé
+## Planning Détaillé
 
-### 🌅 MATIN (08h00 - 12h00)
+### MATIN
 
-#### 08h00 - 08h15 | Accueil & Révisions (15 min)
+#### Accueil & Révisions
 **Format** : Discussion + Quiz
 
 **Quiz révision Jour 3** :
 
-1. Comment créer une route dynamique ? → `/menu/:id`
-2. Quel hook pour naviguer programmatiquement ? → `useNavigate`
-3. Comment accéder aux paramètres d'URL ? → `useParams`
+1. Comment créer une route dynamique ?
+2. Quel hook pour naviguer programmatiquement ?
+3. Comment accéder aux paramètres d'URL ?
 4. Quel est le problème du prop drilling ?
 5. Comment créer un Context ?
 
@@ -61,10 +61,10 @@
 
 ---
 
-#### 08h15 - 10h00 | useEffect : Synchronisation et Effets de Bord (1h45)
+#### useEffect : Synchronisation et Effets de Bord
 **Format** : Présentation approfondie + Live coding
 
-##### 08h15 - 08h45 | Qu'est-ce qu'un effet de bord ? (30 min)
+##### Qu'est-ce qu'un effet de bord ?
 
 **Définition** :
 Un **effet de bord** (side effect) est une interaction avec le monde extérieur au composant.
@@ -85,10 +85,7 @@ Un **effet de bord** (side effect) est une interaction avec le monde extérieur 
 - Rendu de JSX
 - Appels de fonctions pures
 
-**⚠️ Ancienne mentalité (Class components)** :
-"componentDidMount, componentWillUnmount, componentDidUpdate..."
-
-**✅ Nouvelle mentalité (Hooks)** :
+**✅ (Hooks)** :
 "Je veux **synchroniser** mon composant avec un système externe."
 
 **Exemple concret** :
@@ -128,7 +125,7 @@ function WindowSize() {
 }
 ```
 
-##### 08h45 - 09h15 | Syntaxe et dépendances de useEffect (30 min)
+##### Syntaxe et dépendances de useEffect
 
 **3 formes de useEffect** :
 
@@ -243,9 +240,9 @@ useEffect(() => {
 - 📡 Abonnements (WebSocket, SSE)
 - 🔄 Requêtes en cours (AbortController)
 
-##### 09h15 - 10h00 | Exercices useEffect (45 min)
+##### Exercices useEffect
 
-**🎯 Exercice 1 : Timer (15 min)**
+** Exercice 1 : Timer (15 min)**
 
 ```typescript
 // Consigne : Créer un timer qui compte les secondes
@@ -281,7 +278,7 @@ function Timer() {
 }
 ```
 
-**🎯 Exercice 2 : Document title (10 min)**
+** Exercice 2 : Document title (10 min)**
 
 ```typescript
 // Consigne : Changer le titre de la page selon une prop
@@ -309,7 +306,7 @@ function PageTitle({ title }: PageTitleProps) {
 }
 ```
 
-**🎯 Exercice 3 : Event listener (20 min)**
+** Exercice 3 : Event listener (20 min)**
 
 ```typescript
 // Consigne : Afficher les coordonnées de la souris
@@ -332,14 +329,14 @@ function MouseTracker() {
 
 ---
 
-#### ☕ 10h00 - 10h15 | PAUSE (15 min)
+#### PAUSE
 
 ---
 
-#### 10h15 - 12h00 | Appels API avec useEffect (1h45)
+#### Appels API avec useEffect
 **Format** : Live coding + Custom hooks
 
-##### 10h15 - 10h50 | Pattern de fetching de données (35 min)
+##### Pattern de fetching de données
 
 **Pattern complet** :
 
@@ -460,7 +457,7 @@ function SearchResults({ query }: { query: string }) {
 **Pourquoi c'est important ?**
 Si l'utilisateur tape vite dans la recherche, on ne veut pas que les anciennes requêtes écrasent les nouvelles.
 
-##### 10h50 - 11h30 | Custom Hook : useFetch (40 min)
+##### Custom Hook : useFetch
 
 **Créer `src/hooks/useFetch.ts`** :
 
@@ -550,7 +547,7 @@ const { data: orders } = useFetch<Order[]>('/api/orders');
 const { data: stats } = useFetch<Stats>('/api/stats');
 ```
 
-##### 11h30 - 12h00 | Autres custom hooks utiles (30 min)
+##### Autres custom hooks utiles
 
 **useLocalStorage** :
 
@@ -656,16 +653,16 @@ function SearchBar() {
 
 ---
 
-#### 12h00 - 13h00 | 🍽️ PAUSE DÉJEUNER
+#### PAUSE DÉJEUNER
 
 ---
 
-### 🌆 APRÈS-MIDI (13h00 - 17h00)
+### APRÈS-MIDI
 
-#### 13h00 - 14h30 | Formulaire de Checkout avec Validation (1h30)
+#### Formulaire de Checkout avec Validation
 **Format** : Live coding progressif
 
-##### 13h00 - 14h30 | Formulaire complet (1h30)
+##### Formulaire complet
 
 **Créer `src/pages/CheckoutPage.tsx`** :
 
@@ -1078,14 +1075,14 @@ export default OrderConfirmationPage;
 
 ---
 
-#### ☕ 14h30 - 14h45 | PAUSE (15 min)
+#### PAUSE
 
 ---
 
-#### 14h45 - 15h45 | Optimisations de Performance (1h)
+#### Optimisations de Performance
 **Format** : Présentation + Démonstrations
 
-##### 14h45 - 15h15 | React.memo, useMemo, useCallback (30 min)
+##### React.memo, useMemo, useCallback
 
 **React.memo** - Éviter les re-renders inutiles :
 
@@ -1153,7 +1150,7 @@ const Child = React.memo(({ onClick }: { onClick: () => void }) => {
 });
 ```
 
-##### 15h15 - 15h45 | Quand optimiser ? (30 min)
+##### Quand optimiser ?
 
 **⚠️ RÈGLE D'OR : Ne PAS optimiser prématurément !**
 
@@ -1207,10 +1204,10 @@ function SimpleComponent({ name }: { name: string }) {
 
 ---
 
-#### 15h45 - 16h45 | Build & Déploiement (1h)
+#### Build & Déploiement
 **Format** : Live demo + Hands-on
 
-##### 15h45 - 16h15 | Build de production (30 min)
+##### Build de production
 
 **Créer le build** :
 
@@ -1259,7 +1256,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 **⚠️ Important** : Les variables doivent commencer par `VITE_`
 
-##### 16h15 - 16h45 | Déploiement sur Netlify (30 min)
+##### Déploiement sur Netlify
 
 **Option 1 : Drag & Drop (rapide pour test)**
 
@@ -1316,9 +1313,9 @@ VITE_API_URL = https://api.production.com
 
 ---
 
-#### 16h45 - 17h30 | Récapitulatif Final & Conclusion (45 min)
+####  Récapitulatif Final & Conclusion
 
-##### 16h45 - 17h00 | Quiz final (15 min)
+##### Quiz final (15 min)
 
 **Questions** :
 
@@ -1328,7 +1325,7 @@ VITE_API_URL = https://api.production.com
 4. Quand utiliser React.memo ?
 5. Comment déployer une app React ?
 
-##### 17h00 - 17h15 | Récap des 4 jours (15 min)
+##### Récap des 4 jours
 
 **Jour 1** : Composants, Props, JSX  
 **Jour 2** : useState, Événements, Immutabilité  
@@ -1343,7 +1340,7 @@ VITE_API_URL = https://api.production.com
 - ✅ Optimiser les performances
 - ✅ Déployer en production
 
-##### 17h15 - 17h30 | Pour aller plus loin & Conclusion (15 min)
+##### Pour aller plus loin & Conclusion
 
 **Prochaines étapes recommandées** :
 
@@ -1380,7 +1377,7 @@ VITE_API_URL = https://api.production.com
 
 ---
 
-## 📚 Projet Final (Optionnel)
+## Projet Final (Optionnel)
 
 ### Consignes
 
