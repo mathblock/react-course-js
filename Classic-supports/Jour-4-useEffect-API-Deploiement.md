@@ -3,6 +3,7 @@
 ## 📋 Objectifs de la journée
 
 À la fin de cette journée, vous serez capable de :
+
 - ✅ Comprendre et utiliser useEffect correctement
 - ✅ Faire des appels API et gérer les états asynchrones
 - ✅ Créer des custom hooks réutilisables
@@ -19,6 +20,7 @@
 #### Qu'est-ce qu'un effet de bord (side effect) ?
 
 Un **effet de bord** est une opération qui interagit avec le monde extérieur au composant :
+
 - 🌐 Appels API
 - 💾 localStorage / sessionStorage
 - 📡 Abonnements (WebSocket, événements)
@@ -30,20 +32,25 @@ Un **effet de bord** est une opération qui interagit avec le monde extérieur a
 **❌ Ancienne façon de penser** : "componentDidMount", "componentWillUnmount"
 **✅ Nouvelle façon de penser** : "Synchroniser mon composant avec le système externe"
 
-```typescript
-import { useEffect } from 'react';
+```jsx
+import { useEffect } from "react";
 
 function Component() {
-  useEffect(() => {
-    // Code qui s'exécute après le rendu
-    console.log('Effet exécuté');
-    
-    // Fonction de cleanup (optionnelle)
-    return () => {
-      console.log('Nettoyage');
-    };
-  }, [/* dépendances */]);
-  
+  useEffect(
+    () => {
+      // Code qui s'exécute après le rendu
+      console.log("Effet exécuté");
+
+      // Fonction de cleanup (optionnelle)
+      return () => {
+        console.log("Nettoyage");
+      };
+    },
+    [
+      /* dépendances */
+    ]
+  );
+
   return <div>Mon composant</div>;
 }
 ```
@@ -51,21 +58,24 @@ function Component() {
 #### Les 3 formes de useEffect
 
 **1. Sans dépendances - S'exécute après CHAQUE rendu**
-```typescript
+
+```js
 useEffect(() => {
-  console.log('Après chaque rendu');
+  console.log("Après chaque rendu");
 });
 ```
 
 **2. Tableau vide - S'exécute UNE SEULE FOIS au montage**
-```typescript
+
+```js
 useEffect(() => {
-  console.log('Seulement au montage');
+  console.log("Seulement au montage");
 }, []);
 ```
 
 **3. Avec dépendances - S'exécute quand les dépendances changent**
-```typescript
+
+```js
 useEffect(() => {
   console.log(`Count a changé : ${count}`);
 }, [count]);
@@ -75,23 +85,23 @@ useEffect(() => {
 
 **Règle 1 : Inclure TOUTES les valeurs utilisées**
 
-```typescript
+```js
 // ❌ Incorrect - userId manquant dans les dépendances
 function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     fetchUser(userId).then(setUser);
-  }, []);  // ❌ userId devrait être dans les dépendances !
+  }, []); // ❌ userId devrait être dans les dépendances !
 }
 
 // ✅ Correct
 function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     fetchUser(userId).then(setUser);
-  }, [userId]);  // ✅
+  }, [userId]); // ✅
 }
 ```
 
@@ -99,97 +109,102 @@ function UserProfile({ userId }) {
 
 Cette règle ESLint vous aide à éviter les bugs. Ne la désactivez JAMAIS.
 
-```typescript
+```js
 // ❌ DANGER !
 useEffect(() => {
   fetchData(userId);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);  // ❌ Vous créez un bug !
+}, []); // ❌ Vous créez un bug !
 ```
 
 **Règle 3 : Les objets et tableaux créent des problèmes**
 
-```typescript
+```jsx
 // ❌ Boucle infinie !
 function Component() {
   const [data, setData] = useState(null);
-  
-  const options = { id: 123 };  // ⚠️ Nouvel objet à chaque rendu !
-  
+
+  const options = { id: 123 }; // ⚠️ Nouvel objet à chaque rendu !
+
   useEffect(() => {
     fetchData(options).then(setData);
-  }, [options]);  // ❌ options change à chaque fois = boucle infinie
+  }, [options]); // ❌ options change à chaque fois = boucle infinie
 }
 
 // ✅ Solution 1 : Extraire les valeurs primitives
 function Component() {
   const [data, setData] = useState(null);
   const optionId = 123;
-  
+
   useEffect(() => {
     fetchData({ id: optionId }).then(setData);
-  }, [optionId]);  // ✅ Nombre primitif
+  }, [optionId]); // ✅ Nombre primitif
 }
 
 // ✅ Solution 2 : useMemo
 function Component() {
   const [data, setData] = useState(null);
-  
+
   const options = useMemo(() => ({ id: 123 }), []);
-  
+
   useEffect(() => {
     fetchData(options).then(setData);
-  }, [options]);  // ✅
+  }, [options]); // ✅
 }
 ```
 
 #### Fonction de cleanup
 
 Le cleanup s'exécute :
+
 - Avant que l'effet ne s'exécute à nouveau
 - Quand le composant se démonte
 
-```typescript
+```jsx
 // Exemple avec timer
 function Timer() {
   const [seconds, setSeconds] = useState(0);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setSeconds(s => s + 1);
+      setSeconds((s) => s + 1);
     }, 1000);
-    
+
     // ⚠️ IMPORTANT : Nettoyer l'intervalle
     return () => {
       clearInterval(interval);
     };
   }, []);
-  
+
   return <div>{seconds} secondes</div>;
 }
 
 // Exemple avec écouteur d'événements
 function WindowSize() {
   const [size, setSize] = useState({ width: 0, height: 0 });
-  
+
   useEffect(() => {
     const handleResize = () => {
       setSize({
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
     };
-    
-    window.addEventListener('resize', handleResize);
-    handleResize();  // Initialiser
-    
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initialiser
+
     // ⚠️ IMPORTANT : Retirer l'écouteur
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
-  return <div>{size.width} x {size.height}</div>;
+
+  return (
+    <div>
+      {size.width} x {size.height}
+    </div>
+  );
 }
 ```
 
@@ -197,47 +212,48 @@ function WindowSize() {
 
 #### Pattern standard pour fetching de données
 
-```typescript
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
+```jsx
+/**
+ * @typedef {Object} User
+ * @property {string} id
+ * @property {string} name
+ * @property {string} email
+ */
 
-function UserProfile({ userId }: { userId: string }) {
-  const [user, setUser] = useState<User | null>(null);
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     // Fonction async à l'intérieur de useEffect
     const fetchUser = async () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await fetch(`/api/users/${userId}`);
-        
+
         if (!response.ok) {
-          throw new Error('Erreur lors du chargement');
+          throw new Error("Erreur lors du chargement");
         }
-        
+
         const data = await response.json();
         setUser(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Erreur inconnue');
+        setError(err instanceof Error ? err.message : "Erreur inconnue");
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchUser();
   }, [userId]);
-  
+
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {error}</div>;
   if (!user) return <div>Utilisateur non trouvé</div>;
-  
+
   return (
     <div>
       <h2>{user.name}</h2>
@@ -249,7 +265,7 @@ function UserProfile({ userId }: { userId: string }) {
 
 #### ⚠️ Erreur commune : async directement dans useEffect
 
-```typescript
+```js
 // ❌ INTERDIT - useEffect ne peut pas être async
 useEffect(async () => {
   const data = await fetchData();
@@ -262,7 +278,7 @@ useEffect(() => {
     const data = await fetchData();
     setData(data);
   };
-  
+
   loadData();
 }, []);
 
@@ -277,36 +293,36 @@ useEffect(() => {
 
 #### Annuler les requêtes avec AbortController
 
-```typescript
-function SearchResults({ query }: { query: string }) {
+```jsx
+function SearchResults({ query }) {
   const [results, setResults] = useState([]);
-  
+
   useEffect(() => {
     const controller = new AbortController();
-    
+
     const search = async () => {
       try {
         const response = await fetch(`/api/search?q=${query}`, {
-          signal: controller.signal  // ← Passer le signal
+          signal: controller.signal, // ← Passer le signal
         });
         const data = await response.json();
         setResults(data);
       } catch (err) {
-        if (err.name === 'AbortError') {
-          console.log('Requête annulée');
+        if (err.name === "AbortError") {
+          console.log("Requête annulée");
         }
       }
     };
-    
+
     search();
-    
+
     // Annuler la requête si le composant se démonte
     // ou si query change avant la fin de la requête
     return () => {
       controller.abort();
     };
   }, [query]);
-  
+
   return <div>{/* Afficher les résultats */}</div>;
 }
 ```
@@ -321,77 +337,71 @@ function SearchResults({ query }: { query: string }) {
 
 #### Exemple : useFetch
 
-```typescript
-// src/hooks/useFetch.ts
+```js
+// src/hooks/useFetch.js
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-interface UseFetchResult<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
-  refetch: () => void;
-}
-
-export function useFetch<T>(url: string): UseFetchResult<T> {
-  const [data, setData] = useState<T | null>(null);
+export function useFetch(url) {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const [refetchIndex, setRefetchIndex] = useState(0);
-  
+
   useEffect(() => {
     const controller = new AbortController();
-    
+
     const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await fetch(url, {
-          signal: controller.signal
+          signal: controller.signal,
         });
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const json = await response.json();
         setData(json);
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          setError(err instanceof Error ? err.message : 'Erreur inconnue');
+        if (err.name !== "AbortError") {
+          setError(err instanceof Error ? err.message : "Erreur inconnue");
         }
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchData();
-    
+
     return () => {
       controller.abort();
     };
   }, [url, refetchIndex]);
-  
+
   const refetch = () => {
-    setRefetchIndex(prev => prev + 1);
+    setRefetchIndex((prev) => prev + 1);
   };
-  
+
   return { data, loading, error, refetch };
 }
 ```
 
 Utilisation :
-```typescript
+
+```jsx
 function MenuPage() {
-  const { data: menuItems, loading, error } = useFetch<MenuItem[]>('/api/menu');
-  
+  const { data: menuItems, loading, error } = useFetch("/api/menu");
+
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {error}</div>;
-  
+
   return (
     <div>
-      {menuItems?.map(item => (
+      {menuItems?.map((item) => (
         <MenuCard key={item.id} item={item} />
       ))}
     </div>
@@ -401,17 +411,14 @@ function MenuPage() {
 
 #### Exemple : useLocalStorage
 
-```typescript
-// src/hooks/useLocalStorage.ts
+```js
+// src/hooks/useLocalStorage.js
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export function useLocalStorage<T>(
-  key: string,
-  initialValue: T
-): [T, (value: T) => void] {
+export function useLocalStorage(key, initialValue) {
   // Récupérer la valeur depuis localStorage
-  const [storedValue, setStoredValue] = useState<T>(() => {
+  const [storedValue, setStoredValue] = useState(() => {
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
@@ -420,7 +427,7 @@ export function useLocalStorage<T>(
       return initialValue;
     }
   });
-  
+
   // Sauvegarder dans localStorage quand la valeur change
   useEffect(() => {
     try {
@@ -429,19 +436,20 @@ export function useLocalStorage<T>(
       console.error(error);
     }
   }, [key, storedValue]);
-  
+
   return [storedValue, setStoredValue];
 }
 ```
 
 Utilisation :
-```typescript
+
+```jsx
 function Settings() {
-  const [theme, setTheme] = useLocalStorage('theme', 'light');
-  
+  const [theme, setTheme] = useLocalStorage("theme", "light");
+
   return (
     <div>
-      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
         Thème : {theme}
       </button>
     </div>
@@ -451,41 +459,42 @@ function Settings() {
 
 #### Exemple : useDebounce
 
-```typescript
-// src/hooks/useDebounce.ts
+```js
+// src/hooks/useDebounce.js
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export function useDebounce<T>(value: T, delay: number = 500): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-  
+export function useDebounce(value, delay = 500) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
-    
+
     return () => {
       clearTimeout(handler);
     };
   }, [value, delay]);
-  
+
   return debouncedValue;
 }
 ```
 
 Utilisation :
-```typescript
+
+```jsx
 function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  
+
   useEffect(() => {
     if (debouncedSearchTerm) {
       // Faire la recherche seulement après 500ms d'inactivité
       searchAPI(debouncedSearchTerm);
     }
   }, [debouncedSearchTerm]);
-  
+
   return (
     <input
       value={searchTerm}
@@ -500,34 +509,34 @@ function SearchBar() {
 
 #### Pattern : Loading, Error, Success
 
-```typescript
-type LoadingState<T> =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'success'; data: T }
-  | { status: 'error'; error: string };
-
+```jsx
 function DataComponent() {
-  const [state, setState] = useState<LoadingState<MenuItem[]>>({ status: 'idle' });
-  
+  const [state, setState] = useState({
+    status: "idle",
+    data: null,
+    error: null,
+  });
+
   useEffect(() => {
-    setState({ status: 'loading' });
-    
-    fetch('/api/menu')
-      .then(res => res.json())
-      .then(data => setState({ status: 'success', data }))
-      .catch(err => setState({ status: 'error', error: err.message }));
+    setState({ status: "loading", data: null, error: null });
+
+    fetch("/api/menu")
+      .then((res) => res.json())
+      .then((data) => setState({ status: "success", data, error: null }))
+      .catch((err) =>
+        setState({ status: "error", data: null, error: err.message })
+      );
   }, []);
-  
+
   switch (state.status) {
-    case 'idle':
-    case 'loading':
+    case "idle":
+    case "loading":
       return <LoadingSpinner />;
-    
-    case 'error':
+
+    case "error":
       return <ErrorMessage message={state.error} />;
-    
-    case 'success':
+
+    case "success":
       return <MenuList items={state.data} />;
   }
 }
@@ -535,8 +544,8 @@ function DataComponent() {
 
 #### Composants de feedback
 
-```typescript
-// src/components/LoadingSpinner.tsx
+```jsx
+// src/components/LoadingSpinner.jsx
 
 function LoadingSpinner() {
   return (
@@ -547,27 +556,20 @@ function LoadingSpinner() {
   );
 }
 
-// src/components/ErrorMessage.tsx
+// src/components/ErrorMessage.jsx
 
-interface ErrorMessageProps {
-  message: string;
-  onRetry?: () => void;
-}
-
-function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
+function ErrorMessage({ message, onRetry }) {
   return (
     <div className="error-message">
       <p>❌ {message}</p>
-      {onRetry && (
-        <button onClick={onRetry}>Réessayer</button>
-      )}
+      {onRetry && <button onClick={onRetry}>Réessayer</button>}
     </div>
   );
 }
 
-// src/components/EmptyState.tsx
+// src/components/EmptyState.jsx
 
-function EmptyState({ message }: { message: string }) {
+function EmptyState({ message }) {
   return (
     <div className="empty-state">
       <p>📭 {message}</p>
@@ -577,6 +579,7 @@ function EmptyState({ message }: { message: string }) {
 ```
 
 CSS pour le spinner :
+
 ```css
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
@@ -588,7 +591,9 @@ CSS pour le spinner :
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 ```
 
@@ -600,182 +605,164 @@ CSS pour le spinner :
 
 #### Créer le formulaire
 
-```typescript
-// src/pages/CheckoutPage.tsx
+```jsx
+// src/pages/CheckoutPage.jsx
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-
-interface CheckoutForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  deliveryType: 'delivery' | 'pickup';
-  address: string;
-  city: string;
-  postalCode: string;
-  notes: string;
-}
-
-interface FormErrors {
-  [key: string]: string;
-}
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function CheckoutPage() {
   const { cart, total, clearCart } = useCart();
   const navigate = useNavigate();
-  
-  const [formData, setFormData] = useState<CheckoutForm>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    deliveryType: 'delivery',
-    address: '',
-    city: '',
-    postalCode: '',
-    notes: ''
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    deliveryType: "delivery",
+    address: "",
+    city: "",
+    postalCode: "",
+    notes: "",
   });
-  
-  const [errors, setErrors] = useState<FormErrors>({});
+
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Validation
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-    
+  const validateForm = () => {
+    const newErrors = {};
+
     // Prénom requis
     if (!formData.firstName.trim()) {
-      newErrors.firstName = 'Le prénom est requis';
+      newErrors.firstName = "Le prénom est requis";
     }
-    
+
     // Nom requis
     if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Le nom est requis';
+      newErrors.lastName = "Le nom est requis";
     }
-    
+
     // Email valide
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
-      newErrors.email = 'L\'email est requis';
+      newErrors.email = "L'email est requis";
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = 'Email invalide';
+      newErrors.email = "Email invalide";
     }
-    
+
     // Téléphone valide (format français)
     const phoneRegex = /^0[1-9](?:\d{8})$/;
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Le téléphone est requis';
-    } else if (!phoneRegex.test(formData.phone.replace(/\s/g, ''))) {
-      newErrors.phone = 'Téléphone invalide (ex: 0612345678)';
+      newErrors.phone = "Le téléphone est requis";
+    } else if (!phoneRegex.test(formData.phone.replace(/\s/g, ""))) {
+      newErrors.phone = "Téléphone invalide (ex: 0612345678)";
     }
-    
+
     // Adresse si livraison
-    if (formData.deliveryType === 'delivery') {
+    if (formData.deliveryType === "delivery") {
       if (!formData.address.trim()) {
-        newErrors.address = 'L\'adresse est requise';
+        newErrors.address = "L'adresse est requise";
       }
       if (!formData.city.trim()) {
-        newErrors.city = 'La ville est requise';
+        newErrors.city = "La ville est requise";
       }
       if (!formData.postalCode.trim()) {
-        newErrors.postalCode = 'Le code postal est requis';
+        newErrors.postalCode = "Le code postal est requis";
       } else if (!/^\d{5}$/.test(formData.postalCode)) {
-        newErrors.postalCode = 'Code postal invalide';
+        newErrors.postalCode = "Code postal invalide";
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   // Gérer les changements
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     // Effacer l'erreur du champ
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
-  
+
   // Soumettre
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     try {
       // Simuler l'envoi au serveur
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       // Générer un numéro de commande
       const orderNumber = `CMD${Date.now()}`;
-      
+
       // Vider le panier
       clearCart();
-      
+
       // Rediriger vers la confirmation
-      navigate('/order-confirmation', {
+      navigate("/order-confirmation", {
         state: {
           orderNumber,
-          email: formData.email
-        }
+          email: formData.email,
+        },
       });
     } catch (err) {
-      alert('Erreur lors de la commande');
+      alert("Erreur lors de la commande");
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   if (cart.length === 0) {
     return (
       <div className="checkout-page">
         <h1>Votre panier est vide</h1>
-        <button onClick={() => navigate('/menu')}>
-          Voir le menu
-        </button>
+        <button onClick={() => navigate("/menu")}>Voir le menu</button>
       </div>
     );
   }
-  
+
   return (
     <div className="checkout-page">
       <h1>Finaliser la commande</h1>
-      
+
       <div className="checkout-container">
         {/* Résumé de la commande */}
         <aside className="order-summary">
           <h2>Récapitulatif</h2>
-          
-          {cart.map(item => (
+
+          {cart.map((item) => (
             <div key={item.item.id} className="summary-item">
-              <span>{item.quantity}x {item.item.name}</span>
+              <span>
+                {item.quantity}x {item.item.name}
+              </span>
               <span>{(item.item.price * item.quantity).toFixed(2)}€</span>
             </div>
           ))}
-          
+
           <div className="summary-total">
             <strong>Total</strong>
             <strong>{total.toFixed(2)}€</strong>
           </div>
         </aside>
-        
+
         {/* Formulaire */}
         <form onSubmit={handleSubmit} className="checkout-form">
           <section>
             <h3>Informations personnelles</h3>
-            
+
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="firstName">Prénom *</label>
@@ -785,13 +772,13 @@ function CheckoutPage() {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={errors.firstName ? 'error' : ''}
+                  className={errors.firstName ? "error" : ""}
                 />
                 {errors.firstName && (
                   <span className="error-message">{errors.firstName}</span>
                 )}
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="lastName">Nom *</label>
                 <input
@@ -800,14 +787,14 @@ function CheckoutPage() {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={errors.lastName ? 'error' : ''}
+                  className={errors.lastName ? "error" : ""}
                 />
                 {errors.lastName && (
                   <span className="error-message">{errors.lastName}</span>
                 )}
               </div>
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="email">Email *</label>
               <input
@@ -816,13 +803,13 @@ function CheckoutPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={errors.email ? 'error' : ''}
+                className={errors.email ? "error" : ""}
               />
               {errors.email && (
                 <span className="error-message">{errors.email}</span>
               )}
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="phone">Téléphone *</label>
               <input
@@ -832,17 +819,17 @@ function CheckoutPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="0612345678"
-                className={errors.phone ? 'error' : ''}
+                className={errors.phone ? "error" : ""}
               />
               {errors.phone && (
                 <span className="error-message">{errors.phone}</span>
               )}
             </div>
           </section>
-          
+
           <section>
             <h3>Livraison</h3>
-            
+
             <div className="form-group">
               <label>Type de commande *</label>
               <div className="radio-group">
@@ -851,7 +838,7 @@ function CheckoutPage() {
                     type="radio"
                     name="deliveryType"
                     value="delivery"
-                    checked={formData.deliveryType === 'delivery'}
+                    checked={formData.deliveryType === "delivery"}
                     onChange={handleChange}
                   />
                   Livraison
@@ -861,15 +848,15 @@ function CheckoutPage() {
                     type="radio"
                     name="deliveryType"
                     value="pickup"
-                    checked={formData.deliveryType === 'pickup'}
+                    checked={formData.deliveryType === "pickup"}
                     onChange={handleChange}
                   />
                   À emporter
                 </label>
               </div>
             </div>
-            
-            {formData.deliveryType === 'delivery' && (
+
+            {formData.deliveryType === "delivery" && (
               <>
                 <div className="form-group">
                   <label htmlFor="address">Adresse *</label>
@@ -879,13 +866,13 @@ function CheckoutPage() {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={errors.address ? 'error' : ''}
+                    className={errors.address ? "error" : ""}
                   />
                   {errors.address && (
                     <span className="error-message">{errors.address}</span>
                   )}
                 </div>
-                
+
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="city">Ville *</label>
@@ -895,13 +882,13 @@ function CheckoutPage() {
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
-                      className={errors.city ? 'error' : ''}
+                      className={errors.city ? "error" : ""}
                     />
                     {errors.city && (
                       <span className="error-message">{errors.city}</span>
                     )}
                   </div>
-                  
+
                   <div className="form-group">
                     <label htmlFor="postalCode">Code postal *</label>
                     <input
@@ -910,7 +897,7 @@ function CheckoutPage() {
                       name="postalCode"
                       value={formData.postalCode}
                       onChange={handleChange}
-                      className={errors.postalCode ? 'error' : ''}
+                      className={errors.postalCode ? "error" : ""}
                     />
                     {errors.postalCode && (
                       <span className="error-message">{errors.postalCode}</span>
@@ -919,7 +906,7 @@ function CheckoutPage() {
                 </div>
               </>
             )}
-            
+
             <div className="form-group">
               <label htmlFor="notes">Notes (optionnel)</label>
               <textarea
@@ -932,13 +919,9 @@ function CheckoutPage() {
               />
             </div>
           </section>
-          
-          <button
-            type="submit"
-            className="btn-submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Commande en cours...' : 'Commander'}
+
+          <button type="submit" className="btn-submit" disabled={isSubmitting}>
+            {isSubmitting ? "Commande en cours..." : "Commander"}
           </button>
         </form>
       </div>
@@ -949,15 +932,15 @@ function CheckoutPage() {
 
 ### 2. Page de confirmation (30 min)
 
-```typescript
-// src/pages/OrderConfirmationPage.tsx
+```jsx
+// src/pages/OrderConfirmationPage.jsx
 
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link } from "react-router-dom";
 
 function OrderConfirmationPage() {
   const location = useLocation();
   const { orderNumber, email } = location.state || {};
-  
+
   if (!orderNumber) {
     return (
       <div>
@@ -966,25 +949,29 @@ function OrderConfirmationPage() {
       </div>
     );
   }
-  
+
   return (
     <div className="confirmation-page">
       <div className="confirmation-card">
         <div className="success-icon">✅</div>
-        
+
         <h1>Commande confirmée !</h1>
-        
+
         <p>Votre commande a bien été enregistrée.</p>
-        
+
         <div className="order-details">
-          <p><strong>Numéro de commande :</strong> {orderNumber}</p>
-          <p><strong>Email de confirmation :</strong> {email}</p>
+          <p>
+            <strong>Numéro de commande :</strong> {orderNumber}
+          </p>
+          <p>
+            <strong>Email de confirmation :</strong> {email}
+          </p>
         </div>
-        
+
         <p className="info">
           Vous recevrez un email de confirmation à l'adresse indiquée.
         </p>
-        
+
         <div className="actions">
           <Link to="/menu" className="btn-primary">
             Nouvelle commande
@@ -1000,72 +987,72 @@ function OrderConfirmationPage() {
 
 #### React.memo - Éviter les re-renders inutiles
 
-```typescript
+```jsx
 // ❌ Sans React.memo - re-render à chaque fois que le parent re-render
 function ExpensiveComponent({ data }) {
-  console.log('Render');
+  console.log("Render");
   // Calculs coûteux...
   return <div>{data}</div>;
 }
 
 // ✅ Avec React.memo - re-render seulement si data change
-const ExpensiveComponent = React.memo(({ data }) => {
-  console.log('Render');
+import { memo } from "react";
+
+const ExpensiveComponent = memo(({ data }) => {
+  console.log("Render");
   return <div>{data}</div>;
 });
 ```
 
 #### useMemo - Mémoriser des calculs coûteux
 
-```typescript
-import { useMemo } from 'react';
+```jsx
+import { useMemo } from "react";
 
 function ProductList({ products, filterTerm }) {
   // ❌ Sans useMemo - Recalculé à chaque render
-  const filteredProducts = products.filter(p =>
-    p.name.includes(filterTerm)
-  );
-  
+  const filteredProducts = products.filter((p) => p.name.includes(filterTerm));
+
   // ✅ Avec useMemo - Recalculé seulement si products ou filterTerm change
   const filteredProducts = useMemo(() => {
-    console.log('Calcul du filtre');
-    return products.filter(p => p.name.includes(filterTerm));
+    console.log("Calcul du filtre");
+    return products.filter((p) => p.name.includes(filterTerm));
   }, [products, filterTerm]);
-  
+
   return <div>{/* ... */}</div>;
 }
 ```
 
 #### useCallback - Mémoriser des fonctions
 
-```typescript
-import { useCallback } from 'react';
+```jsx
+import { useCallback } from "react";
 
 function Parent() {
   const [count, setCount] = useState(0);
-  
+
   // ❌ Sans useCallback - Nouvelle fonction à chaque render
   const handleClick = () => {
-    console.log('Clicked');
+    console.log("Clicked");
   };
-  
+
   // ✅ Avec useCallback - Même fonction référence
   const handleClick = useCallback(() => {
-    console.log('Clicked');
+    console.log("Clicked");
   }, []);
-  
+
   return <Child onClick={handleClick} />;
 }
 
 const Child = React.memo(({ onClick }) => {
-  console.log('Child render');
+  console.log("Child render");
   return <button onClick={onClick}>Click</button>;
 });
 ```
 
 #### ⚠️ Important : N'optimisez pas prématurément !
 
-```typescript
+```jsx
 // ❌ Optimisation inutile - Code plus complexe sans bénéfice
 function SimpleComponent({ name }) {
   const greeting = useMemo(() => `Hello ${name}`, [name]);
@@ -1079,6 +1066,7 @@ function SimpleComponent({ name }) {
 ```
 
 **Règle** : Optimisez seulement si :
+
 1. Vous avez mesuré un problème de performance avec React DevTools Profiler
 2. Le composant est rendu TRÈS souvent
 3. Le calcul est réellement coûteux
@@ -1133,16 +1121,16 @@ vercel
 **Solution** : Créer un fichier de redirection.
 
 Pour Netlify, créer `public/_redirects` :
+
 ```
 /* /index.html 200
 ```
 
 Pour Vercel, créer `vercel.json` :
+
 ```json
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
 ```
 
@@ -1151,24 +1139,28 @@ Pour Vercel, créer `vercel.json` :
 ## 📝 Points Clés à Retenir
 
 ### useEffect
+
 ✅ Penser "synchronisation", pas "lifecycle"
 ✅ Toujours inclure les dépendances
 ✅ Cleanup pour les timers, événements, abonnements
 ✅ Fonction async DANS useEffect, pas directement
 
 ### Custom Hooks
+
 ✅ Réutiliser la logique
 ✅ Commencer par "use"
 ✅ Peuvent utiliser d'autres hooks
 ✅ Facilite les tests
 
 ### Performance
+
 ✅ React.memo pour les composants
 ✅ useMemo pour les calculs
 ✅ useCallback pour les fonctions
 ✅ **Ne pas optimiser prématurément !**
 
 ### Bonnes pratiques
+
 ✅ Gérer loading, error, success
 ✅ Valider les formulaires
 ✅ Feedback utilisateur constant
@@ -1178,9 +1170,10 @@ Pour Vercel, créer `vercel.json` :
 
 ## 🎉 Félicitations !
 
-Vous avez terminé cette formation React/TypeScript de 4 jours !
+Vous avez terminé cette formation React/JavaScript de 4 jours !
 
 Vous êtes maintenant capable de :
+
 - ✅ Créer des applications React complètes
 - ✅ Gérer l'état local et global
 - ✅ Créer des interfaces interactives
@@ -1193,22 +1186,26 @@ Vous êtes maintenant capable de :
 ### Prochaines étapes recommandées
 
 1. **Testing**
+
    - React Testing Library
    - Jest
    - Tests unitaires et d'intégration
 
 2. **Next.js**
+
    - Server-Side Rendering
    - App Router
    - API Routes
 
 3. **Bibliothèques utiles**
+
    - TanStack Query (ex React Query) pour data fetching
    - Zustand pour state management
    - React Hook Form pour les formulaires
    - Zod pour la validation
 
 4. **Styling**
+
    - Styled Components
    - Emotion
    - Tailwind CSS avancé
@@ -1221,7 +1218,7 @@ Vous êtes maintenant capable de :
 ### Ressources
 
 - [React Documentation](https://react.dev)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [MDN JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript)
 - [React Patterns](https://reactpatterns.com)
 - [JavaScript Info](https://javascript.info)
 

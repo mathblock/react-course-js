@@ -1,8 +1,8 @@
-# 📚 Formation React/TypeScript - Index Complet
+# 📚 Formation React (JavaScript) - Index Complet
 
 ## 🎉 Tous vos supports pédagogiques !
 
-Formation complète de 4 jours React/TypeScript avec un projet fil rouge de site foodtruck.
+Formation complète de 4 jours React (JavaScript) avec un projet fil rouge de site foodtruck.
 
 ---
 
@@ -11,9 +11,9 @@ Formation complète de 4 jours React/TypeScript avec un projet fil rouge de site
 ### 📖 Documentation Générale
 
 1. **[README.md](README.md)** - Vue d'ensemble complète de la formation
-2. **[Guide-Demarrage-Projet-Foodtruck.md](Guide-Demarrage-Projet-Foodtruck.md)** - Installation et structure du projet
-3. **[Cheat-Sheet-JavaScript-TypeScript.md](Cheat-Sheet-JavaScript-TypeScript.md)** - Référence JS ES6+ et TypeScript
-4. **[Cheat-Sheet-React-Hooks-Patterns.md](Cheat-Sheet-React-Hooks-Patterns.md)** - Référence React complète
+2. **[Foodtruck/Guide-Projet-Foodtruck.md](Foodtruck/Guide-Projet-Foodtruck.md)** - Installation et structure du projet
+3. **[Cheat-Sheet/Cheat-Sheet-JavaScript-TypeScript.md](Cheat-Sheet/Cheat-Sheet-JavaScript-TypeScript.md)** - Référence JavaScript ES6+
+4. **[Cheat-Sheet/Cheat-Sheet-React-Hooks-Patterns.md](Cheat-Sheet/Cheat-Sheet-React-Hooks-Patterns.md)** - Référence React complète
 
 ---
 
@@ -21,10 +21,10 @@ Formation complète de 4 jours React/TypeScript avec un projet fil rouge de site
 
 Ces supports sont les versions originales, plus synthétiques :
 
-1. **[Jour-1-Fondations-React.md](Jour-1-Fondations-React.md)** - Composants, Props, JSX
-2. **[Jour-2-Interactivite-useState.md](Jour-2-Interactivite-useState.md)** - État, Événements, Formulaires
-3. **[Jour-3-Router-Context.md](Jour-3-Router-Context.md)** - Navigation, Context API
-4. **[Jour-4-useEffect-API-Deploiement.md](Jour-4-useEffect-API-Deploiement.md)** - useEffect, API, Déploiement
+1. **[Classic-supports/Jour-1-Fondations-React.md](Classic-supports/Jour-1-Fondations-React.md)** - Composants, Props, JSX
+2. **[Classic-supports/Jour-2-Interactivite-useState.md](Classic-supports/Jour-2-Interactivite-useState.md)** - État, Événements, Formulaires
+3. **[Classic-supports/Jour-3-Router-Context.md](Classic-supports/Jour-3-Router-Context.md)** - Navigation, Context API
+4. **[Classic-supports/Jour-4-useEffect-API-Deploiement.md](Classic-supports/Jour-4-useEffect-API-Deploiement.md)** - useEffect, API, Déploiement
 
 ---
 
@@ -32,25 +32,22 @@ Ces supports sont les versions originales, plus synthétiques :
 
 Ces supports sont ultra-détaillés avec planning minute par minute, exercices progressifs, et notes formateur :
 
-1. **[jour-1/README.md](jour-1/README.md)** - Jour 1 détaillé (Fondations React)
+1. **[Detailled-supports/Jour-1-Fondations.md](Detailled-supports/Jour-1-Fondations.md)** - Jour 1 détaillé (Fondations React)
    - Planning 08h00-17h30 minute par minute
    - Exercices progressifs avec solutions
    - Notes formateur et adaptations
    - Points d'attention et erreurs courantes
-   
-2. **[jour-2/README.md](jour-2/README.md)** - Jour 2 détaillé (useState & Interactivité)
+2. **[Detailled-supports/Jour-2-Interactivite.md](Detailled-supports/Jour-2-Interactivite.md)** - Jour 2 détaillé (useState & Interactivité)
    - Démonstrations live coding étape par étape
    - Exercices d'immutabilité
    - Construction du panier fonctionnel
    - Filtrage et recherche
-   
-3. **[jour-3/README.md](jour-3/README.md)** - Jour 3 détaillé (Router & Context)
+3. **[Detailled-supports/Jour-3-Routing.md](Detailled-supports/Jour-3-Routing.md)** - Jour 3 détaillé (Router & Context)
    - Configuration React Router complète
    - Exercice prop drilling (vivre la frustration !)
    - Implémentation Context API
    - Refactoring avec useReducer
-   
-4. **[jour-4/README.md](jour-4/README.md)** - Jour 4 détaillé (Production)
+4. **[Detailled-supports/Jour-4-useEffect.md](Detailled-supports/Jour-4-useEffect.md)** - Jour 4 détaillé (Production)
    - useEffect en profondeur
    - Appels API et custom hooks
    - Formulaire de checkout complet
@@ -61,14 +58,18 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ## 🎯 Quelle Version Utiliser ?
 
 ### Version Classique (fichiers racine)
+
 **Utilisez si** :
+
 - Vous êtes un formateur expérimenté
 - Vous voulez un support de référence concis
 - Vous préférez improviser les timings
 - Vous avez déjà enseigné React
 
 ### Version Détaillée (dossiers jour-X/)
+
 **Utilisez si** :
+
 - Vous enseignez React pour la première fois
 - Vous voulez un planning minute par minute
 - Vous avez besoin d'exercices clé en main
@@ -83,6 +84,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ### Pour les Formateurs
 
 1. **Avant la formation** :
+
    - [ ] Lire le README général
    - [ ] Parcourir les 4 READMEs détaillés des jours
    - [ ] Tester le projet fil rouge en entier
@@ -90,6 +92,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
    - [ ] Imprimer les cheat sheets pour distribution
 
 2. **Pendant la formation** :
+
    - [ ] Suivre le planning détaillé de chaque jour
    - [ ] Adapter selon le niveau du groupe
    - [ ] Utiliser les exercices progressifs
@@ -113,7 +116,9 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ## 🎓 Contenu de Chaque Support
 
 ### Jour 1 : Fondations React (7h)
+
 **Matin (3h30)** :
+
 - Introduction à React et philosophie
 - Configuration avec Vite
 - JSX et ses règles
@@ -121,6 +126,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 - Props et composition
 
 **Après-midi (3h30)** :
+
 - Rappel JavaScript ES6+
 - Rendu de listes avec .map()
 - La prop key
@@ -128,6 +134,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 - **Atelier** : Menu foodtruck statique
 
 **Livrables** :
+
 - Application React configurée
 - Composants Header, MenuCard, Menu, Footer
 - 15+ items de menu
@@ -136,7 +143,9 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ---
 
 ### Jour 2 : Interactivité (7h)
+
 **Matin (3h30)** :
+
 - Comprendre l'état (state)
 - Hook useState en profondeur
 - Gestion des événements
@@ -144,6 +153,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 - Immutabilité et mises à jour
 
 **Après-midi (3h30)** :
+
 - Lifting state up
 - **Atelier** : Panier fonctionnel complet
 - Filtrage par catégorie
@@ -151,6 +161,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 - Gestion des quantités
 
 **Livrables** :
+
 - Panier fonctionnel avec add/remove
 - Badge compteur dans le header
 - Filtres et recherche
@@ -159,7 +170,9 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ---
 
 ### Jour 3 : Navigation & État Global (7h)
+
 **Matin (3h30)** :
+
 - Single Page Application (SPA)
 - Installation React Router
 - Navigation avec Link
@@ -167,33 +180,39 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 - Routes dynamiques avec useParams
 
 **Après-midi (3h30)** :
+
 - Le problème du prop drilling (exercice pratique)
 - Context API pour état global
 - useReducer pour état complexe
 - Refactoring complet
 
 **Livrables** :
+
 - Application multi-pages
 - Page d'accueil, menu, détail, panier
 - CartContext avec useReducer
-- App.tsx ultra-simplifié
+- App.jsx ultra-simplifié
 
 ---
 
 ### Jour 4 : Production (7h)
+
 **Matin (3h30)** :
+
 - useEffect et effets de bord
 - Dépendances et cleanup
 - Appels API avec fetch
 - Custom hooks (useFetch, useLocalStorage, useDebounce)
 
 **Après-midi (3h30)** :
+
 - Formulaire de checkout avec validation
 - Page de confirmation
 - Optimisations (React.memo, useMemo, useCallback)
 - Build et déploiement Netlify
 
 **Livrables** :
+
 - Formulaire de commande complet
 - Validation robuste
 - Application déployée en ligne
@@ -214,17 +233,19 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ## 🛠️ Technologies Couvertes
 
 ### Core
+
 - ⚛️ React 18+
-- 📘 TypeScript
 - ⚡ Vite
 - 🧭 React Router 6
 
 ### Hooks
+
 - useState, useEffect, useContext, useReducer
 - useRef, useMemo, useCallback
 - Custom hooks
 
 ### Patterns
+
 - Context API
 - Lifting state up
 - Derived state
@@ -232,6 +253,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 - Controlled components
 
 ### Outils
+
 - VS Code + extensions
 - ESLint + Prettier
 - React DevTools
@@ -246,7 +268,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 2. **Progression Pédagogique** : Du simple au complexe
 3. **Pratique Intensive** : 70% de coding
 4. **Best Practices 2025** : Conventions actuelles
-5. **TypeScript Intégré** : Dès le début
+5. **JavaScript Moderne** : ES6+ dès le début
 6. **Déploiement Inclus** : Application en ligne
 7. **Production-Ready** : Code de qualité professionnelle
 
@@ -255,11 +277,13 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ## 🎯 Public Cible
 
 **Niveau requis** :
+
 - JavaScript ES6+ de base
 - HTML/CSS maîtrisés
 - Bases de programmation
 
 **Idéal pour** :
+
 - Étudiants en master informatique
 - Développeurs juniors
 - Personnes en reconversion
@@ -270,11 +294,13 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ## 📞 Support & Questions
 
 ### Pendant la Formation
+
 - Consulter les notes formateur dans chaque README détaillé
 - Utiliser les cheat sheets comme référence
 - Adapter les exercices selon le niveau
 
 ### Après la Formation
+
 - Documentation officielle : [react.dev](https://react.dev)
 - Communautés : Reddit r/reactjs, Discord Reactiflux
 - Stack Overflow avec tag [reactjs]
@@ -286,21 +312,25 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ### Après avoir terminé la formation :
 
 **Immédiat** :
+
 1. Refaire le projet de zéro sans aide
 2. Ajouter 5 fonctionnalités au choix
 3. Améliorer le design avec Tailwind
 
 **Semaine 1-2** :
+
 1. Nouveau projet (Todo, Weather, Blog)
 2. Intégrer une API publique
 3. Apprendre les tests (Vitest)
 
 **Mois 1-2** :
+
 1. Next.js pour SSR
 2. TanStack Query
 3. Bibliothèques UI (shadcn/ui)
 
 **Mois 3+** :
+
 1. Patterns avancés
 2. Performance optimization
 3. Contribution open source
@@ -310,21 +340,25 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 ## 📚 Ressources Complémentaires
 
 ### Documentation
+
 - [React Official Docs](https://react.dev)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [React Router Docs](https://reactrouter.com)
 
 ### Tutoriels Vidéo
+
 - Traversy Media (YouTube)
 - Web Dev Simplified (YouTube)
 - Fireship (YouTube)
 
 ### Communautés
+
 - Reddit: r/reactjs
 - Discord: Reactiflux
 - Twitter: #ReactJS
 
 ### Newsletters
+
 - React Newsletter (hebdomadaire)
 - This Week in React
 
@@ -332,7 +366,7 @@ Ces supports sont ultra-détaillés avec planning minute par minute, exercices p
 
 ## 🎉 Félicitations !
 
-Vous avez maintenant une formation React/TypeScript complète et professionnelle prête à l'emploi !
+Vous avez maintenant une formation React (JavaScript) complète et professionnelle prête à l'emploi !
 
 **Bon enseignement et bon apprentissage !** 💪
 
@@ -353,18 +387,21 @@ Ces supports sont fournis à titre éducatif. Vous êtes libre de les utiliser, 
 ## ✅ Checklist Rapide
 
 ### Avant de Commencer
+
 - [ ] Node.js 18+ installé
 - [ ] VS Code avec extensions
 - [ ] Tous les supports téléchargés
 - [ ] Projet exemple testé
 
 ### Pour Chaque Jour
+
 - [ ] Lire le README détaillé la veille
 - [ ] Préparer l'environnement
 - [ ] Tester les exercices
 - [ ] Avoir les solutions prêtes
 
 ### Après la Formation
+
 - [ ] Partager le code final
 - [ ] Recueillir les feedbacks
 - [ ] Adapter pour la prochaine session

@@ -9,14 +9,13 @@
 - VS Code (recommandé) avec extensions :
   - ESLint
   - Prettier
-  - TypeScript React code snippets
   - ES7+ React/Redux/React-Native snippets
 
 ### Créer le projet
 
 ```bash
 # Créer le projet avec Vite
-npm create vite@latest foodtruck-paradise -- --template react-ts
+npm create vite@latest foodtruck-paradise -- --template react
 
 # Se déplacer dans le dossier
 cd foodtruck-paradise
@@ -44,49 +43,48 @@ foodtruck-paradise/
 │
 ├── src/
 │   ├── components/             # Composants réutilisables
-│   │   ├── Header.tsx
-│   │   ├── Footer.tsx
-│   │   ├── MenuCard.tsx
-│   │   ├── CartSummary.tsx
-│   │   ├── LoadingSpinner.tsx
-│   │   ├── ErrorMessage.tsx
-│   │   └── Layout.tsx
+│   │   ├── Header.jsx
+│   │   ├── Footer.jsx
+│   │   ├── MenuCard.jsx
+│   │   ├── CartSummary.jsx
+│   │   ├── LoadingSpinner.jsx
+│   │   ├── ErrorMessage.jsx
+│   │   └── Layout.jsx
 │   │
 │   ├── pages/                  # Pages de l'application
-│   │   ├── HomePage.tsx
-│   │   ├── MenuPage.tsx
-│   │   ├── ItemDetailPage.tsx
-│   │   ├── CartPage.tsx
-│   │   ├── CheckoutPage.tsx
-│   │   ├── OrderConfirmationPage.tsx
-│   │   └── NotFoundPage.tsx
+│   │   ├── HomePage.jsx
+│   │   ├── MenuPage.jsx
+│   │   ├── ItemDetailPage.jsx
+│   │   ├── CartPage.jsx
+│   │   ├── CheckoutPage.jsx
+│   │   ├── OrderConfirmationPage.jsx
+│   │   └── NotFoundPage.jsx
 │   │
 │   ├── context/                # Context API
-│   │   └── CartContext.tsx
+│   │   └── CartContext.jsx
 │   │
 │   ├── hooks/                  # Custom hooks
-│   │   ├── useFetch.ts
-│   │   ├── useLocalStorage.ts
-│   │   └── useDebounce.ts
+│   │   ├── useFetch.js
+│   │   ├── useLocalStorage.js
+│   │   └── useDebounce.js
 │   │
-│   ├── types/                  # Types TypeScript
-│   │   ├── menu.ts
-│   │   └── cart.ts
+│   ├── types/                  # Types (via JSDoc)
+│   │   ├── menu.js
+│   │   └── cart.js
 │   │
 │   ├── data/                   # Données mock
-│   │   └── menuData.ts
+│   │   └── menuData.js
 │   │
 │   ├── utils/                  # Fonctions utilitaires
-│   │   └── formatters.ts
+│   │   └── formatters.js
 │   │
-│   ├── App.tsx                 # Composant racine avec routes
-│   ├── main.tsx                # Point d'entrée
+│   ├── App.jsx                 # Composant racine avec routes
+│   ├── main.jsx                # Point d'entrée
 │   ├── App.css                 # Styles globaux
 │   └── index.css               # Reset CSS
 │
 ├── .eslintrc.cjs               # Configuration ESLint
-├── tsconfig.json               # Configuration TypeScript
-├── vite.config.ts              # Configuration Vite
+├── vite.config.js              # Configuration Vite
 └── package.json
 ```
 
@@ -94,150 +92,178 @@ foodtruck-paradise/
 
 ## 📝 Fichiers Clés à Créer
 
-### 1. Types (`src/types/menu.ts`)
+### 1. Types (`src/types/menu.js`)
 
-```typescript
-export interface MenuItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: 'entrees' | 'plats' | 'desserts' | 'boissons';
-  imageUrl: string;
-  isVegetarian: boolean;
-  isNew?: boolean;
-  allergens?: string[];
-}
+```js
+/**
+ * @typedef {'entrees' | 'plats' | 'desserts' | 'boissons'} MenuCategory
+ */
+
+/**
+ * @typedef {Object} MenuItem
+ * @property {string} id
+ * @property {string} name
+ * @property {string} description
+ * @property {number} price
+ * @property {MenuCategory} category
+ * @property {string} imageUrl
+ * @property {boolean} isVegetarian
+ * @property {boolean} [isNew]
+ * @property {string[]} [allergens]
+ */
+
+export {};
 ```
 
-### 2. Types (`src/types/cart.ts`)
+### 2. Types (`src/types/cart.js`)
 
-```typescript
-import { MenuItem } from './menu';
+```js
+/**
+ * @typedef {Object} CartItem
+ * @property {any} item
+ * @property {number} quantity
+ */
 
-export interface CartItem {
-  item: MenuItem;
-  quantity: number;
-}
+export {};
 ```
 
-### 3. Données (`src/data/menuData.ts`)
+### 3. Données (`src/data/menuData.js`)
 
-```typescript
-import { MenuItem } from '../types/menu';
-
-export const menuItems: MenuItem[] = [
+```js
+export const menuItems = [
   {
     id: "1",
     name: "Tacos Poulet",
-    description: "Tortilla garnie de poulet mariné, légumes frais et sauce maison",
-    price: 8.50,
+    description:
+      "Tortilla garnie de poulet mariné, légumes frais et sauce maison",
+    price: 8.5,
     category: "plats",
-    imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500",
+    imageUrl:
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500",
     isVegetarian: false,
-    isNew: true
+    isNew: true,
   },
   {
     id: "2",
     name: "Burger Végétarien",
     description: "Steak végétal, tomates, salade, oignons rouges",
-    price: 9.00,
+    price: 9.0,
     category: "plats",
-    imageUrl: "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=500",
-    isVegetarian: true
+    imageUrl:
+      "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=500",
+    isVegetarian: true,
   },
   // ... Ajouter 15-20 items minimum
 ];
 ```
 
-### 4. Context (`src/context/CartContext.tsx`)
+### 4. Context (`src/context/CartContext.jsx`)
 
-```typescript
-import { createContext, useContext, useReducer, ReactNode } from 'react';
-import { CartItem, MenuItem } from '../types';
+```jsx
+import { createContext, useContext, useMemo, useReducer } from "react";
 
-interface CartContextType {
-  cart: CartItem[];
-  addToCart: (item: MenuItem) => void;
-  removeFromCart: (itemId: string) => void;
-  updateQuantity: (itemId: string, quantity: number) => void;
-  clearCart: () => void;
-  total: number;
-  itemCount: number;
-}
+const CartContext = createContext(null);
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
-
-type CartAction =
-  | { type: 'ADD_ITEM'; payload: MenuItem }
-  | { type: 'REMOVE_ITEM'; payload: string }
-  | { type: 'UPDATE_QUANTITY'; payload: { itemId: string; quantity: number } }
-  | { type: 'CLEAR_CART' };
-
-function cartReducer(state: CartItem[], action: CartAction): CartItem[] {
+function cartReducer(state, action) {
   switch (action.type) {
-    case 'ADD_ITEM': {
-      const existing = state.find(item => item.item.id === action.payload.id);
+    case "ADD_ITEM": {
+      const existing = state.find(
+        (cartItem) => cartItem.item.id === action.payload.id
+      );
       if (existing) {
-        return state.map(item =>
-          item.item.id === action.payload.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+        return state.map((cartItem) =>
+          cartItem.item.id === action.payload.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
         );
       }
       return [...state, { item: action.payload, quantity: 1 }];
     }
-    
-    case 'REMOVE_ITEM':
-      return state.filter(item => item.item.id !== action.payload);
-    
-    case 'UPDATE_QUANTITY': {
+
+    case "REMOVE_ITEM":
+      return state.filter((cartItem) => cartItem.item.id !== action.payload);
+
+    case "UPDATE_QUANTITY": {
       const { itemId, quantity } = action.payload;
       if (quantity <= 0) {
-        return state.filter(item => item.item.id !== itemId);
+        return state.filter((cartItem) => cartItem.item.id !== itemId);
       }
-      return state.map(item =>
-        item.item.id === itemId ? { ...item, quantity } : item
+      return state.map((cartItem) =>
+        cartItem.item.id === itemId ? { ...cartItem, quantity } : cartItem
       );
     }
-    
-    case 'CLEAR_CART':
+
+    case "CLEAR_CART":
       return [];
-    
+
     default:
       return state;
   }
 }
 
-export function CartProvider({ children }: { children: ReactNode }) {
+export function CartProvider({ children }) {
   const [cart, dispatch] = useReducer(cartReducer, []);
-  
-  const addToCart = (item: MenuItem) => {
-    dispatch({ type: 'ADD_ITEM', payload: item });
-  };
-  
-  const removeFromCart = (itemId: string) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: itemId });
-  };
-  
-  const updateQuantity = (itemId: string, quantity: number) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { itemId, quantity } });
-  };
-  
-  const clearCart = () => {
-    dispatch({ type: 'CLEAR_CART' });
-  };
-  
-  const total = cart.reduce(
-    (sum, item) => sum + item.item.price * item.quantity,
-    0
+
+  const addToCart = (item) => dispatch({ type: "ADD_ITEM", payload: item });
+  const removeFromCart = (itemId) =>
+    dispatch({ type: "REMOVE_ITEM", payload: itemId });
+  const updateQuantity = (itemId, quantity) =>
+    dispatch({ type: "UPDATE_QUANTITY", payload: { itemId, quantity } });
+  const clearCart = () => dispatch({ type: "CLEAR_CART" });
+
+  const total = useMemo(
+    () =>
+      cart.reduce(
+        (sum, cartItem) => sum + cartItem.item.price * cartItem.quantity,
+        0
+      ),
+    [cart]
   );
-  
-  const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  
-  return (
-    <CartContext.Provider
-      value={{
+
+  const itemCount = useMemo(
+    () => cart.reduce((sum, cartItem) => sum + cartItem.quantity, 0),
+    [cart]
+  );
+
+  const value = useMemo(
+    () => ({
+      cart,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      clearCart,
+      total,
+      itemCount,
+    }),
+    [cart, total, itemCount]
+  );
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+}
+
+export function useCart() {
+  const ctx = useContext(CartContext);
+  if (ctx == null) {
+    throw new Error("useCart doit être utilisé dans un CartProvider");
+  }
+  return ctx;
+}
+```
+
+const clearCart = () => {
+dispatch({ type: 'CLEAR_CART' });
+};
+
+const total = cart.reduce(
+(sum, item) => sum + item.item.price \* item.quantity,
+0
+);
+
+const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+return (
+<CartContext.Provider
+value={{
         cart,
         addToCart,
         removeFromCart,
@@ -245,25 +271,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         total,
         itemCount
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
+      }} >
+{children}
+</CartContext.Provider>
+);
 }
 
 export function useCart() {
-  const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error('useCart must be used within CartProvider');
-  }
-  return context;
+const context = useContext(CartContext);
+if (context === undefined) {
+throw new Error('useCart must be used within CartProvider');
 }
-```
+return context;
+}
 
-### 5. Layout (`src/components/Layout.tsx`)
+````
 
-```typescript
+### 5. Layout (`src/components/Layout.jsx`)
+
+```jsx
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
@@ -281,20 +307,20 @@ function Layout() {
 }
 
 export default Layout;
-```
+````
 
-### 6. App avec Routes (`src/App.tsx`)
+### 6. App avec Routes (`src/App.jsx`)
 
-```typescript
-import { Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
-import MenuPage from './pages/MenuPage';
-import ItemDetailPage from './pages/ItemDetailPage';
-import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
-import NotFoundPage from './pages/NotFoundPage';
+```jsx
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import HomePage from "./pages/HomePage";
+import MenuPage from "./pages/MenuPage";
+import ItemDetailPage from "./pages/ItemDetailPage";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -315,24 +341,24 @@ function App() {
 export default App;
 ```
 
-### 7. Point d'entrée (`src/main.tsx`)
+### 7. Point d'entrée (`src/main.jsx`)
 
-```typescript
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { CartProvider } from './context/CartContext';
-import App from './App';
-import './index.css';
+```jsx
+import { StrictMode } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
+import App from "./App";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <StrictMode>
     <BrowserRouter>
       <CartProvider>
         <App />
       </CartProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </StrictMode>
 );
 ```
 
@@ -356,9 +382,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
@@ -409,7 +435,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Buttons */
@@ -443,22 +469,24 @@ a {
   background: white;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Loading */
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .spinner {
-  border: 4px solid rgba(0,0,0,0.1);
+  border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: var(--primary);
   border-radius: 50%;
   width: 40px;
@@ -513,31 +541,37 @@ a {
 ### Bibliothèques Utiles
 
 #### Styling
+
 - **Tailwind CSS** : Framework CSS utility-first
 - **styled-components** : CSS-in-JS
 - **Emotion** : Alternative à styled-components
 
 #### Formulaires
+
 - **React Hook Form** : Gestion de formulaires performante
 - **Zod** : Validation de schémas TypeScript
 - **Yup** : Alternative à Zod
 
 #### Data Fetching
+
 - **TanStack Query** (ex React Query) : Gestion de données async
 - **SWR** : Alternative de Vercel
 - **Axios** : Client HTTP
 
 #### State Management
+
 - **Zustand** : State management minimaliste
 - **Jotai** : Atomic state management
 - **Redux Toolkit** : Si besoin de Redux
 
 #### UI Components
+
 - **shadcn/ui** : Composants réutilisables
 - **Radix UI** : Primitives UI accessibles
 - **Headless UI** : Composants non-stylés
 
 #### Testing
+
 - **Vitest** : Framework de test (alternative à Jest)
 - **React Testing Library** : Test de composants
 - **Playwright** : Tests end-to-end
@@ -563,7 +597,6 @@ a {
   - Web Dev Simplified
   - Fireship
   - Codevolution
-  
 - **Plateformes** :
   - Udemy : Cours React complets
   - Frontend Masters : Cours avancés
@@ -579,7 +612,7 @@ a {
 - [ ] Pas d'erreurs ESLint
 - [ ] Images optimisées
 - [ ] Variables d'environnement configurées
-- [ ] Fichier _redirects créé (pour Netlify)
+- [ ] Fichier \_redirects créé (pour Netlify)
 
 ### Build
 
@@ -608,7 +641,7 @@ VITE_API_URL=https://api.example.com
 
 Utiliser dans le code :
 
-```typescript
+```js
 const apiUrl = import.meta.env.VITE_API_URL;
 ```
 

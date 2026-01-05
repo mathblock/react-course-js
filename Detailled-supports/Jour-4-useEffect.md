@@ -13,6 +13,7 @@
 À la fin de cette journée, les étudiants seront capables de :
 
 ### Connaissances (Savoir)
+
 - [ ] Comprendre le concept d'effet de bord (side effect)
 - [ ] Expliquer le cycle de vie d'un effet
 - [ ] Comprendre les dépendances de useEffect
@@ -20,6 +21,7 @@
 - [ ] Comprendre le build et le déploiement
 
 ### Compétences (Savoir-faire)
+
 - [ ] Utiliser useEffect correctement avec dépendances
 - [ ] Faire des appels API avec fetch
 - [ ] Gérer les états de chargement et d'erreur
@@ -29,6 +31,7 @@
 - [ ] Builder et déployer une application React
 
 ### Attitudes (Savoir-être)
+
 - [ ] Penser aux effets de bord
 - [ ] Anticiper les états asynchrones
 - [ ] Optimiser quand nécessaire (pas prématurément)
@@ -41,6 +44,7 @@
 ### MATIN
 
 #### Accueil & Révisions
+
 **Format** : Discussion + Quiz
 
 **Quiz révision Jour 3** :
@@ -53,6 +57,7 @@
 
 **Annonce du jour** :
 "Dernier jour ! Aujourd'hui on rend l'application production-ready :
+
 1. **useEffect** pour la synchronisation
 2. **Appels API** pour des données réelles
 3. **Formulaire de commande** complet
@@ -62,6 +67,7 @@
 ---
 
 #### useEffect : Synchronisation et Effets de Bord
+
 **Format** : Présentation approfondie + Live coding
 
 ##### Qu'est-ce qu'un effet de bord ?
@@ -70,6 +76,7 @@
 Un **effet de bord** (side effect) est une interaction avec le monde extérieur au composant.
 
 **Exemples d'effets de bord** :
+
 - 🌐 Appels API (fetch, axios)
 - 💾 localStorage / sessionStorage
 - 📡 WebSocket, SSE
@@ -80,6 +87,7 @@ Un **effet de bord** (side effect) est une interaction avec le monde extérieur 
 - 👂 Event listeners (window, document)
 
 **Non-effets de bord** :
+
 - Calculs mathématiques
 - Transformation de données
 - Rendu de JSX
@@ -90,38 +98,46 @@ Un **effet de bord** (side effect) est une interaction avec le monde extérieur 
 
 **Exemple concret** :
 
-```typescript
+```jsx
 // ❌ Sans useEffect - Ne fonctionne pas
 function WindowSize() {
   const [size, setSize] = useState({ width: 0, height: 0 });
-  
+
   // Ce code s'exécute à chaque rendu (trop!)
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     setSize({ width: window.innerWidth, height: window.innerHeight });
   });
-  
-  return <div>{size.width} x {size.height}</div>;
+
+  return (
+    <div>
+      {size.width} x {size.height}
+    </div>
+  );
 }
 
 // ✅ Avec useEffect - Fonctionne
 function WindowSize() {
   const [size, setSize] = useState({ width: 0, height: 0 });
-  
+
   useEffect(() => {
     const handleResize = () => {
       setSize({ width: window.innerWidth, height: window.innerHeight });
     };
-    
-    window.addEventListener('resize', handleResize);
-    handleResize();  // Initialiser
-    
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initialiser
+
     // Cleanup
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
-  }, []);  // [] = seulement au montage
-  
-  return <div>{size.width} x {size.height}</div>;
+  }, []); // [] = seulement au montage
+
+  return (
+    <div>
+      {size.width} x {size.height}
+    </div>
+  );
 }
 ```
 
@@ -129,15 +145,15 @@ function WindowSize() {
 
 **3 formes de useEffect** :
 
-```typescript
+```jsx
 // 1. Sans dépendances - S'exécute après CHAQUE rendu
 useEffect(() => {
-  console.log('Après chaque rendu');
+  console.log("Après chaque rendu");
 });
 
 // 2. Tableau vide - S'exécute UNE FOIS au montage
 useEffect(() => {
-  console.log('Une fois au montage');
+  console.log("Une fois au montage");
 }, []);
 
 // 3. Avec dépendances - S'exécute quand les dépendances changent
@@ -150,83 +166,83 @@ useEffect(() => {
 
 **Règle 1 : Inclure TOUTES les valeurs utilisées**
 
-```typescript
+```jsx
 // ❌ FAUX - userId manque
-function UserProfile({ userId }: { userId: string }) {
+function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     fetchUser(userId).then(setUser);
-  }, []);  // ❌ userId devrait être ici !
-  
+  }, []); // ❌ userId devrait être ici !
+
   // Bug : Si userId change, on ne refetch pas
 }
 
 // ✅ CORRECT
-function UserProfile({ userId }: { userId: string }) {
+function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     fetchUser(userId).then(setUser);
-  }, [userId]);  // ✅ userId inclus
+  }, [userId]); // ✅ userId inclus
 }
 ```
 
 **Règle 2 : Ne JAMAIS désactiver eslint-plugin-react-hooks**
 
-```typescript
+```jsx
 // ❌ DANGER ABSOLU
 useEffect(() => {
   doSomething(value);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);  // ❌ Vous créez un bug !
+}, []); // ❌ Vous créez un bug !
 ```
 
 **Règle 3 : Attention aux objets/tableaux**
 
-```typescript
+```jsx
 // ❌ Boucle infinie !
 function Component() {
   const [data, setData] = useState(null);
-  
-  const options = { id: 123 };  // ⚠️ Nouvel objet à chaque rendu
-  
+
+  const options = { id: 123 }; // ⚠️ Nouvel objet à chaque rendu
+
   useEffect(() => {
     fetchData(options).then(setData);
-  }, [options]);  // ❌ options change à chaque fois = boucle
+  }, [options]); // ❌ options change à chaque fois = boucle
 }
 
 // ✅ Solution 1 : Extraire les primitives
 function Component() {
   const [data, setData] = useState(null);
-  const optionId = 123;  // Nombre primitif
-  
+  const optionId = 123; // Nombre primitif
+
   useEffect(() => {
     fetchData({ id: optionId }).then(setData);
-  }, [optionId]);  // ✅
+  }, [optionId]); // ✅
 }
 
 // ✅ Solution 2 : useMemo
 function Component() {
   const [data, setData] = useState(null);
-  
+
   const options = useMemo(() => ({ id: 123 }), []);
-  
+
   useEffect(() => {
     fetchData(options).then(setData);
-  }, [options]);  // ✅
+  }, [options]); // ✅
 }
 ```
 
 **Fonction de cleanup** :
 
-```typescript
+```jsx
 useEffect(() => {
   // Setup
   const timer = setInterval(() => {
-    console.log('Tick');
+    console.log("Tick");
   }, 1000);
-  
+
   // Cleanup (s'exécute avant le prochain effet et au démontage)
   return () => {
     clearInterval(timer);
@@ -235,6 +251,7 @@ useEffect(() => {
 ```
 
 **Quand cleanup ?**
+
 - ⏰ Timers (setTimeout, setInterval)
 - 👂 Event listeners (addEventListener)
 - 📡 Abonnements (WebSocket, SSE)
@@ -244,7 +261,7 @@ useEffect(() => {
 
 ** Exercice 1 : Timer (15 min)**
 
-```typescript
+```jsx
 // Consigne : Créer un timer qui compte les secondes
 // - Démarre à 0
 // - S'incrémente toutes les secondes
@@ -252,43 +269,40 @@ useEffect(() => {
 
 function Timer() {
   // TODO: useState pour les secondes
-  
+
   // TODO: useEffect pour l'intervalle
-  
+
   return <div>Temps écoulé : {/* secondes */} secondes</div>;
 }
 ```
 
 **Solution** :
-```typescript
+
+```jsx
 function Timer() {
   const [seconds, setSeconds] = useState(0);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setSeconds(s => s + 1);
+      setSeconds((s) => s + 1);
     }, 1000);
-    
+
     return () => {
       clearInterval(interval);
     };
   }, []);
-  
+
   return <div>Temps écoulé : {seconds} secondes</div>;
 }
 ```
 
 ** Exercice 2 : Document title (10 min)**
 
-```typescript
+```jsx
 // Consigne : Changer le titre de la page selon une prop
-interface PageTitleProps {
-  title: string;
-}
-
-function PageTitle({ title }: PageTitleProps) {
+function PageTitle({ title }) {
   // TODO: useEffect pour changer document.title
-  
+
   return null;
 }
 
@@ -296,25 +310,26 @@ function PageTitle({ title }: PageTitleProps) {
 ```
 
 **Solution** :
-```typescript
-function PageTitle({ title }: PageTitleProps) {
+
+```jsx
+function PageTitle({ title }) {
   useEffect(() => {
     document.title = title;
   }, [title]);
-  
+
   return null;
 }
 ```
 
 ** Exercice 3 : Event listener (20 min)**
 
-```typescript
+```jsx
 // Consigne : Afficher les coordonnées de la souris
 function MouseTracker() {
   // TODO: useState pour position
-  
+
   // TODO: useEffect pour mousemove listener
-  
+
   return (
     <div>
       Position : x={/* x */}, y={/* y */}
@@ -324,6 +339,7 @@ function MouseTracker() {
 ```
 
 **Montrer les bugs courants** :
+
 1. Oublier cleanup → Memory leak
 2. Mauvaises dépendances → Stale values
 
@@ -334,52 +350,49 @@ function MouseTracker() {
 ---
 
 #### Appels API avec useEffect
+
 **Format** : Live coding + Custom hooks
 
 ##### Pattern de fetching de données
 
 **Pattern complet** :
 
-```typescript
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
-function UserProfile({ userId }: { userId: string }) {
-  const [user, setUser] = useState<User | null>(null);
+```jsx
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await fetch(`/api/users/${userId}`);
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
         setUser(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Une erreur est survenue');
+        setError(
+          err instanceof Error ? err.message : "Une erreur est survenue"
+        );
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchUser();
   }, [userId]);
-  
+
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {error}</div>;
   if (!user) return <div>Utilisateur non trouvé</div>;
-  
+
   return (
     <div>
       <h2>{user.name}</h2>
@@ -391,7 +404,7 @@ function UserProfile({ userId }: { userId: string }) {
 
 **⚠️ Erreur TRÈS courante : async directement**
 
-```typescript
+```jsx
 // ❌ FAUX - useEffect ne peut pas être async
 useEffect(async () => {
   const data = await fetchData();
@@ -404,7 +417,7 @@ useEffect(() => {
     const data = await fetchData();
     setData(data);
   };
-  
+
   loadData();
 }, []);
 
@@ -419,37 +432,37 @@ useEffect(() => {
 
 **Gérer l'annulation avec AbortController** :
 
-```typescript
-function SearchResults({ query }: { query: string }) {
+```jsx
+function SearchResults({ query }) {
   const [results, setResults] = useState([]);
-  
+
   useEffect(() => {
     const controller = new AbortController();
-    
+
     const search = async () => {
       try {
         const response = await fetch(`/api/search?q=${query}`, {
-          signal: controller.signal  // ← Passer le signal
+          signal: controller.signal, // ← Passer le signal
         });
         const data = await response.json();
         setResults(data);
       } catch (err) {
-        if (err.name === 'AbortError') {
-          console.log('Requête annulée');
+        if (err.name === "AbortError") {
+          console.log("Requête annulée");
           return;
         }
         console.error(err);
       }
     };
-    
+
     search();
-    
+
     // Cleanup : annuler la requête
     return () => {
       controller.abort();
     };
   }, [query]);
-  
+
   return <div>{/* Afficher results */}</div>;
 }
 ```
@@ -459,78 +472,73 @@ Si l'utilisateur tape vite dans la recherche, on ne veut pas que les anciennes r
 
 ##### Custom Hook : useFetch
 
-**Créer `src/hooks/useFetch.ts`** :
+**Créer `src/hooks/useFetch.js`** :
 
-```typescript
-import { useState, useEffect } from 'react';
+```js
+import { useState, useEffect } from "react";
 
-interface UseFetchResult<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
-  refetch: () => void;
-}
-
-export function useFetch<T>(url: string): UseFetchResult<T> {
-  const [data, setData] = useState<T | null>(null);
+export function useFetch(url) {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const [refetchIndex, setRefetchIndex] = useState(0);
-  
+
   useEffect(() => {
     const controller = new AbortController();
-    
+
     const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await fetch(url, {
-          signal: controller.signal
+          signal: controller.signal,
         });
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const json = await response.json();
         setData(json);
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          setError(err instanceof Error ? err.message : 'Une erreur est survenue');
+        if (err?.name !== "AbortError") {
+          setError(
+            err instanceof Error ? err.message : "Une erreur est survenue"
+          );
         }
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchData();
-    
+
     return () => {
       controller.abort();
     };
   }, [url, refetchIndex]);
-  
+
   const refetch = () => {
-    setRefetchIndex(prev => prev + 1);
+    setRefetchIndex((prev) => prev + 1);
   };
-  
+
   return { data, loading, error, refetch };
 }
 ```
 
 **Utilisation** :
 
-```typescript
+```jsx
 function MenuPage() {
-  const { data: menuItems, loading, error, refetch } = useFetch<MenuItem[]>('/api/menu');
-  
+  const { data: menuItems, loading, error, refetch } = useFetch("/api/menu");
+
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error} onRetry={refetch} />;
-  
+
   return (
     <div>
-      {menuItems?.map(item => (
+      {menuItems?.map((item) => (
         <MenuCard key={item.id} item={item} />
       ))}
     </div>
@@ -540,28 +548,25 @@ function MenuPage() {
 
 **Montrer la réutilisabilité** :
 
-```typescript
+```jsx
 // Réutiliser pour différentes ressources
-const { data: users } = useFetch<User[]>('/api/users');
-const { data: orders } = useFetch<Order[]>('/api/orders');
-const { data: stats } = useFetch<Stats>('/api/stats');
+const { data: users } = useFetch("/api/users");
+const { data: orders } = useFetch("/api/orders");
+const { data: stats } = useFetch("/api/stats");
 ```
 
 ##### Autres custom hooks utiles
 
 **useLocalStorage** :
 
-```typescript
-// src/hooks/useLocalStorage.ts
+```js
+// src/hooks/useLocalStorage.js
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export function useLocalStorage<T>(
-  key: string,
-  initialValue: T
-): [T, (value: T) => void] {
+export function useLocalStorage(key, initialValue) {
   // Récupérer la valeur depuis localStorage
-  const [storedValue, setStoredValue] = useState<T>(() => {
+  const [storedValue, setStoredValue] = useState(() => {
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
@@ -570,7 +575,7 @@ export function useLocalStorage<T>(
       return initialValue;
     }
   });
-  
+
   // Sauvegarder dans localStorage quand la valeur change
   useEffect(() => {
     try {
@@ -579,21 +584,21 @@ export function useLocalStorage<T>(
       console.error(error);
     }
   }, [key, storedValue]);
-  
+
   return [storedValue, setStoredValue];
 }
 ```
 
 **Utilisation** :
 
-```typescript
+```jsx
 function Settings() {
-  const [theme, setTheme] = useLocalStorage('theme', 'light');
-  const [lang, setLang] = useLocalStorage('lang', 'fr');
-  
+  const [theme, setTheme] = useLocalStorage("theme", "light");
+  const [lang, setLang] = useLocalStorage("lang", "fr");
+
   return (
     <div>
-      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
         Thème : {theme}
       </button>
     </div>
@@ -603,42 +608,42 @@ function Settings() {
 
 **useDebounce** :
 
-```typescript
-// src/hooks/useDebounce.ts
+```js
+// src/hooks/useDebounce.js
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export function useDebounce<T>(value: T, delay: number = 500): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-  
+export function useDebounce(value, delay = 500) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
-    
+
     return () => {
       clearTimeout(handler);
     };
   }, [value, delay]);
-  
+
   return debouncedValue;
 }
 ```
 
 **Utilisation** :
 
-```typescript
+```jsx
 function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  
+
   useEffect(() => {
     if (debouncedSearchTerm) {
       // Recherche seulement après 500ms d'inactivité
       searchAPI(debouncedSearchTerm);
     }
   }, [debouncedSearchTerm]);
-  
+
   return (
     <input
       value={searchTerm}
@@ -660,191 +665,174 @@ function SearchBar() {
 ### APRÈS-MIDI
 
 #### Formulaire de Checkout avec Validation
+
 **Format** : Live coding progressif
 
 ##### Formulaire complet
 
-**Créer `src/pages/CheckoutPage.tsx`** :
+**Créer `src/pages/CheckoutPage.jsx`** :
 
-```typescript
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-
-interface CheckoutForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  deliveryType: 'delivery' | 'pickup';
-  address: string;
-  city: string;
-  postalCode: string;
-  notes: string;
-}
-
-interface FormErrors {
-  [key: string]: string;
-}
+```jsx
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function CheckoutPage() {
   const { cart, total, clearCart } = useCart();
   const navigate = useNavigate();
-  
-  const [formData, setFormData] = useState<CheckoutForm>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    deliveryType: 'delivery',
-    address: '',
-    city: '',
-    postalCode: '',
-    notes: ''
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    deliveryType: "delivery",
+    address: "",
+    city: "",
+    postalCode: "",
+    notes: "",
   });
-  
-  const [errors, setErrors] = useState<FormErrors>({});
+
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Validation
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-    
+  const validateForm = () => {
+    const newErrors = {};
+
     // Prénom
     if (!formData.firstName.trim()) {
-      newErrors.firstName = 'Le prénom est requis';
+      newErrors.firstName = "Le prénom est requis";
     }
-    
+
     // Nom
     if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Le nom est requis';
+      newErrors.lastName = "Le nom est requis";
     }
-    
+
     // Email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
       newErrors.email = "L'email est requis";
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = 'Email invalide';
+      newErrors.email = "Email invalide";
     }
-    
+
     // Téléphone français
     const phoneRegex = /^0[1-9](?:\d{8})$/;
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Le téléphone est requis';
-    } else if (!phoneRegex.test(formData.phone.replace(/\s/g, ''))) {
-      newErrors.phone = 'Téléphone invalide (ex: 0612345678)';
+      newErrors.phone = "Le téléphone est requis";
+    } else if (!phoneRegex.test(formData.phone.replace(/\s/g, ""))) {
+      newErrors.phone = "Téléphone invalide (ex: 0612345678)";
     }
-    
+
     // Adresse si livraison
-    if (formData.deliveryType === 'delivery') {
+    if (formData.deliveryType === "delivery") {
       if (!formData.address.trim()) {
         newErrors.address = "L'adresse est requise";
       }
       if (!formData.city.trim()) {
-        newErrors.city = 'La ville est requise';
+        newErrors.city = "La ville est requise";
       }
       if (!formData.postalCode.trim()) {
-        newErrors.postalCode = 'Le code postal est requis';
+        newErrors.postalCode = "Le code postal est requis";
       } else if (!/^\d{5}$/.test(formData.postalCode)) {
-        newErrors.postalCode = 'Code postal invalide (5 chiffres)';
+        newErrors.postalCode = "Code postal invalide (5 chiffres)";
       }
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   // Gérer les changements
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     // Effacer l'erreur du champ
     if (errors[name]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
       });
     }
   };
-  
+
   // Soumettre
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     try {
       // Simuler l'envoi au serveur
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       // Générer un numéro de commande
       const orderNumber = `CMD${Date.now()}`;
-      
+
       // Vider le panier
       clearCart();
-      
+
       // Rediriger vers la confirmation
-      navigate('/order-confirmation', {
+      navigate("/order-confirmation", {
         state: {
           orderNumber,
           email: formData.email,
-          total
-        }
+          total,
+        },
       });
     } catch (err) {
-      alert('Erreur lors de la commande');
+      alert("Erreur lors de la commande");
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
   if (cart.length === 0) {
     return (
       <div className="checkout-page">
         <h1>Votre panier est vide</h1>
-        <button onClick={() => navigate('/menu')}>
-          Voir le menu
-        </button>
+        <button onClick={() => navigate("/menu")}>Voir le menu</button>
       </div>
     );
   }
-  
+
   return (
     <div className="checkout-page">
       <h1>Finaliser la commande</h1>
-      
+
       <div className="checkout-container">
         {/* Résumé de la commande */}
         <aside className="order-summary">
           <h2>Récapitulatif</h2>
-          
-          {cart.map(item => (
+
+          {cart.map((item) => (
             <div key={item.item.id} className="summary-item">
-              <span>{item.quantity}x {item.item.name}</span>
+              <span>
+                {item.quantity}x {item.item.name}
+              </span>
               <span>{(item.item.price * item.quantity).toFixed(2)}€</span>
             </div>
           ))}
-          
+
           <div className="summary-total">
             <strong>Total</strong>
             <strong>{total.toFixed(2)}€</strong>
           </div>
         </aside>
-        
+
         {/* Formulaire */}
         <form onSubmit={handleSubmit} className="checkout-form">
           <section>
             <h3>Informations personnelles</h3>
-            
+
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="firstName">Prénom *</label>
@@ -854,13 +842,13 @@ function CheckoutPage() {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={errors.firstName ? 'error' : ''}
+                  className={errors.firstName ? "error" : ""}
                 />
                 {errors.firstName && (
                   <span className="error-message">{errors.firstName}</span>
                 )}
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="lastName">Nom *</label>
                 <input
@@ -869,14 +857,14 @@ function CheckoutPage() {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={errors.lastName ? 'error' : ''}
+                  className={errors.lastName ? "error" : ""}
                 />
                 {errors.lastName && (
                   <span className="error-message">{errors.lastName}</span>
                 )}
               </div>
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="email">Email *</label>
               <input
@@ -885,13 +873,13 @@ function CheckoutPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={errors.email ? 'error' : ''}
+                className={errors.email ? "error" : ""}
               />
               {errors.email && (
                 <span className="error-message">{errors.email}</span>
               )}
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="phone">Téléphone *</label>
               <input
@@ -901,17 +889,17 @@ function CheckoutPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="0612345678"
-                className={errors.phone ? 'error' : ''}
+                className={errors.phone ? "error" : ""}
               />
               {errors.phone && (
                 <span className="error-message">{errors.phone}</span>
               )}
             </div>
           </section>
-          
+
           <section>
             <h3>Livraison</h3>
-            
+
             <div className="form-group">
               <label>Type de commande *</label>
               <div className="radio-group">
@@ -920,7 +908,7 @@ function CheckoutPage() {
                     type="radio"
                     name="deliveryType"
                     value="delivery"
-                    checked={formData.deliveryType === 'delivery'}
+                    checked={formData.deliveryType === "delivery"}
                     onChange={handleChange}
                   />
                   Livraison
@@ -930,15 +918,15 @@ function CheckoutPage() {
                     type="radio"
                     name="deliveryType"
                     value="pickup"
-                    checked={formData.deliveryType === 'pickup'}
+                    checked={formData.deliveryType === "pickup"}
                     onChange={handleChange}
                   />
                   À emporter
                 </label>
               </div>
             </div>
-            
-            {formData.deliveryType === 'delivery' && (
+
+            {formData.deliveryType === "delivery" && (
               <>
                 <div className="form-group">
                   <label htmlFor="address">Adresse *</label>
@@ -948,13 +936,13 @@ function CheckoutPage() {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={errors.address ? 'error' : ''}
+                    className={errors.address ? "error" : ""}
                   />
                   {errors.address && (
                     <span className="error-message">{errors.address}</span>
                   )}
                 </div>
-                
+
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="city">Ville *</label>
@@ -964,13 +952,13 @@ function CheckoutPage() {
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
-                      className={errors.city ? 'error' : ''}
+                      className={errors.city ? "error" : ""}
                     />
                     {errors.city && (
                       <span className="error-message">{errors.city}</span>
                     )}
                   </div>
-                  
+
                   <div className="form-group">
                     <label htmlFor="postalCode">Code postal *</label>
                     <input
@@ -979,7 +967,7 @@ function CheckoutPage() {
                       name="postalCode"
                       value={formData.postalCode}
                       onChange={handleChange}
-                      className={errors.postalCode ? 'error' : ''}
+                      className={errors.postalCode ? "error" : ""}
                     />
                     {errors.postalCode && (
                       <span className="error-message">{errors.postalCode}</span>
@@ -988,7 +976,7 @@ function CheckoutPage() {
                 </div>
               </>
             )}
-            
+
             <div className="form-group">
               <label htmlFor="notes">Notes (optionnel)</label>
               <textarea
@@ -1001,13 +989,11 @@ function CheckoutPage() {
               />
             </div>
           </section>
-          
-          <button
-            type="submit"
-            className="btn-submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Commande en cours...' : `Commander (${total.toFixed(2)}€)`}
+
+          <button type="submit" className="btn-submit" disabled={isSubmitting}>
+            {isSubmitting
+              ? "Commande en cours..."
+              : `Commander (${total.toFixed(2)}€)`}
           </button>
         </form>
       </div>
@@ -1020,15 +1006,15 @@ export default CheckoutPage;
 
 **Page de confirmation** :
 
-```typescript
-// src/pages/OrderConfirmationPage.tsx
+```jsx
+// src/pages/OrderConfirmationPage.jsx
 
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link } from "react-router-dom";
 
 function OrderConfirmationPage() {
   const location = useLocation();
   const { orderNumber, email, total } = location.state || {};
-  
+
   if (!orderNumber) {
     return (
       <div>
@@ -1037,26 +1023,32 @@ function OrderConfirmationPage() {
       </div>
     );
   }
-  
+
   return (
     <div className="confirmation-page">
       <div className="confirmation-card">
         <div className="success-icon">✅</div>
-        
+
         <h1>Commande confirmée !</h1>
-        
+
         <p>Merci pour votre commande</p>
-        
+
         <div className="order-details">
-          <p><strong>Numéro de commande :</strong> {orderNumber}</p>
-          <p><strong>Email :</strong> {email}</p>
-          <p><strong>Total :</strong> {total.toFixed(2)}€</p>
+          <p>
+            <strong>Numéro de commande :</strong> {orderNumber}
+          </p>
+          <p>
+            <strong>Email :</strong> {email}
+          </p>
+          <p>
+            <strong>Total :</strong> {total.toFixed(2)}€
+          </p>
         </div>
-        
+
         <p className="info">
           Vous recevrez un email de confirmation à l'adresse indiquée.
         </p>
-        
+
         <div className="actions">
           <Link to="/menu" className="btn-primary">
             Nouvelle commande
@@ -1080,16 +1072,17 @@ export default OrderConfirmationPage;
 ---
 
 #### Optimisations de Performance
+
 **Format** : Présentation + Démonstrations
 
 ##### React.memo, useMemo, useCallback
 
 **React.memo** - Éviter les re-renders inutiles :
 
-```typescript
+```jsx
 // ❌ Sans React.memo
-function ExpensiveComponent({ data }: { data: string }) {
-  console.log('Render');
+function ExpensiveComponent({ data }) {
+  console.log("Render");
   // Calculs coûteux...
   return <div>{data}</div>;
 }
@@ -1097,8 +1090,8 @@ function ExpensiveComponent({ data }: { data: string }) {
 // Le composant re-rend même si data n'a pas changé
 
 // ✅ Avec React.memo
-const ExpensiveComponent = React.memo(({ data }: { data: string }) => {
-  console.log('Render');
+const ExpensiveComponent = React.memo(({ data }) => {
+  console.log("Render");
   return <div>{data}</div>;
 });
 
@@ -1107,45 +1100,43 @@ const ExpensiveComponent = React.memo(({ data }: { data: string }) => {
 
 **useMemo** - Mémoriser des calculs coûteux :
 
-```typescript
-function ProductList({ products, filterTerm }: Props) {
+```jsx
+function ProductList({ products, filterTerm }) {
   // ❌ Sans useMemo - Recalculé à chaque render
-  const filteredProducts = products.filter(p =>
-    p.name.includes(filterTerm)
-  );
-  
+  const filteredProducts = products.filter((p) => p.name.includes(filterTerm));
+
   // ✅ Avec useMemo - Recalculé seulement si products ou filterTerm change
   const filteredProducts = useMemo(() => {
-    console.log('Calcul du filtre');
-    return products.filter(p => p.name.includes(filterTerm));
+    console.log("Calcul du filtre");
+    return products.filter((p) => p.name.includes(filterTerm));
   }, [products, filterTerm]);
-  
+
   return <div>{/* ... */}</div>;
 }
 ```
 
 **useCallback** - Mémoriser des fonctions :
 
-```typescript
+```jsx
 function Parent() {
   const [count, setCount] = useState(0);
-  
+
   // ❌ Sans useCallback - Nouvelle fonction à chaque render
   const handleClick = () => {
-    console.log('Clicked');
+    console.log("Clicked");
   };
-  
+
   // ✅ Avec useCallback - Même fonction référence
   const handleClick = useCallback(() => {
-    console.log('Clicked');
+    console.log("Clicked");
   }, []);
-  
+
   return <Child onClick={handleClick} />;
 }
 
 // Child avec React.memo ne re-rendra que si onClick change vraiment
-const Child = React.memo(({ onClick }: { onClick: () => void }) => {
-  console.log('Child render');
+const Child = React.memo(({ onClick }) => {
+  console.log("Child render");
   return <button onClick={onClick}>Click</button>;
 });
 ```
@@ -1154,32 +1145,24 @@ const Child = React.memo(({ onClick }: { onClick: () => void }) => {
 
 **⚠️ RÈGLE D'OR : Ne PAS optimiser prématurément !**
 
-```typescript
+```jsx
 // ❌ Sur-optimisation inutile
-function SimpleComponent({ name }: { name: string }) {
+function SimpleComponent({ name }) {
   const greeting = useMemo(() => `Hello ${name}`, [name]);
   const handleClick = useCallback(() => {
-    console.log('Clicked');
+    console.log("Clicked");
   }, []);
-  
-  return (
-    <div onClick={handleClick}>
-      {greeting}
-    </div>
-  );
+
+  return <div onClick={handleClick}>{greeting}</div>;
 }
 
 // ✅ Simple et lisible (suffisant !)
-function SimpleComponent({ name }: { name: string }) {
+function SimpleComponent({ name }) {
   const handleClick = () => {
-    console.log('Clicked');
+    console.log("Clicked");
   };
-  
-  return (
-    <div onClick={handleClick}>
-      Hello {name}
-    </div>
-  );
+
+  return <div onClick={handleClick}>Hello {name}</div>;
 }
 ```
 
@@ -1191,12 +1174,14 @@ function SimpleComponent({ name }: { name: string }) {
 4. Vous avez **identifié un problème** de performance
 
 **Signes qu'une optimisation est nécessaire** :
+
 - ⏱️ UI laggy au scroll/typing
 - 🐌 Animations saccadées
 - 📊 Profiler montre des re-renders massifs
 - 💾 Calculs qui prennent >100ms
 
 **Optimisations générales** :
+
 - Code splitting avec React.lazy
 - Virtualization pour longues listes (react-window)
 - Debouncing des inputs
@@ -1205,6 +1190,7 @@ function SimpleComponent({ name }: { name: string }) {
 ---
 
 #### Build & Déploiement
+
 **Format** : Live demo + Hands-on
 
 ##### Build de production
@@ -1216,7 +1202,8 @@ npm run build
 ```
 
 **Ce qui se passe** :
-1. TypeScript est compilé en JavaScript
+
+1. Code est bundlé, minifié et optimisé
 2. Code est minifié et optimisé
 3. Assets sont hashés pour le cache
 4. Dossier `dist/` est créé
@@ -1250,7 +1237,7 @@ VITE_STRIPE_KEY=pk_test_xxxxx
 
 Utiliser dans le code :
 
-```typescript
+```js
 const apiUrl = import.meta.env.VITE_API_URL;
 ```
 
@@ -1300,6 +1287,7 @@ Créer `public/_redirects` :
 ```
 
 **Tester** :
+
 - Aller sur l'URL du site
 - Naviguer entre les pages
 - Rafraîchir la page → Devrait toujours fonctionner
@@ -1307,13 +1295,14 @@ Créer `public/_redirects` :
 **Variables d'environnement sur Netlify** :
 
 Site settings → Environment variables → Ajouter :
+
 ```
 VITE_API_URL = https://api.production.com
 ```
 
 ---
 
-####  Récapitulatif Final & Conclusion
+#### Récapitulatif Final & Conclusion
 
 ##### Quiz final (15 min)
 
@@ -1330,9 +1319,10 @@ VITE_API_URL = https://api.production.com
 **Jour 1** : Composants, Props, JSX  
 **Jour 2** : useState, Événements, Immutabilité  
 **Jour 3** : React Router, Context API, useReducer  
-**Jour 4** : useEffect, API, Optimisations, Déploiement  
+**Jour 4** : useEffect, API, Optimisations, Déploiement
 
 **Vous savez maintenant** :
+
 - ✅ Créer des applications React complètes
 - ✅ Gérer l'état local et global
 - ✅ Naviguer entre plusieurs pages
@@ -1345,29 +1335,35 @@ VITE_API_URL = https://api.production.com
 **Prochaines étapes recommandées** :
 
 **Semaine 1-2** :
+
 - Refaire le projet de zéro
 - Ajouter des features (auth, favoris, etc.)
 
 **Mois 1** :
+
 - Nouveau projet (Todo app, Weather app)
 - Apprendre les tests (Vitest, React Testing Library)
 
 **Mois 2-3** :
+
 - Next.js pour SSR
 - TanStack Query pour data fetching
 - Bibliothèques UI (shadcn/ui)
 
 **Mois 6+** :
+
 - Patterns avancés
 - Performance optimizations
 - Contribution open source
 
 **Ressources** :
+
 - [react.dev](https://react.dev) - Documentation officielle
 - [React TypeScript Cheatsheet](https://react-typescript-cheatsheet.netlify.app)
 - [Patterns.dev](https://patterns.dev) - Design patterns
 
 **Communautés** :
+
 - Reddit: r/reactjs
 - Discord: Reactiflux
 - Twitter: #ReactJS
@@ -1384,6 +1380,7 @@ VITE_API_URL = https://api.production.com
 Créer une variante du site foodtruck avec :
 
 **Obligatoire** :
+
 - [ ] 5+ pages minimum
 - [ ] État global avec Context
 - [ ] Appels API (mock ou réel)
@@ -1391,6 +1388,7 @@ Créer une variante du site foodtruck avec :
 - [ ] Déployé en ligne
 
 **Bonus** :
+
 - [ ] Tests unitaires
 - [ ] Tailwind CSS
 - [ ] Animations
@@ -1402,17 +1400,20 @@ Créer une variante du site foodtruck avec :
 ## 🎯 Critères d'Évaluation
 
 **Niveau 1** ⭐
+
 - [ ] useEffect basique
 - [ ] Appel API simple
 - [ ] Formulaire contrôlé
 
 **Niveau 2** ⭐⭐
+
 - [ ] Custom hooks
 - [ ] Gestion loading/error
 - [ ] Validation complète
 - [ ] Application déployée
 
 **Niveau 3** ⭐⭐⭐
+
 - [ ] Optimisations (memo, useMemo)
 - [ ] Code clean et organisé
 - [ ] UX soignée
@@ -1432,11 +1433,13 @@ Créer une variante du site foodtruck avec :
 ### Adaptations
 
 **Si en avance** :
+
 - Tests avec Vitest
 - Animations avec Framer Motion
 - WebSockets
 
 **Si en retard** :
+
 - Simplifier le formulaire
 - Skip optimisations
 - Déploiement drag&drop uniquement

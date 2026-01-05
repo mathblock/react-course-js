@@ -3,6 +3,7 @@
 ## 📋 Objectifs de la journée
 
 À la fin de cette journée, vous serez capable de :
+
 - ✅ Comprendre ce qu'est l'état (state) et pourquoi il existe
 - ✅ Utiliser le hook useState pour gérer l'état local
 - ✅ Gérer les événements utilisateur (click, change, submit)
@@ -19,7 +20,8 @@
 
 L'**état** (state) est la **mémoire d'un composant**. C'est une donnée qui peut changer au fil du temps et qui déclenche un nouveau rendu du composant quand elle change.
 
-**Analogie** : 
+**Analogie** :
+
 - **Props** = Courrier que vous recevez (lecture seule)
 - **State** = Votre carnet personnel (vous pouvez l'éditer)
 
@@ -27,17 +29,17 @@ L'**état** (state) est la **mémoire d'un composant**. C'est une donnée qui pe
 
 Sans état, React ne sait pas quand re-rendre un composant. Les variables JavaScript normales ne déclenchent pas de re-rendu.
 
-```typescript
+```jsx
 // ❌ Ceci ne fonctionne PAS
 function Counter() {
   let count = 0;
-  
+
   const increment = () => {
     count = count + 1;
     console.log(count); // S'affiche dans la console
     // Mais l'interface ne se met PAS à jour !
   };
-  
+
   return (
     <div>
       <p>Compteur : {count}</p>
@@ -47,18 +49,18 @@ function Counter() {
 }
 ```
 
-```typescript
+```jsx
 // ✅ Avec useState, ça fonctionne !
-import { useState } from 'react';
+import { useState } from "react";
 
 function Counter() {
   const [count, setCount] = useState(0);
-  
+
   const increment = () => {
     setCount(count + 1);
     // React re-rend le composant avec la nouvelle valeur
   };
-  
+
   return (
     <div>
       <p>Compteur : {count}</p>
@@ -70,7 +72,7 @@ function Counter() {
 
 #### Syntaxe de useState
 
-```typescript
+```jsx
 const [valeur, setValeur] = useState(valeurInitiale);
 ```
 
@@ -79,11 +81,12 @@ const [valeur, setValeur] = useState(valeurInitiale);
 - `valeurInitiale` : Valeur au premier rendu
 
 **Exemples** :
-```typescript
-const [count, setCount] = useState(0);              // Nombre
-const [name, setName] = useState("Marie");          // String
-const [isOpen, setIsOpen] = useState(false);        // Boolean
-const [items, setItems] = useState([]);             // Tableau
+
+```jsx
+const [count, setCount] = useState(0); // Nombre
+const [name, setName] = useState("Marie"); // String
+const [isOpen, setIsOpen] = useState(false); // Boolean
+const [items, setItems] = useState([]); // Tableau
 const [user, setUser] = useState({ name: "Jean" }); // Objet
 ```
 
@@ -91,43 +94,43 @@ const [user, setUser] = useState({ name: "Jean" }); // Objet
 
 **Règle 1 : Ne JAMAIS muter l'état directement**
 
-```typescript
+```jsx
 // ❌ INTERDIT - Mutation directe
 const [items, setItems] = useState([1, 2, 3]);
-items.push(4);        // ❌ Ne déclenche PAS de re-rendu
-setItems(items);      // ❌ React ne voit pas le changement
+items.push(4); // ❌ Ne déclenche PAS de re-rendu
+setItems(items); // ❌ React ne voit pas le changement
 
 // ✅ CORRECT - Créer un nouveau tableau
-setItems([...items, 4]);  // ✅ Nouveau tableau, React détecte le changement
+setItems([...items, 4]); // ✅ Nouveau tableau, React détecte le changement
 ```
 
 **Règle 2 : setState est asynchrone**
 
-```typescript
+```jsx
 const [count, setCount] = useState(0);
 
 const handleClick = () => {
   setCount(count + 1);
-  console.log(count);  // ⚠️ Affiche encore 0 (ancienne valeur)
+  console.log(count); // ⚠️ Affiche encore 0 (ancienne valeur)
   // Le nouvel état sera disponible au prochain rendu
 };
 ```
 
 **Règle 3 : L'état est une constante jusqu'au prochain rendu**
 
-```typescript
+```jsx
 const [count, setCount] = useState(0);
 
 const handleClick = () => {
-  setCount(count + 1);  // count = 0 ici
-  setCount(count + 1);  // count = 0 ici aussi !
+  setCount(count + 1); // count = 0 ici
+  setCount(count + 1); // count = 0 ici aussi !
   // Résultat : count devient 1, pas 2 !
 };
 
 // ✅ Solution : Fonction de mise à jour
 const handleClick = () => {
-  setCount(prev => prev + 1);  // prev est la vraie valeur courante
-  setCount(prev => prev + 1);  // Maintenant count devient 2 !
+  setCount((prev) => prev + 1); // prev est la vraie valeur courante
+  setCount((prev) => prev + 1); // Maintenant count devient 2 !
 };
 ```
 
@@ -135,10 +138,10 @@ const handleClick = () => {
 
 #### État de type nombre
 
-```typescript
+```jsx
 function Counter() {
   const [count, setCount] = useState(0);
-  
+
   return (
     <div>
       <p>Compteur : {count}</p>
@@ -152,16 +155,14 @@ function Counter() {
 
 #### État de type boolean (toggle)
 
-```typescript
+```jsx
 function Toggle() {
   const [isOn, setIsOn] = useState(false);
-  
+
   return (
     <div>
       <p>Statut : {isOn ? "Allumé ✅" : "Éteint ❌"}</p>
-      <button onClick={() => setIsOn(!isOn)}>
-        Toggle
-      </button>
+      <button onClick={() => setIsOn(!isOn)}>Toggle</button>
       <button onClick={() => setIsOn(true)}>Allumer</button>
       <button onClick={() => setIsOn(false)}>Éteindre</button>
     </div>
@@ -171,13 +172,13 @@ function Toggle() {
 
 #### État de type string (input)
 
-```typescript
+```jsx
 function NameInput() {
   const [name, setName] = useState("");
-  
+
   return (
     <div>
-      <input 
+      <input
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -191,22 +192,22 @@ function NameInput() {
 
 #### État de type tableau
 
-```typescript
+```jsx
 function TodoList() {
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
-  
+
   const addTodo = () => {
     if (input.trim()) {
-      setTodos([...todos, input]);  // ✅ Spread operator
+      setTodos([...todos, input]); // ✅ Spread operator
       setInput("");
     }
   };
-  
-  const removeTodo = (index: number) => {
-    setTodos(todos.filter((_, i) => i !== index));  // ✅ Filter
+
+  const removeTodo = (index) => {
+    setTodos(todos.filter((_, i) => i !== index)); // ✅ Filter
   };
-  
+
   return (
     <div>
       <input value={input} onChange={(e) => setInput(e.target.value)} />
@@ -226,35 +227,26 @@ function TodoList() {
 
 #### État de type objet
 
-```typescript
-interface User {
-  name: string;
-  age: number;
-  email: string;
-}
-
+```jsx
 function UserForm() {
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState({
     name: "",
     age: 0,
-    email: ""
+    email: "",
   });
-  
-  const updateName = (name: string) => {
-    setUser({ ...user, name });  // ✅ Spread + override
+
+  const updateName = (name) => {
+    setUser({ ...user, name }); // ✅ Spread + override
   };
-  
-  const updateAge = (age: number) => {
+
+  const updateAge = (age) => {
     setUser({ ...user, age });
   };
-  
+
   return (
     <div>
-      <input 
-        value={user.name}
-        onChange={(e) => updateName(e.target.value)}
-      />
-      <input 
+      <input value={user.name} onChange={(e) => updateName(e.target.value)} />
+      <input
         type="number"
         value={user.age}
         onChange={(e) => updateAge(Number(e.target.value))}
@@ -268,23 +260,23 @@ function UserForm() {
 
 #### Événements de base
 
-```typescript
+```jsx
 function EventExamples() {
   // Click
   const handleClick = () => {
     console.log("Cliqué !");
   };
-  
+
   // Double click
   const handleDoubleClick = () => {
     console.log("Double cliqué !");
   };
-  
+
   // Mouse enter/leave
   const handleMouseEnter = () => {
     console.log("Souris entrée");
   };
-  
+
   return (
     <div>
       <button onClick={handleClick}>Cliquer</button>
@@ -297,25 +289,25 @@ function EventExamples() {
 
 #### Événements de formulaire
 
-```typescript
+```jsx
 function FormEvents() {
   const [value, setValue] = useState("");
-  
+
   // Change (input, textarea, select)
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     setValue(e.target.value);
   };
-  
+
   // Submit
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();  // ⚠️ Important : empêche le rechargement
+  const handleSubmit = (e) => {
+    e.preventDefault(); // ⚠️ Important : empêche le rechargement
     console.log("Formulaire soumis avec :", value);
   };
-  
+
   // Focus / Blur
   const handleFocus = () => console.log("Focus");
   const handleBlur = () => console.log("Blur");
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -332,17 +324,17 @@ function FormEvents() {
 
 #### Passer des arguments aux handlers
 
-```typescript
+```jsx
 function ItemList() {
-  const handleDelete = (id: string) => {
+  const handleDelete = (id) => {
     console.log("Supprimer l'item", id);
   };
-  
+
   const items = ["A", "B", "C"];
-  
+
   return (
     <div>
-      {items.map(item => (
+      {items.map((item) => (
         <button key={item} onClick={() => handleDelete(item)}>
           Supprimer {item}
         </button>
@@ -354,7 +346,7 @@ function ItemList() {
 
 #### Erreurs courantes avec les événements
 
-```typescript
+```jsx
 // ❌ Appel de fonction immédiat
 <button onClick={handleClick()}>Cliquer</button>
 // S'exécute au rendu, pas au clic !
@@ -372,13 +364,13 @@ function ItemList() {
 
 Un **input contrôlé** est un input dont la valeur est contrôlée par React (via useState).
 
-```typescript
+```jsx
 function ControlledInput() {
   const [value, setValue] = useState("");
-  
+
   return (
     <input
-      value={value}  // ← React contrôle la valeur
+      value={value} // ← React contrôle la valeur
       onChange={(e) => setValue(e.target.value)}
     />
   );
@@ -387,36 +379,29 @@ function ControlledInput() {
 
 #### Formulaire complet
 
-```typescript
-interface FormData {
-  name: string;
-  email: string;
-  age: number;
-  newsletter: boolean;
-}
-
+```jsx
 function SignupForm() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     age: 0,
-    newsletter: false
+    newsletter: false,
   });
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     });
   };
-  
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Données du formulaire :", formData);
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -425,7 +410,7 @@ function SignupForm() {
         onChange={handleChange}
         placeholder="Nom"
       />
-      
+
       <input
         name="email"
         type="email"
@@ -433,14 +418,14 @@ function SignupForm() {
         onChange={handleChange}
         placeholder="Email"
       />
-      
+
       <input
         name="age"
         type="number"
         value={formData.age}
         onChange={handleChange}
       />
-      
+
       <label>
         <input
           name="newsletter"
@@ -450,7 +435,7 @@ function SignupForm() {
         />
         S'abonner à la newsletter
       </label>
-      
+
       <button type="submit">S'inscrire</button>
     </form>
   );
@@ -461,7 +446,7 @@ function SignupForm() {
 
 #### Challenge 1 : Calculatrice (30 min)
 
-```typescript
+```jsx
 // TODO: Créer une calculatrice simple
 // - 2 inputs pour les nombres
 // - Boutons +, -, *, /
@@ -470,7 +455,7 @@ function SignupForm() {
 
 #### Challenge 2 : Color Picker (30 min)
 
-```typescript
+```jsx
 // TODO: Créer un color picker
 // - 3 sliders (R, G, B) de 0 à 255
 // - Afficher la couleur résultante en background
@@ -479,7 +464,7 @@ function SignupForm() {
 
 #### Challenge 3 : Formulaire de newsletter (30 min)
 
-```typescript
+```jsx
 // TODO: Créer un formulaire de newsletter
 // - Input email avec validation (doit contenir @)
 // - Checkbox pour accepter les CGU
@@ -497,7 +482,7 @@ function SignupForm() {
 
 Quand deux composants ont besoin d'accéder au même état, on doit **remonter l'état** dans leur parent commun.
 
-```typescript
+```jsx
 // ❌ État séparé - les composants ne sont pas synchronisés
 function ComponentA() {
   const [count, setCount] = useState(0);
@@ -505,16 +490,16 @@ function ComponentA() {
 }
 
 function ComponentB() {
-  const [count, setCount] = useState(0);  // État différent !
+  const [count, setCount] = useState(0); // État différent !
   return <div>{count}</div>;
 }
 ```
 
-```typescript
+```jsx
 // ✅ État partagé dans le parent
 function Parent() {
   const [count, setCount] = useState(0);
-  
+
   return (
     <div>
       <ComponentA count={count} setCount={setCount} />
@@ -523,11 +508,11 @@ function Parent() {
   );
 }
 
-function ComponentA({ count, setCount }: Props) {
+function ComponentA({ count, setCount }) {
   return <div onClick={() => setCount(count + 1)}>{count}</div>;
 }
 
-function ComponentB({ count, setCount }: Props) {
+function ComponentB({ count, setCount }) {
   return <div onClick={() => setCount(count + 1)}>{count}</div>;
 }
 ```
@@ -544,24 +529,24 @@ function ComponentB({ count, setCount }: Props) {
 
 **Derived state** = Valeur calculée à partir de l'état existant. Ne PAS créer un état pour ça !
 
-```typescript
+```jsx
 // ❌ État dupliqué inutile
-function ProductList({ products }: { products: Product[] }) {
+function ProductList({ initialProducts }) {
   const [products, setProducts] = useState(initialProducts);
-  const [productCount, setProductCount] = useState(products.length);  // ❌
-  
-  const addProduct = (product: Product) => {
+  const [productCount, setProductCount] = useState(products.length); // ❌
+
+  const addProduct = (product) => {
     setProducts([...products, product]);
-    setProductCount(productCount + 1);  // ❌ Duplication !
+    setProductCount(productCount + 1); // ❌ Duplication !
   };
 }
 
 // ✅ Calcul à la volée
-function ProductList({ products }: { products: Product[] }) {
+function ProductList({ initialProducts }) {
   const [products, setProducts] = useState(initialProducts);
-  const productCount = products.length;  // ✅ Calculé automatiquement
-  
-  const addProduct = (product: Product) => {
+  const productCount = products.length; // ✅ Calculé automatiquement
+
+  const addProduct = (product) => {
     setProducts([...products, product]);
     // productCount se met à jour automatiquement
   };
@@ -572,72 +557,58 @@ function ProductList({ products }: { products: Product[] }) {
 
 #### Étape 1 : Types et État du panier (20 min)
 
-```typescript
-// src/types/cart.ts
+```jsx
+// src/App.jsx
 
-import { MenuItem } from './menu';
-
-export interface CartItem {
-  item: MenuItem;
-  quantity: number;
-}
-
-export interface Cart {
-  items: CartItem[];
-}
-```
-
-```typescript
-// src/App.tsx
-
-import { useState } from 'react';
-import { CartItem } from './types/cart';
+import { useState } from "react";
 
 function App() {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  
+  const [cart, setCart] = useState([]);
+
   // Fonction pour ajouter au panier
-  const addToCart = (item: MenuItem) => {
+  const addToCart = (item) => {
     // Vérifier si l'item existe déjà
-    const existingItem = cart.find(cartItem => cartItem.item.id === item.id);
-    
+    const existingItem = cart.find((cartItem) => cartItem.item.id === item.id);
+
     if (existingItem) {
       // Augmenter la quantité
-      setCart(cart.map(cartItem =>
-        cartItem.item.id === item.id
-          ? { ...cartItem, quantity: cartItem.quantity + 1 }
-          : cartItem
-      ));
+      setCart(
+        cart.map((cartItem) =>
+          cartItem.item.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        )
+      );
     } else {
       // Ajouter un nouvel item
       setCart([...cart, { item, quantity: 1 }]);
     }
   };
-  
+
   // Fonction pour retirer du panier
-  const removeFromCart = (itemId: string) => {
-    setCart(cart.filter(cartItem => cartItem.item.id !== itemId));
+  const removeFromCart = (itemId) => {
+    setCart(cart.filter((cartItem) => cartItem.item.id !== itemId));
   };
-  
+
   // Fonction pour mettre à jour la quantité
-  const updateQuantity = (itemId: string, quantity: number) => {
+  const updateQuantity = (itemId, quantity) => {
     if (quantity <= 0) {
       removeFromCart(itemId);
     } else {
-      setCart(cart.map(cartItem =>
-        cartItem.item.id === itemId
-          ? { ...cartItem, quantity }
-          : cartItem
-      ));
+      setCart(
+        cart.map((cartItem) =>
+          cartItem.item.id === itemId ? { ...cartItem, quantity } : cartItem
+        )
+      );
     }
   };
-  
+
   // Calcul du total
   const total = cart.reduce(
     (sum, cartItem) => sum + cartItem.item.price * cartItem.quantity,
     0
   );
-  
+
   return (
     <div>
       <Header cartItemsCount={cart.length} />
@@ -650,14 +621,10 @@ function App() {
 
 #### Étape 2 : Badge de compteur dans le Header (15 min)
 
-```typescript
-// src/components/Header.tsx
+```jsx
+// src/components/Header.jsx
 
-interface HeaderProps {
-  cartItemsCount: number;
-}
-
-function Header({ cartItemsCount }: HeaderProps) {
+function Header({ cartItemsCount }) {
   return (
     <header className="header">
       <div className="container">
@@ -682,6 +649,7 @@ function Header({ cartItemsCount }: HeaderProps) {
 ```
 
 CSS pour le badge :
+
 ```css
 .cart-button {
   position: relative;
@@ -712,25 +680,20 @@ CSS pour le badge :
 
 #### Étape 3 : Bouton "Ajouter au panier" (15 min)
 
-```typescript
-// src/components/MenuCard.tsx
+```jsx
+// src/components/MenuCard.jsx
 
-interface MenuCardProps {
-  item: MenuItem;
-  onAddToCart: (item: MenuItem) => void;
-}
-
-function MenuCard({ item, onAddToCart }: MenuCardProps) {
+function MenuCard({ item, onAddToCart }) {
   const [isAdding, setIsAdding] = useState(false);
-  
+
   const handleAdd = () => {
     setIsAdding(true);
     onAddToCart(item);
-    
+
     // Animation de feedback
     setTimeout(() => setIsAdding(false), 500);
   };
-  
+
   return (
     <div className="menu-card">
       <img src={item.imageUrl} alt={item.name} />
@@ -739,11 +702,11 @@ function MenuCard({ item, onAddToCart }: MenuCardProps) {
         <p>{item.description}</p>
         <div className="card-footer">
           <span className="price">{item.price.toFixed(2)}€</span>
-          <button 
-            className={`btn-add ${isAdding ? 'adding' : ''}`}
+          <button
+            className={`btn-add ${isAdding ? "adding" : ""}`}
             onClick={handleAdd}
           >
-            {isAdding ? '✅ Ajouté' : '➕ Ajouter'}
+            {isAdding ? "✅ Ajouté" : "➕ Ajouter"}
           </button>
         </div>
       </div>
@@ -754,50 +717,53 @@ function MenuCard({ item, onAddToCart }: MenuCardProps) {
 
 #### Étape 4 : Filtrage par catégorie (30 min)
 
-```typescript
-// src/components/Menu.tsx
+```jsx
+// src/components/Menu.jsx
 
-function Menu({ onAddToCart }: { onAddToCart: (item: MenuItem) => void }) {
-  const [activeCategory, setActiveCategory] = useState<string>('tous');
-  
+function Menu({ onAddToCart }) {
+  const [activeCategory, setActiveCategory] = useState("tous");
+
   const categories = [
-    { id: 'tous', label: 'Tous' },
-    { id: 'entrees', label: 'Entrées' },
-    { id: 'plats', label: 'Plats' },
-    { id: 'desserts', label: 'Desserts' },
-    { id: 'boissons', label: 'Boissons' }
+    { id: "tous", label: "Tous" },
+    { id: "entrees", label: "Entrées" },
+    { id: "plats", label: "Plats" },
+    { id: "desserts", label: "Desserts" },
+    { id: "boissons", label: "Boissons" },
   ];
-  
+
   // Filtrer les items selon la catégorie active
-  const filteredItems = activeCategory === 'tous'
-    ? menuItems
-    : menuItems.filter(item => item.category === activeCategory);
-  
+  const filteredItems =
+    activeCategory === "tous"
+      ? menuItems
+      : menuItems.filter((item) => item.category === activeCategory);
+
   return (
     <section className="menu-section">
       <div className="container">
         <h2>Notre Menu</h2>
-        
+
         {/* Boutons de filtre */}
         <div className="category-filters">
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <button
               key={cat.id}
-              className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
+              className={`filter-btn ${
+                activeCategory === cat.id ? "active" : ""
+              }`}
               onClick={() => setActiveCategory(cat.id)}
             >
               {cat.label}
             </button>
           ))}
         </div>
-        
+
         {/* Grille de produits */}
         <div className="menu-grid">
-          {filteredItems.map(item => (
+          {filteredItems.map((item) => (
             <MenuCard key={item.id} item={item} onAddToCart={onAddToCart} />
           ))}
         </div>
-        
+
         {/* Message si aucun résultat */}
         {filteredItems.length === 0 && (
           <p className="no-results">Aucun produit dans cette catégorie</p>
@@ -809,6 +775,7 @@ function Menu({ onAddToCart }: { onAddToCart: (item: MenuItem) => void }) {
 ```
 
 CSS pour les filtres :
+
 ```css
 .category-filters {
   display: flex;
@@ -839,26 +806,27 @@ CSS pour les filtres :
 
 #### Étape 5 : Barre de recherche (30 min)
 
-```typescript
-function Menu({ onAddToCart }: { onAddToCart: (item: MenuItem) => void }) {
-  const [activeCategory, setActiveCategory] = useState<string>('tous');
-  const [searchTerm, setSearchTerm] = useState('');
-  
+```jsx
+function Menu({ onAddToCart }) {
+  const [activeCategory, setActiveCategory] = useState("tous");
+  const [searchTerm, setSearchTerm] = useState("");
+
   // Filtrer par catégorie ET par recherche
   const filteredItems = menuItems
-    .filter(item => 
-      activeCategory === 'tous' || item.category === activeCategory
+    .filter(
+      (item) => activeCategory === "tous" || item.category === activeCategory
     )
-    .filter(item =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    .filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  
+
   return (
     <section className="menu-section">
       <div className="container">
         <h2>Notre Menu</h2>
-        
+
         {/* Barre de recherche */}
         <div className="search-bar">
           <input
@@ -868,28 +836,24 @@ function Menu({ onAddToCart }: { onAddToCart: (item: MenuItem) => void }) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           {searchTerm && (
-            <button 
-              className="clear-search"
-              onClick={() => setSearchTerm('')}
-            >
+            <button className="clear-search" onClick={() => setSearchTerm("")}>
               ❌
             </button>
           )}
         </div>
-        
+
         {/* Filtres de catégorie */}
-        <div className="category-filters">
-          {/* ... code des boutons ... */}
-        </div>
-        
+        <div className="category-filters">{/* ... code des boutons ... */}</div>
+
         {/* Affichage du nombre de résultats */}
         <p className="results-count">
-          {filteredItems.length} produit{filteredItems.length > 1 ? 's' : ''} trouvé{filteredItems.length > 1 ? 's' : ''}
+          {filteredItems.length} produit{filteredItems.length > 1 ? "s" : ""}{" "}
+          trouvé{filteredItems.length > 1 ? "s" : ""}
         </p>
-        
+
         {/* Grille de produits */}
         <div className="menu-grid">
-          {filteredItems.map(item => (
+          {filteredItems.map((item) => (
             <MenuCard key={item.id} item={item} onAddToCart={onAddToCart} />
           ))}
         </div>
@@ -901,21 +865,15 @@ function Menu({ onAddToCart }: { onAddToCart: (item: MenuItem) => void }) {
 
 #### Étape 6 : Vue simple du panier (30 min)
 
-```typescript
-// src/components/CartSummary.tsx
+```jsx
+// src/components/CartSummary.jsx
 
-interface CartSummaryProps {
-  cart: CartItem[];
-  onUpdateQuantity: (itemId: string, quantity: number) => void;
-  onRemove: (itemId: string) => void;
-}
-
-function CartSummary({ cart, onUpdateQuantity, onRemove }: CartSummaryProps) {
+function CartSummary({ cart, onUpdateQuantity, onRemove }) {
   const total = cart.reduce(
     (sum, cartItem) => sum + cartItem.item.price * cartItem.quantity,
     0
   );
-  
+
   if (cart.length === 0) {
     return (
       <div className="cart-empty">
@@ -924,39 +882,43 @@ function CartSummary({ cart, onUpdateQuantity, onRemove }: CartSummaryProps) {
       </div>
     );
   }
-  
+
   return (
     <div className="cart-summary">
       <h3>Votre Panier ({cart.length})</h3>
-      
-      {cart.map(cartItem => (
+
+      {cart.map((cartItem) => (
         <div key={cartItem.item.id} className="cart-item">
           <img src={cartItem.item.imageUrl} alt={cartItem.item.name} />
-          
+
           <div className="cart-item-info">
             <h4>{cartItem.item.name}</h4>
             <p className="price">{cartItem.item.price.toFixed(2)}€</p>
           </div>
-          
+
           <div className="quantity-controls">
-            <button 
-              onClick={() => onUpdateQuantity(cartItem.item.id, cartItem.quantity - 1)}
+            <button
+              onClick={() =>
+                onUpdateQuantity(cartItem.item.id, cartItem.quantity - 1)
+              }
             >
               -
             </button>
             <span>{cartItem.quantity}</span>
-            <button 
-              onClick={() => onUpdateQuantity(cartItem.item.id, cartItem.quantity + 1)}
+            <button
+              onClick={() =>
+                onUpdateQuantity(cartItem.item.id, cartItem.quantity + 1)
+              }
             >
               +
             </button>
           </div>
-          
+
           <p className="subtotal">
             {(cartItem.item.price * cartItem.quantity).toFixed(2)}€
           </p>
-          
-          <button 
+
+          <button
             className="btn-remove"
             onClick={() => onRemove(cartItem.item.id)}
           >
@@ -964,15 +926,13 @@ function CartSummary({ cart, onUpdateQuantity, onRemove }: CartSummaryProps) {
           </button>
         </div>
       ))}
-      
+
       <div className="cart-total">
         <h3>Total</h3>
         <h3>{total.toFixed(2)}€</h3>
       </div>
-      
-      <button className="btn-checkout">
-        Commander
-      </button>
+
+      <button className="btn-checkout">Commander</button>
     </div>
   );
 }
@@ -983,22 +943,26 @@ function CartSummary({ cart, onUpdateQuantity, onRemove }: CartSummaryProps) {
 ## 📝 Points Clés à Retenir
 
 ### useState
+
 ✅ L'état déclenche un re-rendu quand il change
 ✅ Toujours utiliser `setState`, JAMAIS muter directement
 ✅ `setState` est asynchrone
 ✅ Utiliser `prev => ...` pour les mises à jour basées sur l'état précédent
 
 ### Immutabilité
+
 ✅ Tableaux : `[...arr, item]`, `arr.filter()`, `arr.map()`
 ✅ Objets : `{ ...obj, key: value }`
 ✅ Jamais `.push()`, `.splice()`, ou mutation directe
 
 ### Événements
+
 ✅ `onClick={handler}` pas `onClick={handler()}`
 ✅ `e.preventDefault()` pour les formulaires
-✅ Types TypeScript : `React.ChangeEvent`, `React.FormEvent`, etc.
+✅ Événements React : utilisez `e.target.value`, `e.preventDefault()`, etc.
 
 ### Pattern
+
 ✅ **Lifting state up** : Remonter l'état dans le parent commun
 ✅ **Derived state** : Calculer plutôt que dupliquer
 ✅ **Controlled components** : React contrôle la valeur des inputs

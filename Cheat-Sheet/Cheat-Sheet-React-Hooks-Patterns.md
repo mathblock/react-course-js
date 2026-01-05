@@ -4,8 +4,8 @@
 
 ### useState
 
-```typescript
-import { useState } from 'react';
+```jsx
+import { useState } from "react";
 
 // Types primitifs
 const [count, setCount] = useState(0);
@@ -13,20 +13,16 @@ const [name, setName] = useState("");
 const [isOpen, setIsOpen] = useState(false);
 
 // Tableaux
-const [items, setItems] = useState<string[]>([]);
+const [items, setItems] = useState([]);
 
 // Objets
-interface User {
-  name: string;
-  age: number;
-}
-const [user, setUser] = useState<User>({ name: "", age: 0 });
+const [user, setUser] = useState({ name: "", age: 0 });
 
 // Union types
-const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+const [status, setStatus] = useState("idle");
 
 // Nullable
-const [data, setData] = useState<Data | null>(null);
+const [data, setData] = useState(null);
 
 // Fonction d'initialisation (lazy initialization)
 const [expensiveValue, setExpensiveValue] = useState(() => {
@@ -34,23 +30,23 @@ const [expensiveValue, setExpensiveValue] = useState(() => {
 });
 
 // Mise à jour fonctionnelle (recommandé)
-setCount(prev => prev + 1);
+setCount((prev) => prev + 1);
 
 // Mise à jour d'objet (immutabilité)
-setUser(prev => ({ ...prev, age: 26 }));
+setUser((prev) => ({ ...prev, age: 26 }));
 
 // Mise à jour de tableau
-setItems(prev => [...prev, newItem]);  // Ajouter
-setItems(prev => prev.filter(item => item.id !== id));  // Supprimer
-setItems(prev => prev.map(item => 
-  item.id === id ? { ...item, name: "New" } : item
-));  // Modifier
+setItems((prev) => [...prev, newItem]); // Ajouter
+setItems((prev) => prev.filter((item) => item.id !== id)); // Supprimer
+setItems((prev) =>
+  prev.map((item) => (item.id === id ? { ...item, name: "New" } : item))
+); // Modifier
 ```
 
 ### useEffect
 
-```typescript
-import { useEffect } from 'react';
+```jsx
+import { useEffect } from "react";
 
 // Au montage seulement
 useEffect(() => {
@@ -72,7 +68,7 @@ useEffect(() => {
   const timer = setInterval(() => {
     console.log("Tick");
   }, 1000);
-  
+
   return () => {
     clearInterval(timer);
   };
@@ -91,18 +87,18 @@ useEffect(() => {
       setLoading(false);
     }
   };
-  
+
   fetchData();
 }, [url]);
 
 // Avec AbortController
 useEffect(() => {
   const controller = new AbortController();
-  
+
   fetch(url, { signal: controller.signal })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(setData);
-  
+
   return () => {
     controller.abort();
   };
@@ -111,25 +107,20 @@ useEffect(() => {
 
 ### useContext
 
-```typescript
-import { createContext, useContext } from 'react';
+```jsx
+import { createContext, useContext } from "react";
 
 // Créer le context
-interface ThemeContextType {
-  theme: string;
-  toggleTheme: () => void;
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext(undefined);
 
 // Provider
-function ThemeProvider({ children }: { children: React.ReactNode }) {
+function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("light");
-  
+
   const toggleTheme = () => {
-    setTheme(prev => prev === "light" ? "dark" : "light");
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
-  
+
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
@@ -155,23 +146,12 @@ function Button() {
 
 ### useReducer
 
-```typescript
-import { useReducer } from 'react';
+```jsx
+import { useReducer } from "react";
 
 // State et actions
-interface State {
-  count: number;
-  error: string | null;
-}
-
-type Action =
-  | { type: "INCREMENT" }
-  | { type: "DECREMENT" }
-  | { type: "RESET" }
-  | { type: "SET_ERROR"; payload: string };
-
 // Reducer
-function reducer(state: State, action: Action): State {
+function reducer(state, action) {
   switch (action.type) {
     case "INCREMENT":
       return { ...state, count: state.count + 1 };
@@ -190,9 +170,9 @@ function reducer(state: State, action: Action): State {
 function Counter() {
   const [state, dispatch] = useReducer(reducer, {
     count: 0,
-    error: null
+    error: null,
   });
-  
+
   return (
     <div>
       <p>Count: {state.count}</p>
@@ -206,36 +186,36 @@ function Counter() {
 
 ### useRef
 
-```typescript
-import { useRef, useEffect } from 'react';
+```jsx
+import { useRef, useEffect } from "react";
 
 // Référence à un élément DOM
 function TextInput() {
-  const inputRef = useRef<HTMLInputElement>(null);
-  
+  const inputRef = useRef(null);
+
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
-  
+
   return <input ref={inputRef} />;
 }
 
 // Stocker une valeur mutable
 function Timer() {
-  const intervalRef = useRef<number | null>(null);
-  
+  const intervalRef = useRef(null);
+
   const start = () => {
     intervalRef.current = setInterval(() => {
       console.log("Tick");
     }, 1000);
   };
-  
+
   const stop = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
   };
-  
+
   return (
     <div>
       <button onClick={start}>Start</button>
@@ -245,57 +225,60 @@ function Timer() {
 }
 
 // Garder une référence à la valeur précédente
-function usePrevious<T>(value: T): T | undefined {
-  const ref = useRef<T>();
-  
+function usePrevious(value) {
+  const ref = useRef();
+
   useEffect(() => {
     ref.current = value;
   }, [value]);
-  
+
   return ref.current;
 }
 ```
 
 ### useMemo
 
-```typescript
-import { useMemo } from 'react';
+```jsx
+import { useMemo } from "react";
 
 function ExpensiveComponent({ items, filter }) {
   // Calcul coûteux mémorisé
   const filteredItems = useMemo(() => {
     console.log("Calcul du filtre");
-    return items.filter(item => item.name.includes(filter));
+    return items.filter((item) => item.name.includes(filter));
   }, [items, filter]);
-  
+
   // Objet mémorisé
-  const config = useMemo(() => ({
-    apiUrl: "https://api.example.com",
-    timeout: 5000
-  }), []);
-  
+  const config = useMemo(
+    () => ({
+      apiUrl: "https://api.example.com",
+      timeout: 5000,
+    }),
+    []
+  );
+
   return <div>{/* ... */}</div>;
 }
 ```
 
 ### useCallback
 
-```typescript
-import { useCallback } from 'react';
+```jsx
+import { useCallback } from "react";
 
 function Parent() {
   const [count, setCount] = useState(0);
-  
+
   // Fonction mémorisée
   const handleClick = useCallback(() => {
     console.log("Clicked");
   }, []);
-  
+
   // Avec dépendances
   const handleIncrement = useCallback(() => {
-    setCount(c => c + 1);
+    setCount((c) => c + 1);
   }, []);
-  
+
   return <Child onClick={handleClick} />;
 }
 
@@ -307,13 +290,13 @@ const Child = React.memo(({ onClick }) => {
 
 ### Custom Hooks
 
-```typescript
+```jsx
 // useFetch
-function useFetch<T>(url: string) {
-  const [data, setData] = useState<T | null>(null);
+function useFetch(url) {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -321,58 +304,58 @@ function useFetch<T>(url: string) {
         const json = await response.json();
         setData(json);
       } catch (err) {
-        setError(err.message);
+        setError(err instanceof Error ? err.message : String(err));
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [url]);
-  
+
   return { data, loading, error };
 }
 
 // useLocalStorage
-function useLocalStorage<T>(key: string, initialValue: T) {
-  const [value, setValue] = useState<T>(() => {
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : initialValue;
   });
-  
+
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value));
   }, [key, value]);
-  
-  return [value, setValue] as const;
+
+  return [value, setValue];
 }
 
 // useDebounce
-function useDebounce<T>(value: T, delay: number = 500): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-  
+function useDebounce(value, delay = 500) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
-    
+
     return () => {
       clearTimeout(handler);
     };
   }, [value, delay]);
-  
+
   return debouncedValue;
 }
 
 // useToggle
-function useToggle(initialValue: boolean = false) {
+function useToggle(initialValue = false) {
   const [value, setValue] = useState(initialValue);
-  
+
   const toggle = useCallback(() => {
-    setValue(v => !v);
+    setValue((v) => !v);
   }, []);
-  
-  return [value, toggle] as const;
+
+  return [value, toggle];
 }
 ```
 
@@ -382,9 +365,9 @@ function useToggle(initialValue: boolean = false) {
 
 ### Composition
 
-```typescript
+```jsx
 // Layout pattern
-function Layout({ children }: { children: React.ReactNode }) {
+function Layout({ children }) {
   return (
     <div className="layout">
       <Header />
@@ -395,13 +378,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 // Slots pattern
-interface CardProps {
-  header: React.ReactNode;
-  footer?: React.ReactNode;
-  children: React.ReactNode;
-}
-
-function Card({ header, footer, children }: CardProps) {
+function Card({ header, footer, children }) {
   return (
     <div className="card">
       <div className="card-header">{header}</div>
@@ -412,53 +389,44 @@ function Card({ header, footer, children }: CardProps) {
 }
 
 // Utilisation
-<Card
-  header={<h2>Titre</h2>}
-  footer={<button>Action</button>}
->
+<Card header={<h2>Titre</h2>} footer={<button>Action</button>}>
   <p>Contenu</p>
-</Card>
+</Card>;
 ```
 
 ### Render Props (moins utilisé maintenant)
 
-```typescript
-interface MouseTrackerProps {
-  render: (position: { x: number; y: number }) => React.ReactNode;
-}
-
-function MouseTracker({ render }: MouseTrackerProps) {
+```jsx
+function MouseTracker({ render }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  
+
   useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
+    const handleMove = (e) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
-    
+
     window.addEventListener("mousemove", handleMove);
     return () => window.removeEventListener("mousemove", handleMove);
   }, []);
-  
+
   return <>{render(position)}</>;
 }
 
 // Utilisation
 <MouseTracker
   render={({ x, y }) => (
-    <div>Position: {x}, {y}</div>
+    <div>
+      Position: {x}, {y}
+    </div>
   )}
-/>
+/>;
 ```
 
 ### Higher-Order Component (HOC) - Moins utilisé avec les hooks
 
-```typescript
-function withLoading<P extends object>(
-  Component: React.ComponentType<P>
-) {
-  return function WithLoadingComponent(
-    props: P & { loading: boolean }
-  ) {
+```jsx
+function withLoading(Component) {
+  return function WithLoadingComponent(props) {
     if (props.loading) {
       return <div>Loading...</div>;
     }
@@ -472,21 +440,12 @@ const UserListWithLoading = withLoading(UserList);
 
 ### Compound Components
 
-```typescript
-interface TabsProps {
-  children: React.ReactNode;
-}
+```jsx
+const TabsContext = createContext(undefined);
 
-interface TabsContextType {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-}
-
-const TabsContext = createContext<TabsContextType | undefined>(undefined);
-
-function Tabs({ children }: TabsProps) {
+function Tabs({ children }) {
   const [activeTab, setActiveTab] = useState("tab1");
-  
+
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab }}>
       <div className="tabs">{children}</div>
@@ -494,13 +453,17 @@ function Tabs({ children }: TabsProps) {
   );
 }
 
-function TabList({ children }: { children: React.ReactNode }) {
+function TabList({ children }) {
   return <div className="tab-list">{children}</div>;
 }
 
-function Tab({ id, children }: { id: string; children: React.ReactNode }) {
-  const { activeTab, setActiveTab } = useContext(TabsContext)!;
-  
+function Tab({ id, children }) {
+  const context = useContext(TabsContext);
+  if (!context) {
+    throw new Error("Tab must be used within Tabs");
+  }
+  const { activeTab, setActiveTab } = context;
+
   return (
     <button
       className={activeTab === id ? "active" : ""}
@@ -511,11 +474,15 @@ function Tab({ id, children }: { id: string; children: React.ReactNode }) {
   );
 }
 
-function TabPanel({ id, children }: { id: string; children: React.ReactNode }) {
-  const { activeTab } = useContext(TabsContext)!;
-  
+function TabPanel({ id, children }) {
+  const context = useContext(TabsContext);
+  if (!context) {
+    throw new Error("TabPanel must be used within Tabs");
+  }
+  const { activeTab } = context;
+
   if (activeTab !== id) return null;
-  
+
   return <div className="tab-panel">{children}</div>;
 }
 
@@ -525,10 +492,10 @@ function TabPanel({ id, children }: { id: string; children: React.ReactNode }) {
     <Tab id="tab1">Tab 1</Tab>
     <Tab id="tab2">Tab 2</Tab>
   </TabList>
-  
+
   <TabPanel id="tab1">Contenu 1</TabPanel>
   <TabPanel id="tab2">Contenu 2</TabPanel>
-</Tabs>
+</Tabs>;
 ```
 
 ---
@@ -537,11 +504,11 @@ function TabPanel({ id, children }: { id: string; children: React.ReactNode }) {
 
 ### 1. Mutation directe de l'état
 
-```typescript
+```jsx
 // ❌ FAUX
 const [items, setItems] = useState([1, 2, 3]);
-items.push(4);  // Mutation !
-setItems(items);  // React ne détecte pas le changement
+items.push(4); // Mutation !
+setItems(items); // React ne détecte pas le changement
 
 // ✅ BON
 setItems([...items, 4]);
@@ -549,12 +516,12 @@ setItems([...items, 4]);
 
 ### 2. Boucle infinie dans useEffect
 
-```typescript
+```jsx
 // ❌ FAUX - Boucle infinie
 const [count, setCount] = useState(0);
 
 useEffect(() => {
-  setCount(count + 1);  // Re-render → useEffect → Re-render → ...
+  setCount(count + 1); // Re-render → useEffect → Re-render → ...
 });
 
 // ✅ BON - Avec dépendances
@@ -565,15 +532,15 @@ useEffect(() => {
 
 ### 3. Objet dans les dépendances
 
-```typescript
+```jsx
 // ❌ FAUX - Nouvel objet à chaque render
 const [data, setData] = useState(null);
 
-const options = { id: 123 };  // Nouveau à chaque render
+const options = { id: 123 }; // Nouveau à chaque render
 
 useEffect(() => {
   fetchData(options);
-}, [options]);  // options change → boucle infinie
+}, [options]); // options change → boucle infinie
 
 // ✅ BON - Extraire les valeurs
 const optionId = 123;
@@ -588,7 +555,7 @@ const options = useMemo(() => ({ id: 123 }), []);
 
 ### 4. Event handler appelé immédiatement
 
-```typescript
+```jsx
 // ❌ FAUX
 <button onClick={handleClick()}>Click</button>
 // S'exécute au render !
@@ -602,7 +569,7 @@ const options = useMemo(() => ({ id: 123 }), []);
 
 ### 5. Async directement dans useEffect
 
-```typescript
+```jsx
 // ❌ FAUX
 useEffect(async () => {
   const data = await fetchData();
@@ -614,20 +581,20 @@ useEffect(() => {
     const data = await fetchData();
     setData(data);
   };
-  
+
   loadData();
 }, []);
 ```
 
 ### 6. setState juste après dans le même handler
 
-```typescript
+```jsx
 // ❌ FAUX
 const [count, setCount] = useState(0);
 
 const handleClick = () => {
   setCount(count + 1);
-  console.log(count);  // Affiche encore l'ancienne valeur !
+  console.log(count); // Affiche encore l'ancienne valeur !
 };
 
 // ✅ BON - Comprendre l'asynchrone
@@ -638,8 +605,8 @@ const handleClick = () => {
 
 // ✅ BON - Utiliser la valeur précédente
 const handleClick = () => {
-  setCount(prev => {
-    console.log(prev);  // Valeur actuelle
+  setCount((prev) => {
+    console.log(prev); // Valeur actuelle
     return prev + 1;
   });
 };
@@ -647,21 +614,21 @@ const handleClick = () => {
 
 ### 7. Key instable dans les listes
 
-```typescript
+```jsx
 // ❌ FAUX - Index comme key
-{items.map((item, index) => (
-  <div key={index}>{item.name}</div>
-))}
+{
+  items.map((item, index) => <div key={index}>{item.name}</div>);
+}
 
 // ✅ BON - ID unique et stable
-{items.map((item) => (
-  <div key={item.id}>{item.name}</div>
-))}
+{
+  items.map((item) => <div key={item.id}>{item.name}</div>);
+}
 ```
 
 ### 8. Oublier le cleanup dans useEffect
 
-```typescript
+```jsx
 // ❌ FAUX - Memory leak
 useEffect(() => {
   const interval = setInterval(() => {
@@ -674,7 +641,7 @@ useEffect(() => {
   const interval = setInterval(() => {
     console.log("Tick");
   }, 1000);
-  
+
   return () => {
     clearInterval(interval);
   };
@@ -683,15 +650,15 @@ useEffect(() => {
 
 ### 9. Modifier les props
 
-```typescript
+```jsx
 // ❌ FAUX
-function Component({ user }: { user: User }) {
-  user.name = "New name";  // Mutation des props !
+function Component({ user }) {
+  user.name = "New name"; // Mutation des props !
   return <div>{user.name}</div>;
 }
 
 // ✅ BON
-function Component({ user }: { user: User }) {
+function Component({ user }) {
   const [localUser, setLocalUser] = useState(user);
   // Modifier localUser, pas user
 }
@@ -699,23 +666,23 @@ function Component({ user }: { user: User }) {
 
 ### 10. Optimisation prématurée
 
-```typescript
+```jsx
 // ❌ FAUX - Complexifie sans bénéfice
-function SimpleComponent({ name }: { name: string }) {
+function SimpleComponent({ name }) {
   const greeting = useMemo(() => `Hello ${name}`, [name]);
   const handleClick = useCallback(() => {
     console.log("Clicked");
   }, []);
-  
+
   return <div onClick={handleClick}>{greeting}</div>;
 }
 
 // ✅ BON - Simple et lisible
-function SimpleComponent({ name }: { name: string }) {
+function SimpleComponent({ name }) {
   const handleClick = () => {
     console.log("Clicked");
   };
-  
+
   return <div onClick={handleClick}>Hello {name}</div>;
 }
 ```
@@ -727,7 +694,7 @@ function SimpleComponent({ name }: { name: string }) {
 ### Composants
 
 - ✅ Un composant = une responsabilité
-- ✅ Props typées avec interface
+- ✅ Props claires et cohérentes
 - ✅ Déstructurer les props
 - ✅ Valeurs par défaut pour props optionnelles
 - ✅ Nom de composant en PascalCase
@@ -758,11 +725,12 @@ function SimpleComponent({ name }: { name: string }) {
 
 ### TypeScript
 
-- ✅ Typer les props
-- ✅ Typer useState explicitement si nécessaire
-- ✅ Typer les événements
-- ✅ Éviter any, préférer unknown
-- ✅ Interfaces pour les objets complexes
+### Documentation (JS)
+
+- ✅ Documenter la forme des données (JSDoc si utile)
+- ✅ Rester cohérent sur la “shape” des objets (ex: `cartItem.item.id`)
+- ✅ Gérer les valeurs `null/undefined` explicitement
+- ✅ Nommer clairement les handlers (`handleSubmit`, `handleChange`, etc.)
 
 ---
 

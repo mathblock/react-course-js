@@ -1,8 +1,8 @@
-# Formation React/TypeScript - 4 Jours 🚀
+# Formation React (JavaScript) - 4 Jours 🚀
 
 ## 📚 Supports Pédagogiques Complets
 
-Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les supports nécessaires pour enseigner ou apprendre React sur 4 jours avec un projet fil rouge de site foodtruck.
+Bienvenue dans la formation React (JavaScript) ! Vous trouverez ici tous les supports nécessaires pour enseigner ou apprendre React sur 4 jours avec un projet fil rouge de site foodtruck.
 
 ---
 
@@ -24,9 +24,11 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ## 📁 Supports Disponibles
 
 ### 1️⃣ Jour 1 : Fondations React
-**Fichier** : `Jour-1-Fondations-React.md`
+
+**Fichier** : `Classic-supports/Jour-1-Fondations-React.md`
 
 **Contenu** :
+
 - Introduction à React et philosophie
 - JSX et ses règles
 - Composants fonctionnels
@@ -41,9 +43,11 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ---
 
 ### 2️⃣ Jour 2 : Interactivité et État
-**Fichier** : `Jour-2-Interactivite-useState.md`
+
+**Fichier** : `Classic-supports/Jour-2-Interactivite-useState.md`
 
 **Contenu** :
+
 - Comprendre l'état (state)
 - Hook useState en profondeur
 - Gestion des événements
@@ -58,9 +62,11 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ---
 
 ### 3️⃣ Jour 3 : Navigation et État Global
-**Fichier** : `Jour-3-Router-Context.md`
+
+**Fichier** : `Classic-supports/Jour-3-Router-Context.md`
 
 **Contenu** :
+
 - React Router v6 (Routes, Link, useNavigate, useParams)
 - Application multi-pages
 - Le problème du prop drilling
@@ -75,9 +81,11 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ---
 
 ### 4️⃣ Jour 4 : Production et Finitions
-**Fichier** : `Jour-4-useEffect-API-Deploiement.md`
+
+**Fichier** : `Classic-supports/Jour-4-useEffect-API-Deploiement.md`
 
 **Contenu** :
+
 - useEffect et synchronisation
 - Appels API et données asynchrones
 - Custom hooks (useFetch, useLocalStorage, useDebounce)
@@ -93,10 +101,12 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 
 ## 📋 Cheat Sheets
 
-### JavaScript ES6+ & TypeScript
-**Fichier** : `Cheat-Sheet-JavaScript-TypeScript.md`
+### JavaScript ES6+
+
+**Fichier** : `Cheat-Sheet/Cheat-Sheet-JavaScript-TypeScript.md`
 
 **Contenu** :
+
 - Variables (let, const)
 - Arrow functions
 - Template literals
@@ -104,19 +114,17 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 - Spread operator
 - Méthodes de tableaux (map, filter, reduce)
 - Promises & Async/Await
-- Types TypeScript de base
-- Interfaces et Types
-- Génériques
-- Utility Types
 
 **Usage** : Référence rapide pour les étudiants
 
 ---
 
 ### React Hooks & Patterns
-**Fichier** : `Cheat-Sheet-React-Hooks-Patterns.md`
+
+**Fichier** : `Cheat-Sheet/Cheat-Sheet-React-Hooks-Patterns.md`
 
 **Contenu** :
+
 - Tous les hooks (useState, useEffect, useContext, etc.)
 - Custom hooks
 - Patterns React (Composition, Render Props, HOC)
@@ -129,9 +137,10 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 
 ## 🎯 Guide de Démarrage
 
-**Fichier** : `Guide-Demarrage-Projet-Foodtruck.md`
+**Fichier** : `Foodtruck/Guide-Projet-Foodtruck.md`
 
 **Contenu** :
+
 - Installation et configuration complète
 - Structure du projet détaillée
 - Code de base pour démarrer
@@ -156,7 +165,7 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 
 ✅ **Erreurs intentionnelles** : Faire vivre les problèmes avant d'apporter les solutions
 
-✅ **TypeScript dès le début** : Meilleure expérience développeur
+✅ **JavaScript moderne dès le début** : ES6+ et bonnes pratiques
 
 ### Principes clés
 
@@ -171,19 +180,21 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ## 🛠️ Technologies Utilisées
 
 ### Outils principaux
+
 - **React 18+** : Bibliothèque UI
-- **TypeScript** : Typage statique
 - **Vite** : Build tool (pas CRA !)
 - **React Router 6** : Navigation
 - **Context API** : État global
 
 ### Outils de développement
+
 - **VS Code** : IDE recommandé
 - **ESLint** : Linter
 - **Prettier** : Formatter
 - **React DevTools** : Debugging
 
 ### Déploiement
+
 - **Netlify** ou **Vercel** : Hébergement
 
 ---
@@ -191,6 +202,7 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ## 📊 Progression des Fonctionnalités
 
 ### Jour 1 - Site Statique
+
 - ✅ Header avec navigation
 - ✅ Liste de plats affichée
 - ✅ Composants MenuCard
@@ -198,6 +210,7 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 - ✅ Design de base
 
 ### Jour 2 - Interactivité
+
 - ✅ Panier fonctionnel (add/remove)
 - ✅ Compteur de panier dans le header
 - ✅ Filtrage par catégorie
@@ -205,6 +218,7 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 - ✅ Gestion des quantités
 
 ### Jour 3 - Multi-pages
+
 - ✅ Page d'accueil
 - ✅ Page menu
 - ✅ Page détail produit
@@ -213,6 +227,7 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 - ✅ État global du panier
 
 ### Jour 4 - Production Ready
+
 - ✅ Fetch de données depuis API/JSON
 - ✅ États de chargement
 - ✅ Gestion d'erreurs
@@ -227,34 +242,32 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ### À la fin de la formation, les étudiants sauront :
 
 #### Fondamentaux React
+
 - ✅ Créer des composants fonctionnels
 - ✅ Utiliser JSX correctement
 - ✅ Gérer les props et la composition
 - ✅ Comprendre le flux de données unidirectionnel
 
 #### État et Interactivité
+
 - ✅ Utiliser useState pour l'état local
 - ✅ Gérer les événements utilisateur
 - ✅ Créer des formulaires contrôlés
 - ✅ Maintenir l'immutabilité
 
 #### Navigation et Architecture
+
 - ✅ Configurer React Router
 - ✅ Créer une app multi-pages
 - ✅ Utiliser Context API pour l'état global
 - ✅ Implémenter useReducer
 
 #### Production
+
 - ✅ Faire des appels API avec useEffect
 - ✅ Créer des custom hooks
 - ✅ Optimiser les performances
 - ✅ Déployer en production
-
-#### TypeScript
-- ✅ Typer les composants et props
-- ✅ Utiliser les interfaces
-- ✅ Typer les événements
-- ✅ Créer des types personnalisés
 
 ---
 
@@ -278,12 +291,14 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ### Signaux d'alerte
 
 ⚠️ **Les étudiants sont perdus si** :
+
 - Ils copient sans comprendre
 - Les questions diminuent
 - Ils abandonnent les exercices
 - Le rythme est trop rapide
 
 **Solutions** :
+
 - Ralentir et répéter
 - Revenir aux bases
 - Simplifier le scope
@@ -318,15 +333,17 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 **Consigne** : Créer une variante du site foodtruck
 
 **Critères** :
+
 - ✅ Utilise des composants réutilisables
 - ✅ État géré correctement
 - ✅ Navigation fonctionnelle
 - ✅ Panier avec Context
 - ✅ Formulaire validé
-- ✅ Code TypeScript propre
+- ✅ Code JavaScript propre
 - ✅ Déployé en ligne
 
 **Bonus** :
+
 - Tests avec Vitest
 - Tailwind CSS
 - Animations
@@ -338,17 +355,20 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 ## 🔗 Ressources Complémentaires
 
 ### Documentation officielle
+
 - [React](https://react.dev)
-- [TypeScript](https://www.typescriptlang.org)
+- [MDN JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript)
 - [React Router](https://reactrouter.com)
 - [Vite](https://vitejs.dev)
 
 ### Tutoriels
+
 - [React Tutorial (officiel)](https://react.dev/learn)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+
 - [JavaScript Info](https://javascript.info)
 
 ### Communautés
+
 - Reddit: r/reactjs
 - Discord: Reactiflux
 - Stack Overflow: [reactjs]
@@ -360,10 +380,11 @@ Bienvenue dans la formation React/TypeScript ! Vous trouverez ici tous les suppo
 Cette formation complète permet aux étudiants de master de passer de débutants à capables de créer des applications React fonctionnelles en seulement 4 jours.
 
 **Points forts** :
+
 - ✅ Progression logique et testée
 - ✅ Projet concret et motivant
 - ✅ Best practices 2025
-- ✅ TypeScript dès le début
+- ✅ JavaScript moderne dès le début
 - ✅ Focus sur la pratique
 
 **Livrable** : Application foodtruck complète et déployée, prête pour le portfolio !
@@ -373,6 +394,7 @@ Cette formation complète permet aux étudiants de master de passer de débutant
 ## 📞 Support
 
 Pour toute question sur ces supports :
+
 - Consultez les cheat sheets
 - Relisez la section concernée
 - Cherchez sur Stack Overflow
@@ -382,4 +404,4 @@ Pour toute question sur ces supports :
 
 **Bonne formation et bon code ! 🚀**
 
-*"Le meilleur moment pour apprendre React, c'était hier. Le deuxième meilleur moment, c'est maintenant."*
+_"Le meilleur moment pour apprendre React, c'était hier. Le deuxième meilleur moment, c'est maintenant."_

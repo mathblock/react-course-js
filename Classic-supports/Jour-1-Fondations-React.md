@@ -3,8 +3,9 @@
 ## 📋 Objectifs de la journée
 
 À la fin de cette journée, vous serez capable de :
+
 - ✅ Comprendre la philosophie React et le Virtual DOM
-- ✅ Créer des composants fonctionnels avec TypeScript
+- ✅ Créer des composants fonctionnels avec JavaScript
 - ✅ Utiliser JSX pour construire des interfaces
 - ✅ Passer et utiliser des props
 - ✅ Rendre des listes avec `.map()`
@@ -21,6 +22,7 @@
 React est une **bibliothèque JavaScript** pour construire des interfaces utilisateur. Créée par Facebook en 2013, c'est aujourd'hui la bibliothèque front-end la plus populaire.
 
 **Pourquoi React ?**
+
 - 🧩 **Composants réutilisables** : Construisez une fois, utilisez partout
 - ⚡ **Rapide** : Virtual DOM pour des mises à jour optimisées
 - 📱 **Déclaratif** : Décrivez ce que vous voulez voir, React s'occupe du reste
@@ -29,30 +31,35 @@ React est une **bibliothèque JavaScript** pour construire des interfaces utilis
 #### Philosophie React : Déclaratif vs Impératif
 
 **Approche Impérative (Vanilla JS)** :
+
 ```javascript
 // On dit COMMENT faire étape par étape
-const button = document.createElement('button');
-button.textContent = 'Cliquez-moi';
-button.addEventListener('click', () => {
-  button.textContent = 'Cliqué !';
+const button = document.createElement("button");
+button.textContent = "Cliquez-moi";
+button.addEventListener("click", () => {
+  button.textContent = "Cliqué !";
 });
 document.body.appendChild(button);
 ```
 
 **Approche Déclarative (React)** :
-```typescript
+
+```jsx
 // On dit CE QUE l'on veut afficher
 function Button() {
   const [clicked, setClicked] = useState(false);
-  return <button onClick={() => setClicked(true)}>
-    {clicked ? 'Cliqué !' : 'Cliquez-moi'}
-  </button>;
+  return (
+    <button onClick={() => setClicked(true)}>
+      {clicked ? "Cliqué !" : "Cliquez-moi"}
+    </button>
+  );
 }
 ```
 
 #### Le Virtual DOM
 
 React maintient une copie virtuelle du DOM en mémoire. Quand vos données changent :
+
 1. React met à jour le Virtual DOM
 2. Compare avec la version précédente (diffing)
 3. Ne met à jour que les éléments réellement modifiés dans le vrai DOM
@@ -64,8 +71,8 @@ React maintient une copie virtuelle du DOM en mémoire. Quand vos données chang
 #### Installation avec Vite (recommandé 2025)
 
 ```bash
-# Créer un nouveau projet React avec TypeScript
-npm create vite@latest my-foodtruck -- --template react-ts
+# Créer un nouveau projet React (JavaScript)
+npm create vite@latest my-foodtruck -- --template react
 
 # Se déplacer dans le dossier
 cd my-foodtruck
@@ -84,12 +91,12 @@ npm run dev
 ```
 my-foodtruck/
 ├── src/
-│   ├── App.tsx          # Composant principal
-│   ├── main.tsx         # Point d'entrée
+│   ├── App.jsx          # Composant principal
+│   ├── main.jsx         # Point d'entrée
 │   ├── index.css        # Styles globaux
 │   └── components/      # Nos composants (à créer)
 ├── package.json
-└── tsconfig.json
+└── vite.config.js
 ```
 
 ### 3. JSX : Le langage de React (45 min)
@@ -98,18 +105,19 @@ my-foodtruck/
 
 JSX (JavaScript XML) permet d'écrire du "HTML" dans JavaScript. C'est du sucre syntaxique qui sera transformé en JavaScript.
 
-```typescript
+```jsx
 // JSX
 const element = <h1>Bonjour le monde !</h1>;
 
 // Est transformé en :
-const element = React.createElement('h1', null, 'Bonjour le monde !');
+const element = React.createElement("h1", null, "Bonjour le monde !");
 ```
 
 #### Les règles du JSX
 
 **1. Un seul élément parent**
-```typescript
+
+```jsx
 // ❌ Incorrect
 return (
   <h1>Titre</h1>
@@ -134,7 +142,8 @@ return (
 ```
 
 **2. Utiliser className au lieu de class**
-```typescript
+
+```jsx
 // ❌ Incorrect
 <div class="container">
 
@@ -143,7 +152,8 @@ return (
 ```
 
 **3. Utiliser camelCase pour les attributs**
-```typescript
+
+```jsx
 // ❌ Incorrect
 <button onclick={handleClick}>
 
@@ -152,7 +162,8 @@ return (
 ```
 
 **4. Fermer toutes les balises**
-```typescript
+
+```jsx
 // ❌ Incorrect
 <img src="logo.png">
 <input type="text">
@@ -163,7 +174,8 @@ return (
 ```
 
 **5. Expressions JavaScript entre accolades**
-```typescript
+
+```jsx
 const name = "Marie";
 const age = 25;
 
@@ -179,7 +191,8 @@ return (
 #### Exercice JSX (15 min)
 
 Créez un composant qui affiche :
-```typescript
+
+```jsx
 function UserCard() {
   const user = {
     firstName: "Jean",
@@ -202,13 +215,14 @@ function UserCard() {
 Un composant est une **fonction JavaScript qui retourne du JSX**. C'est comme une brique LEGO : vous les assemblez pour construire votre application.
 
 **Règles de nommage** :
+
 - Toujours commencer par une **majuscule**
 - Utiliser le PascalCase : `MonComposant`, pas `monComposant`
 
 #### Votre premier composant
 
-```typescript
-// src/components/Welcome.tsx
+```jsx
+// src/components/Welcome.jsx
 
 function Welcome() {
   return (
@@ -222,9 +236,10 @@ function Welcome() {
 export default Welcome;
 ```
 
-Pour l'utiliser dans App.tsx :
-```typescript
-import Welcome from './components/Welcome';
+Pour l'utiliser dans App.jsx :
+
+```jsx
+import Welcome from "./components/Welcome";
 
 function App() {
   return (
@@ -241,15 +256,10 @@ Les **props** (propriétés) permettent de passer des données d'un composant pa
 
 **Analogie** : Les props sont comme les arguments d'une fonction !
 
-```typescript
-// src/components/Greeting.tsx
+```jsx
+// src/components/Greeting.jsx
 
-interface GreetingProps {
-  name: string;
-  age: number;
-}
-
-function Greeting({ name, age }: GreetingProps) {
+function Greeting({ name, age }) {
   return (
     <div>
       <h1>Bonjour {name} !</h1>
@@ -262,7 +272,8 @@ export default Greeting;
 ```
 
 Utilisation :
-```typescript
+
+```jsx
 <Greeting name="Marie" age={25} />
 <Greeting name="Pierre" age={30} />
 ```
@@ -270,29 +281,25 @@ Utilisation :
 #### Props : Règles importantes
 
 **1. Les props sont en lecture seule**
-```typescript
+
+```jsx
 // ❌ INTERDIT - Ne jamais modifier les props
-function Component({ value }: { value: number }) {
+function Component({ value }) {
   value = value + 1; // ❌ Erreur !
   return <div>{value}</div>;
 }
 
 // ✅ CORRECT - Les props sont immuables
-function Component({ value }: { value: number }) {
+function Component({ value }) {
   const newValue = value + 1; // ✅ Créer une nouvelle variable
   return <div>{newValue}</div>;
 }
 ```
 
 **2. Props optionnelles avec `?`**
-```typescript
-interface CardProps {
-  title: string;
-  subtitle?: string; // Optionnelle
-  imageUrl?: string; // Optionnelle
-}
 
-function Card({ title, subtitle = "Pas de sous-titre", imageUrl }: CardProps) {
+```jsx
+function Card({ title, subtitle = "Pas de sous-titre", imageUrl }) {
   return (
     <div>
       <h2>{title}</h2>
@@ -304,14 +311,15 @@ function Card({ title, subtitle = "Pas de sous-titre", imageUrl }: CardProps) {
 ```
 
 **3. Destructuring des props**
-```typescript
+
+```jsx
 // ❌ Moins lisible
-function Card(props: CardProps) {
+function Card(props) {
   return <div>{props.title}</div>;
 }
 
 // ✅ Plus lisible avec destructuring
-function Card({ title, subtitle }: CardProps) {
+function Card({ title, subtitle }) {
   return <div>{title}</div>;
 }
 ```
@@ -321,34 +329,34 @@ function Card({ title, subtitle }: CardProps) {
 Créez ces 3 composants :
 
 **1. Button**
-```typescript
-interface ButtonProps {
-  text: string;
-  variant: 'primary' | 'secondary' | 'danger';
-}
+
+```jsx
+// Props attendues :
+// - text (string)
+// - variant ('primary' | 'secondary' | 'danger')
 
 // TODO: Implémenter le composant
 // Affichez un bouton avec un style différent selon le variant
 ```
 
 **2. ProfileCard**
-```typescript
-interface ProfileCardProps {
-  name: string;
-  role: string;
-  avatarUrl: string;
-  bio?: string;
-}
+
+```jsx
+// Props attendues :
+// - name (string)
+// - role (string)
+// - avatarUrl (string)
+// - bio (string, optionnel)
 
 // TODO: Implémenter une carte de profil stylisée
 ```
 
 **3. Alert**
-```typescript
-interface AlertProps {
-  type: 'info' | 'warning' | 'error' | 'success';
-  message: string;
-}
+
+```jsx
+// Props attendues :
+// - type ('info' | 'warning' | 'error' | 'success')
+// - message (string)
 
 // TODO: Afficher une alerte avec couleur selon le type
 ```
@@ -361,7 +369,7 @@ interface AlertProps {
 
 #### Destructuring
 
-```typescript
+```js
 // Objets
 const user = { name: "Marie", age: 25 };
 const { name, age } = user;
@@ -373,7 +381,7 @@ const [first, second] = fruits;
 
 #### Spread Operator
 
-```typescript
+```js
 // Copie de tableau
 const arr1 = [1, 2, 3];
 const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
@@ -385,16 +393,16 @@ const updatedUser = { ...user, age: 31 };
 
 #### Array.map()
 
-```typescript
+```js
 const numbers = [1, 2, 3, 4, 5];
-const doubled = numbers.map(num => num * 2);
+const doubled = numbers.map((num) => num * 2);
 // [2, 4, 6, 8, 10]
 
 const users = [
   { name: "Marie", age: 25 },
-  { name: "Jean", age: 30 }
+  { name: "Jean", age: 30 },
 ];
-const names = users.map(user => user.name);
+const names = users.map((user) => user.name);
 // ["Marie", "Jean"]
 ```
 
@@ -404,10 +412,10 @@ const names = users.map(user => user.name);
 
 Pour afficher une liste d'éléments, on utilise `.map()` pour transformer un tableau de données en tableau de JSX.
 
-```typescript
+```jsx
 function FruitList() {
   const fruits = ["Pomme", "Banane", "Orange"];
-  
+
   return (
     <ul>
       {fruits.map((fruit, index) => (
@@ -422,16 +430,16 @@ function FruitList() {
 
 React a besoin d'une clé **unique et stable** pour identifier chaque élément de la liste.
 
-```typescript
+```jsx
 // ❌ Mauvais : utiliser l'index (sauf si liste statique)
-{items.map((item, index) => (
-  <div key={index}>{item}</div>
-))}
+{
+  items.map((item, index) => <div key={index}>{item}</div>);
+}
 
 // ✅ Bon : utiliser un ID unique
-{items.map((item) => (
-  <div key={item.id}>{item.name}</div>
-))}
+{
+  items.map((item) => <div key={item.id}>{item.name}</div>);
+}
 ```
 
 **Pourquoi c'est important ?**
@@ -439,18 +447,12 @@ Sans key stable, React ne peut pas identifier correctement les éléments lors d
 
 #### Exemple complet
 
-```typescript
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-}
-
+```jsx
 function ProductList() {
-  const products: Product[] = [
+  const products = [
     { id: "1", name: "Burger", price: 8.99 },
     { id: "2", name: "Pizza", price: 12.99 },
-    { id: "3", name: "Tacos", price: 6.99 }
+    { id: "3", name: "Tacos", price: 6.99 },
   ];
 
   return (
@@ -475,8 +477,8 @@ Afficher ou masquer des éléments selon une condition.
 
 #### Avec l'opérateur &&
 
-```typescript
-function UserGreeting({ isLoggedIn }: { isLoggedIn: boolean }) {
+```jsx
+function UserGreeting({ isLoggedIn }) {
   return (
     <div>
       {isLoggedIn && <p>Bienvenue !</p>}
@@ -488,8 +490,8 @@ function UserGreeting({ isLoggedIn }: { isLoggedIn: boolean }) {
 
 #### Avec l'opérateur ternaire
 
-```typescript
-function Status({ isOnline }: { isOnline: boolean }) {
+```jsx
+function Status({ isOnline }) {
   return (
     <div>
       <span>{isOnline ? "🟢 En ligne" : "🔴 Hors ligne"}</span>
@@ -500,14 +502,14 @@ function Status({ isOnline }: { isOnline: boolean }) {
 
 #### Avec une variable
 
-```typescript
-function ProductCard({ product }: { product: Product }) {
+```jsx
+function ProductCard({ product }) {
   let badge = null;
-  
+
   if (product.isNew) {
     badge = <span className="badge">Nouveau</span>;
   }
-  
+
   return (
     <div>
       <h3>{product.name}</h3>
@@ -524,43 +526,46 @@ function ProductCard({ product }: { product: Product }) {
 ### Objectif
 
 Créer une page menu complète pour un foodtruck avec :
+
 - Header avec logo et navigation
 - Liste de plats organisés par catégorie
 - Footer avec informations de contact
 
 ### Étape 1 : Structure des données (15 min)
 
-Créez `src/data/menuData.ts` :
+Créez `src/data/menuData.js` :
 
-```typescript
-export interface MenuItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: 'entrees' | 'plats' | 'desserts' | 'boissons';
-  imageUrl: string;
-  isVegetarian: boolean;
-}
+```js
+/**
+ * @typedef {Object} MenuItem
+ * @property {string} id
+ * @property {string} name
+ * @property {string} description
+ * @property {number} price
+ * @property {'entrees'|'plats'|'desserts'|'boissons'} category
+ * @property {string} imageUrl
+ * @property {boolean} isVegetarian
+ */
 
-export const menuItems: MenuItem[] = [
+export const menuItems = [
   {
     id: "1",
     name: "Tacos Poulet",
-    description: "Tortilla garnie de poulet mariné, légumes frais et sauce maison",
-    price: 8.50,
+    description:
+      "Tortilla garnie de poulet mariné, légumes frais et sauce maison",
+    price: 8.5,
     category: "plats",
     imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
-    isVegetarian: false
+    isVegetarian: false,
   },
   {
     id: "2",
     name: "Burger Végétarien",
     description: "Steak végétal, tomates, salade, oignons rouges",
-    price: 9.00,
+    price: 9.0,
     category: "plats",
     imageUrl: "https://images.unsplash.com/photo-1520072959219-c595dc870360",
-    isVegetarian: true
+    isVegetarian: true,
   },
   // Ajoutez au moins 10-15 items au total
 ];
@@ -568,8 +573,8 @@ export const menuItems: MenuItem[] = [
 
 ### Étape 2 : Composant Header (20 min)
 
-```typescript
-// src/components/Header.tsx
+```jsx
+// src/components/Header.jsx
 
 function Header() {
   return (
@@ -593,14 +598,10 @@ export default Header;
 
 ### Étape 3 : Composant MenuCard (30 min)
 
-```typescript
-// src/components/MenuCard.tsx
+```jsx
+// src/components/MenuCard.jsx
 
-interface MenuCardProps {
-  item: MenuItem;
-}
-
-function MenuCard({ item }: MenuCardProps) {
+function MenuCard({ item }) {
   return (
     <div className="menu-card">
       <img src={item.imageUrl} alt={item.name} />
@@ -624,24 +625,24 @@ export default MenuCard;
 
 ### Étape 4 : Composant Menu principal (30 min)
 
-```typescript
-// src/components/Menu.tsx
+```jsx
+// src/components/Menu.jsx
 
-import { menuItems } from '../data/menuData';
-import MenuCard from './MenuCard';
+import { menuItems } from "../data/menuData";
+import MenuCard from "./MenuCard";
 
 function Menu() {
   return (
     <section className="menu-section">
       <div className="container">
         <h2>Notre Menu</h2>
-        
+
         <div className="category-section">
           <h3>Plats Principaux</h3>
           <div className="menu-grid">
             {menuItems
-              .filter(item => item.category === 'plats')
-              .map(item => (
+              .filter((item) => item.category === "plats")
+              .map((item) => (
                 <MenuCard key={item.id} item={item} />
               ))}
           </div>
@@ -658,8 +659,8 @@ export default Menu;
 
 ### Étape 5 : Composant Footer (15 min)
 
-```typescript
-// src/components/Footer.tsx
+```jsx
+// src/components/Footer.jsx
 
 function Footer() {
   return (
@@ -688,15 +689,15 @@ function Footer() {
 export default Footer;
 ```
 
-### Étape 6 : Assemblage dans App.tsx (10 min)
+### Étape 6 : Assemblage dans App.jsx (10 min)
 
-```typescript
-// src/App.tsx
+```jsx
+// src/App.jsx
 
-import Header from './components/Header';
-import Menu from './components/Menu';
-import Footer from './components/Footer';
-import './App.css';
+import Header from "./components/Header";
+import Menu from "./components/Menu";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (
@@ -770,7 +771,7 @@ nav a {
 
 .menu-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .menu-card img {
@@ -817,20 +818,23 @@ nav a {
 ## 📝 Points Clés à Retenir
 
 ### Concepts React
+
 ✅ **Composant** = Fonction qui retourne du JSX
 ✅ **Props** = Données passées du parent à l'enfant (lecture seule)
 ✅ **JSX** = Syntaxe pour écrire du HTML dans JavaScript
 ✅ **Key prop** = Identifiant unique pour les éléments de liste
 
 ### Règles d'or
+
 ⚠️ Toujours commencer les composants par une **MAJUSCULE**
 ⚠️ Les props sont **immuables** (jamais les modifier)
 ⚠️ Utiliser `.map()` pour rendre des listes
 ⚠️ Toujours donner une **key unique** aux éléments de liste
 
-### TypeScript
-🔷 Toujours typer les props avec une **interface**
-🔷 Utiliser `?` pour les props optionnelles
+### JavaScript
+
+🔷 Documenter les props (nom + rôle) avec un commentaire ou du JSDoc
+🔷 Utiliser des valeurs par défaut quand c'est utile (`{ title = '...' }`)
 🔷 Destructurer les props dans les paramètres
 
 ---
@@ -850,7 +854,6 @@ Améliorez votre menu foodtruck :
 ## 📚 Ressources supplémentaires
 
 - [Documentation React Officielle](https://react.dev)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 - [MDN - Array.map()](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
 
 ---

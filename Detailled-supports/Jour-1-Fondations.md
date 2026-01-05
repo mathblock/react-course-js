@@ -13,6 +13,7 @@
 À la fin de cette journée, les étudiants seront capables de :
 
 ### Connaissances (Savoir)
+
 - [ ] Expliquer ce qu'est React et sa philosophie
 - [ ] Comprendre le concept de composant
 - [ ] Différencier props et state
@@ -20,6 +21,7 @@
 - [ ] Comprendre JSX et ses règles
 
 ### Compétences (Savoir-faire)
+
 - [ ] Créer un projet React avec Vite
 - [ ] Écrire des composants fonctionnels
 - [ ] Utiliser JSX correctement
@@ -29,38 +31,43 @@
 - [ ] Structurer une application simple
 
 ### Attitudes (Savoir-être)
+
 - [ ] Adopter une approche composant-first
 - [ ] Penser de manière déclarative
 - [ ] Chercher dans la documentation React
 
 ---
 
-## ⏰ Planning Détaillé
+## Planning Détaillé
 
-### 🌅 MATIN (08h00 - 12h00)
+### MATIN
 
-#### 08h00 - 08h15 | Accueil & Introduction (15 min)
+#### Accueil & Introduction
+
 **Format** : Présentation + Discussion
 
 **Contenu** :
+
 - Tour de table : prénom, expérience JavaScript
 - Présentation du programme des 4 jours
 - Objectifs de la journée
 - Organisation pratique (pauses, déjeuner, questions)
 
 **Notes formateur** :
+
 - Créer un climat bienveillant dès le début
 - Identifier les niveaux pour adapter si nécessaire
 - Expliquer qu'on va faire beaucoup d'erreurs et que c'est normal
 
 ---
 
-#### 08h15 - 09h00 | React : Philosophie et concepts (45 min)
+#### React : Philosophie et concepts
+
 **Format** : Présentation + Démonstration
 
-##### 08h15 - 08h30 | Qu'est-ce que React ? (15 min)
-
+##### Qu'est-ce que React ?
 **Points clés à couvrir** :
+
 ```
 ✓ React = bibliothèque (pas framework)
 ✓ Créé par Facebook en 2013
@@ -73,6 +80,7 @@
 
 **Démonstration visuelle** :
 Montrer un site web et décomposer visuellement en composants :
+
 ```
 Application
 ├── Header
@@ -87,41 +95,38 @@ Application
 └── Footer
 ```
 
-##### 08h30 - 08h45 | Déclaratif vs Impératif (15 min)
+##### Déclaratif vs Impératif
 
 **Exemple comparatif live** :
 
 ```javascript
 // ❌ Impératif (Vanilla JS)
 // "Comment faire étape par étape"
-const button = document.createElement('button');
-button.textContent = 'Compteur: 0';
+const button = document.createElement("button");
+button.textContent = "Compteur: 0";
 let count = 0;
-button.addEventListener('click', () => {
+button.addEventListener("click", () => {
   count++;
   button.textContent = `Compteur: ${count}`;
 });
 document.body.appendChild(button);
 ```
 
-```typescript
+```jsx
 // ✅ Déclaratif (React)
 // "Ce que je veux voir"
 function Counter() {
   const [count, setCount] = useState(0);
-  return (
-    <button onClick={() => setCount(count + 1)}>
-      Compteur: {count}
-    </button>
-  );
+  return <button onClick={() => setCount(count + 1)}>Compteur: {count}</button>;
 }
 ```
 
 **Question interactive** : "Quel code trouvez-vous plus lisible ?"
 
-##### 08h45 - 09h00 | Virtual DOM (15 min)
+##### Virtual DOM
 
 **Explication simplifiée** :
+
 1. React garde une copie du DOM en mémoire (Virtual DOM)
 2. Quand les données changent, React met à jour le Virtual DOM
 3. React compare (diff) avec la version précédente
@@ -134,12 +139,13 @@ function Counter() {
 
 ---
 
-#### 09h00 - 09h30 | Installation et premier projet (30 min)
+#### Installation et premier projet
+
 **Format** : Live coding + Students follow along
 
-##### 09h00 - 09h15 | Setup de l'environnement (15 min)
-
+##### Setup de l'environnement
 **Vérifications prérequis** :
+
 ```bash
 # Vérifier Node.js (doit être 18+)
 node --version
@@ -151,9 +157,10 @@ npm --version
 **Si problème** : Télécharger depuis nodejs.org
 
 **Création du projet** :
+
 ```bash
 # Créer le projet (LIVE CODING)
-npm create vite@latest foodtruck-paradise -- --template react-ts
+npm create vite@latest foodtruck-paradise -- --template react
 
 # Expliquer chaque partie de la commande
 cd foodtruck-paradise
@@ -165,7 +172,7 @@ npm run dev
 
 **⚠️ Piège courant** : Port déjà utilisé → Montrer comment changer le port
 
-##### 09h15 - 09h30 | Tour de la structure (15 min)
+##### Tour de la structure
 
 **Exploration du projet créé** (screen share + explication) :
 
@@ -174,35 +181,41 @@ foodtruck-paradise/
 ├── node_modules/       → Dépendances (ne pas toucher)
 ├── public/             → Assets statiques
 ├── src/
-│   ├── App.tsx        → Composant principal ← FOCUS ICI
-│   ├── main.tsx       → Point d'entrée
+│   ├── App.jsx        → Composant principal ← FOCUS ICI
+│   ├── main.jsx       → Point d'entrée
 │   └── index.css      → Styles
 ├── index.html         → Page HTML
 ├── package.json       → Config npm
-└── vite.config.ts     → Config Vite
+└── vite.config.js     → Config Vite
 ```
 
-**Ouvrir App.tsx et expliquer ligne par ligne** :
-```typescript
-function App() {          // ← Fonction composant
-  return (                // ← Retourne du JSX
-    <div>                 // ← Comme du HTML
+**Ouvrir App.jsx et expliquer ligne par ligne** :
+
+```jsx
+function App() {
+  // ← Fonction composant
+  return (
+    // ← Retourne du JSX
+    <div>
+      {" "}
+      // ← Comme du HTML
       <h1>Bonjour</h1>
     </div>
-  )
+  );
 }
 
-export default App       // ← Export pour utiliser ailleurs
+export default App; // ← Export pour utiliser ailleurs
 ```
 
 **Premier changement live** :
-```typescript
+
+```jsx
 function App() {
   return (
     <div>
       <h1>🌮 Bienvenue chez Food Truck Paradise !</h1>
     </div>
-  )
+  );
 }
 ```
 
@@ -210,14 +223,15 @@ Montrer que ça se met à jour instantanément dans le navigateur (Hot Module Re
 
 ---
 
-#### 09h30 - 10h15 | JSX : Le langage de React (45 min)
+#### JSX : Le langage de React
+
 **Format** : Présentation + Exercices pratiques
 
-##### 09h30 - 09h50 | Les règles du JSX (20 min)
+##### Les règles du JSX
 
 **Règle 1 : Un seul élément parent**
 
-```typescript
+```jsx
 // ❌ ERREUR - Plusieurs éléments racine
 function Bad() {
   return (
@@ -251,7 +265,7 @@ function Good2() {
 
 **Règle 2 : className au lieu de class**
 
-```typescript
+```jsx
 // ❌ ERREUR
 <div class="container">  // class est un mot réservé JS
 
@@ -261,7 +275,7 @@ function Good2() {
 
 **Règle 3 : Toutes les balises doivent être fermées**
 
-```typescript
+```jsx
 // ❌ ERREUR
 <img src="logo.png">
 <br>
@@ -271,13 +285,13 @@ function Good2() {
 <br />
 ```
 
-**Règle 4 : JavaScript entre accolades {**
+**Règle 4 : JavaScript entre accolades { }**
 
-```typescript
+```jsx
 function Greeting() {
   const name = "Marie";
   const age = 25;
-  
+
   return (
     <div>
       <h1>Bonjour {name} !</h1>
@@ -289,11 +303,11 @@ function Greeting() {
 }
 ```
 
-##### 09h50 - 10h15 | Exercice JSX (25 min)
+##### Exercice JSX
 
 **🎯 Exercice 1 : Carte d'identité (10 min)**
 
-```typescript
+```jsx
 // Consigne : Créer un composant qui affiche vos infos
 function IdentityCard() {
   // TODO : Déclarer des variables
@@ -301,27 +315,26 @@ function IdentityCard() {
   const lastName = "Votre nom";
   const age = 0;
   const city = "Votre ville";
-  
+
   // TODO : Afficher dans du JSX
-  return (
-    <div>
-      {/* Votre code ici */}
-    </div>
-  );
+  return <div>{/* Votre code ici */}</div>;
 }
 ```
 
-**Solution** (à donner après 10 min) :
-```typescript
+**Solution** :
+
+```jsx
 function IdentityCard() {
   const firstName = "Marie";
   const lastName = "Dubois";
   const age = 25;
   const city = "Paris";
-  
+
   return (
     <div className="card">
-      <h2>{firstName} {lastName}</h2>
+      <h2>
+        {firstName} {lastName}
+      </h2>
       <p>Âge : {age} ans</p>
       <p>Ville : {city}</p>
       <p>Status : {age >= 18 ? "Majeur(e)" : "Mineur(e)"}</p>
@@ -332,26 +345,23 @@ function IdentityCard() {
 
 **🎯 Exercice 2 : Product Card (15 min)**
 
-```typescript
+```jsx
 // Consigne : Créer une carte produit
 function ProductCard() {
   const product = {
     name: "Tacos Poulet",
-    price: 8.50,
+    price: 8.5,
     image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300",
-    inStock: true
+    inStock: true,
   };
-  
+
   // TODO : Afficher le produit
-  return (
-    <div className="product-card">
-      {/* Votre code ici */}
-    </div>
-  );
+  return <div className="product-card">{/* Votre code ici */}</div>;
 }
 ```
 
 **Critères de réussite** :
+
 - [ ] Image affichée
 - [ ] Nom du produit
 - [ ] Prix avec €
@@ -359,31 +369,25 @@ function ProductCard() {
 
 ---
 
-#### ☕ 10h15 - 10h30 | PAUSE (15 min)
+#### PAUSE (20 min)
 
-**Notes formateur** :
-- Vérifier que tout le monde suit
-- Aider ceux en difficulté
-- Préparer la suite
+#### Les Composants et les Props
 
----
-
-#### 10h30 - 12h00 | Les Composants et les Props (1h30)
 **Format** : Live coding + Exercices progressifs
 
-##### 10h30 - 10h50 | Créer des composants (20 min)
+##### Créer des composants
 
 **Anatomie d'un composant** :
 
-```typescript
+```jsx
 // 1. Import si nécessaire
-import { useState } from 'react';
+import { useState } from "react";
 
 // 2. Définir le composant (fonction)
 function Welcome() {
   // 3. Logique JavaScript ici
   const message = "Bienvenue !";
-  
+
   // 4. Retourner du JSX
   return (
     <div>
@@ -397,14 +401,15 @@ export default Welcome;
 ```
 
 **⚠️ Règles de nommage** :
+
 - Toujours **PascalCase** : `Welcome`, `ProductCard`
 - Jamais camelCase : ~~`welcome`~~, ~~`productCard`~~
 - Nom = Ce que le composant représente
 
 **Live coding : Premier composant ensemble**
 
-```typescript
-// src/components/Header.tsx (créer le dossier components)
+```jsx
+// src/components/Header.jsx (créer le dossier components)
 function Header() {
   return (
     <header>
@@ -421,9 +426,10 @@ function Header() {
 export default Header;
 ```
 
-**Utiliser dans App.tsx** :
-```typescript
-import Header from './components/Header';
+**Utiliser dans App.jsx** :
+
+```jsx
+import Header from "./components/Header";
 
 function App() {
   return (
@@ -439,30 +445,27 @@ function App() {
 
 **Point pédagogique** : Expliquer qu'on "compose" l'application.
 
-##### 10h50 - 11h20 | Les Props (30 min)
+##### Les Props
 
 **Concept** : Les props = arguments de la fonction composant
 
 **Progression pédagogique** :
 
 **Étape 1 : Composant sans props (pas réutilisable)**
-```typescript
+
+```jsx
 function Greeting() {
-  return <h1>Bonjour Marie !</h1>;  // ← Nom en dur
+  return <h1>Bonjour Marie !</h1>; // ← Nom en dur
 }
 
 // Utilisation
-<Greeting />  // Affiche toujours "Marie"
+<Greeting />; // Affiche toujours "Marie"
 ```
 
 **Étape 2 : Composant avec props (réutilisable)**
-```typescript
-// Définition avec props
-interface GreetingProps {
-  name: string;
-}
 
-function Greeting({ name }: GreetingProps) {
+```jsx
+function Greeting({ name }) {
   return <h1>Bonjour {name} !</h1>;
 }
 
@@ -472,32 +475,10 @@ function Greeting({ name }: GreetingProps) {
 <Greeting name="Sophie" />
 ```
 
-**⚠️ Pattern TypeScript pour React 2025** :
-```typescript
-// ✅ RECOMMANDÉ (2025)
-interface ButtonProps {
-  text: string;
-}
-
-function Button({ text }: ButtonProps) {
-  return <button>{text}</button>;
-}
-
-// ❌ OBSOLÈTE (ne plus utiliser React.FC)
-const Button: React.FC<ButtonProps> = ({ text }) => {
-  return <button>{text}</button>;
-};
-```
-
 **Props multiples** :
-```typescript
-interface CardProps {
-  title: string;
-  subtitle: string;
-  price: number;
-}
 
-function Card({ title, subtitle, price }: CardProps) {
+```jsx
+function Card({ title, subtitle, price }) {
   return (
     <div className="card">
       <h2>{title}</h2>
@@ -508,22 +489,13 @@ function Card({ title, subtitle, price }: CardProps) {
 }
 
 // Utilisation
-<Card 
-  title="Tacos" 
-  subtitle="Poulet mariné"
-  price={8.50}
-/>
+<Card title="Tacos" subtitle="Poulet mariné" price={8.5} />;
 ```
 
 **Props optionnelles** :
-```typescript
-interface CardProps {
-  title: string;
-  subtitle?: string;  // ← Optionnelle avec ?
-  imageUrl?: string;
-}
 
-function Card({ title, subtitle = "Pas de description", imageUrl }: CardProps) {
+```jsx
+function Card({ title, subtitle = "Pas de description", imageUrl }) {
   return (
     <div>
       <h2>{title}</h2>
@@ -534,85 +506,66 @@ function Card({ title, subtitle = "Pas de description", imageUrl }: CardProps) {
 }
 ```
 
-##### 11h20 - 12h00 | Exercices Props (40 min)
+##### Exercices Props
 
 **🎯 Exercice 3 : Button réutilisable (15 min)**
 
-```typescript
+```jsx
 // Consigne : Créer un bouton avec variants
 // Specs :
 // - text (string)
 // - variant: 'primary' | 'secondary' | 'danger'
 // - Afficher un style différent selon variant
 
-interface ButtonProps {
-  // TODO: Définir les props
-}
-
 function Button(/* TODO: props */) {
   // TODO: Implémenter
 }
 
-// Test (dans App.tsx)
+// Test (dans App.jsx)
 <Button text="Valider" variant="primary" />
 <Button text="Annuler" variant="secondary" />
 <Button text="Supprimer" variant="danger" />
 ```
 
 **Solution** :
-```typescript
-interface ButtonProps {
-  text: string;
-  variant: 'primary' | 'secondary' | 'danger';
-}
 
-function Button({ text, variant }: ButtonProps) {
-  return (
-    <button className={`btn btn-${variant}`}>
-      {text}
-    </button>
-  );
+```jsx
+function Button({ text, variant }) {
+  return <button className={`btn btn-${variant}`}>{text}</button>;
 }
 ```
 
 **🎯 Exercice 4 : MenuCard avec props (25 min)**
 
-```typescript
+```jsx
 // Consigne : Créer une carte de menu réutilisable
-interface MenuCardProps {
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  isVegetarian: boolean;
-}
-
 function MenuCard(/* TODO */) {
   // TODO: Afficher toutes les infos
   // Bonus : Badge "🌱 Végé" si isVegetarian === true
 }
 
 // Test
-<MenuCard 
+<MenuCard
   name="Tacos Poulet"
   description="Tortilla avec poulet mariné"
-  price={8.50}
+  price={8.5}
   imageUrl="..."
   isVegetarian={false}
-/>
+/>;
 ```
 
 **Point de contrôle** : Passer dans les rangs et vérifier.
 
 ---
 
-#### 12h00 - 13h00 | 🍽️ PAUSE DÉJEUNER
+#### 🍽️ PAUSE DÉJEUNER
 
 ---
 
-### 🌆 APRÈS-MIDI (13h00 - 17h00)
+### 🌆 APRÈS-MIDI (13h30 - 17h30)
 
-#### 13h00 - 13h30 | Rappel JavaScript ES6+ (30 min)
+#### Rappel JavaScript ES6+ (30 min)
+
 **Format** : Présentation interactive + Exercices rapides
 
 **Objectif** : S'assurer que tout le monde a les bases pour l'après-midi.
@@ -631,8 +584,13 @@ const age = user.age;
 const { name, age, city } = user;
 
 // Dans les props React (très utilisé !)
-function Greeting({ name, age }) {  // ← Destructuring direct
-  return <p>Bonjour {name}, {age} ans</p>;
+function Greeting({ name, age }) {
+  // ← Destructuring direct
+  return (
+    <p>
+      Bonjour {name}, {age} ans
+    </p>
+  );
 }
 
 // Tableaux
@@ -647,11 +605,11 @@ const [first, second, third] = fruits;
 ```javascript
 // Copie de tableau
 const arr1 = [1, 2, 3];
-const arr2 = [...arr1, 4, 5];  // [1, 2, 3, 4, 5]
+const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
 
 // Copie d'objet
 const user = { name: "Marie", age: 25 };
-const updated = { ...user, age: 26 };  // { name: "Marie", age: 26 }
+const updated = { ...user, age: 26 }; // { name: "Marie", age: 26 }
 
 // Fusion d'objets
 const info = { name: "Marie" };
@@ -666,20 +624,20 @@ const full = { ...info, ...address };
 ```javascript
 // Transformer chaque élément
 const numbers = [1, 2, 3, 4, 5];
-const doubled = numbers.map(n => n * 2);
+const doubled = numbers.map((n) => n * 2);
 // [2, 4, 6, 8, 10]
 
 const users = [
   { name: "Marie", age: 25 },
-  { name: "Pierre", age: 30 }
+  { name: "Pierre", age: 30 },
 ];
 
 // Extraire juste les noms
-const names = users.map(user => user.name);
+const names = users.map((user) => user.name);
 // ["Marie", "Pierre"]
 
 // Transformer en JSX (très utilisé en React !)
-const userList = users.map(user => (
+const userList = users.map((user) => (
   <div key={user.name}>
     <h2>{user.name}</h2>
     <p>{user.age} ans</p>
@@ -691,17 +649,18 @@ const userList = users.map(user => (
 
 ---
 
-#### 13h30 - 14h30 | Rendre des listes avec .map() (1h)
+#### Rendre des listes avec .map()
+
 **Format** : Live coding + Exercices
 
-##### 13h30 - 13h50 | Principe du rendu de liste (20 min)
+##### Principe du rendu de liste
 
 **Pattern de base** :
 
-```typescript
+```jsx
 function FruitList() {
   const fruits = ["Pomme", "Banane", "Orange"];
-  
+
   return (
     <ul>
       {fruits.map((fruit, index) => (
@@ -713,6 +672,7 @@ function FruitList() {
 ```
 
 **Étape par étape** :
+
 1. `fruits.map(...)` → Transformer chaque élément
 2. `fruit => <li>...</li>` → Élément en JSX
 3. `key={index}` → Identifiant unique (on reviendra dessus)
@@ -720,20 +680,14 @@ function FruitList() {
 
 **Avec des objets** :
 
-```typescript
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-}
-
+```jsx
 function ProductList() {
-  const products: Product[] = [
-    { id: "1", name: "Tacos", price: 8.50 },
-    { id: "2", name: "Burger", price: 9.00 },
-    { id: "3", name: "Pizza", price: 12.00 }
+  const products = [
+    { id: "1", name: "Tacos", price: 8.5 },
+    { id: "2", name: "Burger", price: 9.0 },
+    { id: "3", name: "Pizza", price: 12.0 },
   ];
-  
+
   return (
     <div>
       {products.map((product) => (
@@ -747,23 +701,27 @@ function ProductList() {
 }
 ```
 
-##### 13h50 - 14h10 | La prop key (IMPORTANT) (20 min)
+##### La prop key (IMPORTANT)
 
 **Pourquoi key ?**
 React a besoin d'identifier chaque élément de la liste pour optimiser les mises à jour.
 
 **❌ MAUVAIS : Index comme key**
-```typescript
-{items.map((item, index) => (
-  <div key={index}>{item}</div>  // ❌ Problème si liste change
-))}
+
+```jsx
+{
+  items.map((item, index) => (
+    <div key={index}>{item}</div> // ❌ Problème si liste change
+  ));
+}
 ```
 
 **Démonstration du bug** (live) :
-```typescript
+
+```jsx
 function TodoList() {
   const [todos, setTodos] = useState(["A", "B", "C"]);
-  
+
   // Avec index comme key
   return (
     <div>
@@ -777,31 +735,36 @@ function TodoList() {
   );
 }
 ```
+
 → Cocher "A", supprimer "A" → "B" se retrouve coché !
 
 **✅ BON : ID unique comme key**
-```typescript
-{items.map((item) => (
-  <div key={item.id}>{item.name}</div>  // ✅ ID stable et unique
-))}
+
+```jsx
+{
+  items.map((item) => (
+    <div key={item.id}>{item.name}</div> // ✅ ID stable et unique
+  ));
+}
 ```
 
 **Règles pour key** :
+
 1. Unique parmi les siblings (frères/sœurs)
 2. Stable (ne change pas entre les rendus)
 3. Prévisible (pas random)
 
-##### 14h10 - 14h30 | Exercice listes (20 min)
+##### Exercice listes
 
 **🎯 Exercice 5 : Liste de produits**
 
-```typescript
+```jsx
 // Données fournies
 const products = [
-  { id: "1", name: "Tacos Poulet", price: 8.50, image: "..." },
-  { id: "2", name: "Burger Bœuf", price: 9.00, image: "..." },
-  { id: "3", name: "Pizza Margherita", price: 12.00, image: "..." },
-  { id: "4", name: "Salade César", price: 7.50, image: "..." }
+  { id: "1", name: "Tacos Poulet", price: 8.5, image: "..." },
+  { id: "2", name: "Burger Bœuf", price: 9.0, image: "..." },
+  { id: "3", name: "Pizza Margherita", price: 12.0, image: "..." },
+  { id: "4", name: "Salade César", price: 7.5, image: "..." },
 ];
 
 // Consigne : Afficher tous les produits avec .map()
@@ -816,7 +779,8 @@ function Menu() {
 ```
 
 **Solution** :
-```typescript
+
+```jsx
 function Menu() {
   return (
     <div className="menu-grid">
@@ -837,14 +801,16 @@ function Menu() {
 
 ---
 
-#### 14h30 - 15h00 | Rendu conditionnel (30 min)
+#### Rendu conditionnel
+
 **Format** : Présentation + Exercices
 
-##### 14h30 - 14h45 | Techniques de rendu conditionnel (15 min)
+##### Techniques de rendu conditionnel
 
 **Technique 1 : Opérateur &&**
-```typescript
-function UserStatus({ isLoggedIn }: { isLoggedIn: boolean }) {
+
+```jsx
+function UserStatus({ isLoggedIn }) {
   return (
     <div>
       {isLoggedIn && <p>Bienvenue !</p>}
@@ -855,27 +821,25 @@ function UserStatus({ isLoggedIn }: { isLoggedIn: boolean }) {
 ```
 
 **Technique 2 : Ternaire**
-```typescript
-function Badge({ isOnline }: { isOnline: boolean }) {
-  return (
-    <span>
-      {isOnline ? "🟢 En ligne" : "🔴 Hors ligne"}
-    </span>
-  );
+
+```jsx
+function Badge({ isOnline }) {
+  return <span>{isOnline ? "🟢 En ligne" : "🔴 Hors ligne"}</span>;
 }
 ```
 
 **Technique 3 : Variable**
-```typescript
-function ProductCard({ product }: { product: Product }) {
+
+```jsx
+function ProductCard({ product }) {
   let badge = null;
-  
+
   if (product.isNew) {
     badge = <span className="badge-new">Nouveau</span>;
   } else if (product.onSale) {
     badge = <span className="badge-sale">Promo</span>;
   }
-  
+
   return (
     <div>
       <h3>{product.name}</h3>
@@ -886,28 +850,24 @@ function ProductCard({ product }: { product: Product }) {
 ```
 
 **Technique 4 : Early return**
-```typescript
-function Message({ message }: { message: string | null }) {
+
+```jsx
+function Message({ message }) {
   if (!message) {
     return <p>Pas de message</p>;
   }
-  
+
   return <p>{message}</p>;
 }
 ```
 
-##### 14h45 - 15h00 | Exercice conditionnel (15 min)
+##### Exercice conditionnel
 
 **🎯 Exercice 6 : Badge de statut**
 
-```typescript
+```jsx
 // Consigne : Afficher un badge selon le stock
-interface ProductProps {
-  name: string;
-  stock: number;
-}
-
-function Product({ name, stock }: ProductProps) {
+function Product({ name, stock }) {
   // TODO: Afficher
   // - "✅ En stock" si stock > 0
   // - "⚠️ Stock faible" si stock > 0 et stock < 5
@@ -917,82 +877,88 @@ function Product({ name, stock }: ProductProps) {
 
 ---
 
-#### ☕ 15h00 - 15h15 | PAUSE (15 min)
+#### PAUSE (20 min)
 
 ---
 
-#### 15h00 - 17h00 | 🎯 ATELIER FIL ROUGE : Menu Foodtruck (2h)
+#### ATELIER FIL ROUGE : Menu Foodtruck (2h)
+
 **Format** : Projet guidé en binôme
 
-##### 15h15 - 15h30 | Présentation du projet (15 min)
+##### Présentation du projet
 
 **Montrer le résultat final** (démo) :
+
 - Header avec logo et navigation
 - Grille de plats organisés
 - Footer avec infos
 
 **Objectifs de l'atelier** :
-- [ ] Structure de données avec interface TypeScript
+
+- [ ] Structure de données en JavaScript (JSDoc optionnel)
 - [ ] Composant Header
 - [ ] Composant MenuCard
 - [ ] Composant Menu qui utilise .map()
 - [ ] Composant Footer
-- [ ] Assemblage dans App.tsx
+- [ ] Assemblage dans App.jsx
 - [ ] Styling CSS de base
 
 **Organisation** :
+
 - Travail en binôme recommandé
 - Aide du formateur disponible
 - Commits Git réguliers
 
-##### 15h30 - 15h50 | Étape 1 : Structure des données (20 min)
+##### Étape 1 : Structure des données
 
-**Créer `src/types/menu.ts`** :
-```typescript
-export interface MenuItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: 'entrees' | 'plats' | 'desserts' | 'boissons';
-  imageUrl: string;
-  isVegetarian: boolean;
-  isNew?: boolean;
-}
-```
+**Créer `src/data/menuData.js`** :
 
-**Créer `src/data/menuData.ts`** :
-```typescript
-import { MenuItem } from '../types/menu';
+```js
+/**
+ * @typedef {Object} MenuItem
+ * @property {string} id
+ * @property {string} name
+ * @property {string} description
+ * @property {number} price
+ * @property {'entrees'|'plats'|'desserts'|'boissons'} category
+ * @property {string} imageUrl
+ * @property {boolean} isVegetarian
+ * @property {boolean} [isNew]
+ */
 
-export const menuItems: MenuItem[] = [
+/** @type {MenuItem[]} */
+export const menuItems = [
   {
     id: "1",
     name: "Tacos Poulet",
-    description: "Tortilla garnie de poulet mariné, légumes frais et sauce maison",
-    price: 8.50,
+    description:
+      "Tortilla garnie de poulet mariné, légumes frais et sauce maison",
+    price: 8.5,
     category: "plats",
-    imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500",
+    imageUrl:
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500",
     isVegetarian: false,
-    isNew: true
+    isNew: true,
   },
   {
     id: "2",
     name: "Burger Végétarien",
     description: "Steak végétal, tomates, salade, oignons rouges",
-    price: 9.00,
+    price: 9.0,
     category: "plats",
-    imageUrl: "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=500",
-    isVegetarian: true
+    imageUrl:
+      "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=500",
+    isVegetarian: true,
   },
   {
     id: "3",
     name: "Pizza Margherita",
     description: "Tomate, mozzarella, basilic frais",
-    price: 12.00,
+    price: 12.0,
     category: "plats",
-    imageUrl: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500",
-    isVegetarian: true
+    imageUrl:
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500",
+    isVegetarian: true,
   },
   // TODO: Ajouter 12-15 items minimum pour avoir assez de contenu
 ];
@@ -1000,10 +966,11 @@ export const menuItems: MenuItem[] = [
 
 **Consigne étudiants** : Ajoutez au moins 15 items au total (entrées, plats, desserts, boissons).
 
-##### 15h50 - 16h10 | Étape 2 : Composant Header (20 min)
+##### Étape 2 : Composant Header
 
-**Créer `src/components/Header.tsx`** :
-```typescript
+**Créer `src/components/Header.jsx`** :
+
+```jsx
 function Header() {
   return (
     <header className="header">
@@ -1013,9 +980,15 @@ function Header() {
           <p className="tagline">Les meilleurs plats de rue !</p>
         </div>
         <nav className="nav">
-          <a href="#menu" className="nav-link">Menu</a>
-          <a href="#about" className="nav-link">À propos</a>
-          <a href="#contact" className="nav-link">Contact</a>
+          <a href="#menu" className="nav-link">
+            Menu
+          </a>
+          <a href="#about" className="nav-link">
+            À propos
+          </a>
+          <a href="#contact" className="nav-link">
+            Contact
+          </a>
         </nav>
       </div>
     </header>
@@ -1025,32 +998,27 @@ function Header() {
 export default Header;
 ```
 
-##### 16h10 - 16h40 | Étape 3 : Composant MenuCard (30 min)
+##### Étape 3 : Composant MenuCard
 
-**Créer `src/components/MenuCard.tsx`** :
-```typescript
-import { MenuItem } from '../types/menu';
+**Créer `src/components/MenuCard.jsx`** :
 
-interface MenuCardProps {
-  item: MenuItem;
-}
-
-function MenuCard({ item }: MenuCardProps) {
+```jsx
+function MenuCard({ item }) {
   return (
     <div className="menu-card">
       <div className="card-image">
         <img src={item.imageUrl} alt={item.name} />
         {item.isNew && <span className="badge-new">Nouveau</span>}
       </div>
-      
+
       <div className="card-content">
         <div className="card-header">
           <h3>{item.name}</h3>
           {item.isVegetarian && <span className="badge-vege">🌱</span>}
         </div>
-        
+
         <p className="description">{item.description}</p>
-        
+
         <div className="card-footer">
           <span className="price">{item.price.toFixed(2)}€</span>
           <button className="btn-add">Ajouter</button>
@@ -1063,30 +1031,31 @@ function MenuCard({ item }: MenuCardProps) {
 export default MenuCard;
 ```
 
-##### 16h40 - 17h00 | Étape 4 : Composant Menu et Assemblage (20 min)
+##### Étape 4 : Composant Menu et Assemblage
 
-**Créer `src/components/Menu.tsx`** :
-```typescript
-import { menuItems } from '../data/menuData';
-import MenuCard from './MenuCard';
+**Créer `src/components/Menu.jsx`** :
+
+```jsx
+import { menuItems } from "../data/menuData";
+import MenuCard from "./MenuCard";
 
 function Menu() {
   return (
     <section className="menu-section">
       <div className="container">
         <h2>Notre Menu</h2>
-        
+
         <div className="category-section">
           <h3>🍴 Plats Principaux</h3>
           <div className="menu-grid">
             {menuItems
-              .filter(item => item.category === 'plats')
-              .map(item => (
+              .filter((item) => item.category === "plats")
+              .map((item) => (
                 <MenuCard key={item.id} item={item} />
               ))}
           </div>
         </div>
-        
+
         {/* Répéter pour desserts, boissons, etc. */}
       </div>
     </section>
@@ -1097,7 +1066,8 @@ export default Menu;
 ```
 
 **Footer simple** :
-```typescript
+
+```jsx
 function Footer() {
   return (
     <footer className="footer">
@@ -1111,12 +1081,13 @@ function Footer() {
 export default Footer;
 ```
 
-**Assemblage dans App.tsx** :
-```typescript
-import Header from './components/Header';
-import Menu from './components/Menu';
-import Footer from './components/Footer';
-import './App.css';
+**Assemblage dans App.jsx** :
+
+```jsx
+import Header from "./components/Header";
+import Menu from "./components/Menu";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (
@@ -1154,11 +1125,12 @@ export default App;
 ✅ Les props permettent de rendre les composants réutilisables  
 ✅ .map() pour afficher des listes  
 ✅ key doit être unique et stable  
-✅ Les props sont en lecture seule (immutables)  
+✅ Les props sont en lecture seule (immutables)
 
 ##### Teaser Jour 2 (5 min)
 
 "Demain, on va rendre tout ça **interactif** ! Vous allez pouvoir :
+
 - Ajouter des plats au panier
 - Filtrer les produits
 - Avoir une vraie recherche
@@ -1202,18 +1174,21 @@ Pour ça, on va apprendre **useState** - la mémoire des composants !"
 ### Compétences acquises
 
 **Niveau 1 - Basique** ⭐
+
 - [ ] Créer un projet React avec Vite
 - [ ] Écrire du JSX valide
 - [ ] Créer un composant simple
 - [ ] Utiliser une prop
 
 **Niveau 2 - Intermédiaire** ⭐⭐
+
 - [ ] Créer plusieurs composants
 - [ ] Passer plusieurs props
 - [ ] Afficher une liste avec .map()
 - [ ] Utiliser key correctement
 
 **Niveau 3 - Avancé** ⭐⭐⭐
+
 - [ ] Structurer une application complète
 - [ ] Props optionnelles avec valeurs par défaut
 - [ ] Rendu conditionnel complexe
@@ -1226,6 +1201,7 @@ Pour ça, on va apprendre **useState** - la mémoire des composants !"
 ### Points d'attention
 
 ⚠️ **Erreurs fréquentes jour 1** :
+
 1. Oublier `key` dans les listes
 2. Utiliser l'index comme key
 3. Essayer de modifier les props
@@ -1235,11 +1211,13 @@ Pour ça, on va apprendre **useState** - la mémoire des composants !"
 ### Adaptations possibles
 
 **Si en avance** :
+
 - Approfondir le rendu conditionnel
 - Introduire les children props
 - Montrer React DevTools
 
 **Si en retard** :
+
 - Simplifier le projet (moins de composants)
 - Donner plus de code starter
 - Faire l'atelier ensemble en live coding
@@ -1247,12 +1225,14 @@ Pour ça, on va apprendre **useState** - la mémoire des composants !"
 ### Signaux de difficulté
 
 🚨 **Les étudiants sont perdus si** :
+
 - Silence lors des exercices
 - Questions répétitives sur les mêmes concepts
 - Copier-coller sans comprendre
 - Abandonnent l'atelier
 
 **Actions correctives** :
+
 - Ralentir le rythme
 - Revenir sur les bases
 - Sessions individuelles
