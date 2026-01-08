@@ -1,0 +1,55 @@
+/* Refined for a more beautiful, modern look: smoother transitions, better spacing, consistent borders */
+:root {
+	--bg-primary: #f8f9fa;
+	--bg-secondary: #ffffff;
+	--text-primary: #212529;
+	--text-secondary: #6c757d;
+	--accent: #fd7e14;
+	--shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+	--border-radius: 0.5rem;
+	--transition: all 0.3s ease;
+}
+
+body.light {
+	--bg-primary: #f8f9fa;
+	--bg-secondary: #ffffff;
+	--text-primary: #212529;
+	--text-secondary: #6c757d;
+	--accent: #fd7e14;
+	--shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+body.dark {
+	--bg-primary: #212529;
+	--bg-secondary: #343a40;
+	--text-primary: #f8f9fa;
+	--text-secondary: #adb5bd;
+	--accent: #fd7e14;
+	--shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+#root {
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: var(--bg-primary);
+	min-height: 100vh;
+	color: var(--text-primary);
+	transition: var(--transition);
+}
+
+.App {
+	font-family: 'Poppins', sans-serif;
+	transition: var(--transition);
+}
+
+/* Global button styles for consistency */
+button, a.hero-button {
+	transition: var(--transition);
+}
+
+/* ... retain other styles, ensuring no overlaps or issues */
