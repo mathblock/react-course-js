@@ -1,3 +1,4 @@
+import React from 'react';
 import Menu from '../components/Menu';
 import { useOutletContext } from 'react-router-dom';
 
@@ -18,9 +19,7 @@ function MenuPage() {
   };
 
   return (
-    <div className="App">
-      <Menu onAddToCart={addToCart} />
-    </div>
+    <Menu onAddToCart={addToCart} />
   );
 }
 
