@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import './Header.css';
 
 function Header() {
   const { cartCount } = useCart();
+  const { isAuthenticated } = useAuth();
 
   return (
     <header className="header">
@@ -18,12 +20,31 @@ function Header() {
           <Link to="/menu" className="nav-link">
             Menu
           </Link>
-          <Link to="/cart" className="cart-icon-container">
-            <span className="cart-icon">🛒</span>
-            {cartCount > 0 && (
-              <span className="cart-badge">{cartCount}</span>
-            )}
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link to="/cart" className="cart-icon-container">
+                <span className="cart-icon">🛒</span>
+                {cartCount > 0 && (
+                  <span className="cart-badge">{cartCount}</span>
+                )}
+              </Link>
+              <Link to="/profile" className="nav-link">
+                Mon Profil
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/cart" className="cart-icon-container">
+                <span className="cart-icon">🛒</span>
+                {cartCount > 0 && (
+                  <span className="cart-badge">{cartCount}</span>
+                )}
+              </Link>
+              <Link to="/login" className="nav-link">
+                Connexion
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>

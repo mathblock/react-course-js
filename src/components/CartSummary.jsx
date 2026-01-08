@@ -1,7 +1,7 @@
 import React from 'react';
 import './CartSummary.css';
 
-const CartSummary = ({ cart, onRemoveFromCart, onUpdateQuantity, onClearCart }) => {
+const CartSummary = ({ cart, onRemoveFromCart, onUpdateQuantity, onClearCart, onCheckout }) => {
   const calculateSubtotal = (item) => {
     return (item.price * item.quantity).toFixed(2);
   };
@@ -77,6 +77,11 @@ const CartSummary = ({ cart, onRemoveFromCart, onUpdateQuantity, onClearCart }) 
           <span className="total-label">Total ({totalItems} article{totalItems !== 1 ? 's' : ''})</span>
           <span className="total-amount">{calculateTotal()} €</span>
         </div>
+        {onCheckout && (
+          <button className="checkout-btn" onClick={onCheckout}>
+            Commander
+          </button>
+        )}
       </div>
     </div>
   );

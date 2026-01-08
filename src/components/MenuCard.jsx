@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './MenuCard.css';
 
 const MenuCard = ({ item, onAddToCart }) => {
   const [showAdded, setShowAdded] = useState(false);
   const [addedCount, setAddedCount] = useState(0);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      // Rediriger vers la page de connexion avec la route actuelle pour revenir après
+      navigate('/login', { state: { from: { pathname: window.location.pathname } } });
+      return;
+    }
+    
     onAddToCart(item);
     setAddedCount(prev => prev + 1);
     setShowAdded(true);
