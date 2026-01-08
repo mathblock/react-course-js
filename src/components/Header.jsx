@@ -2,12 +2,11 @@ import { Link } from "react-router-dom";
 import "./Header.css";
 
 function Header({ cart, onToggleCart }) {
- 
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <header className="header">
       <div className="container">
-        
         {/* Logo / Titre */}
         <Link to="/" className="logo">
           <h1>Davidson Market</h1>
@@ -29,9 +28,10 @@ function Header({ cart, onToggleCart }) {
           style={{ cursor: "pointer", position: "relative" }}
         >
           Panier
-          
+          {totalItems > 0 && (
+            <span className="cart-badge">{totalItems} article{totalItems > 1 ? "s" : ""}</span>
+          )}
         </div>
-
       </div>
     </header>
   );

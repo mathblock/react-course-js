@@ -1,49 +1,79 @@
-
-/* RESET GLOBAL*/
+/* RESET GLOBAL */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Arial', Helvetica, sans-serif;
 }
 
 body {
-  background-color: #f5f5f5;
+  background-color: #FFF8F0; /* Fond doux et chaleureux */
   color: #333;
   min-height: 100vh;
 }
 
-/*LAYOUT GLOBAL*/
+/* LAYOUT GLOBAL */
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/*HEADER*/
+/* HEADER */
 .header {
   width: 100%;
-  background-color: #222;
-  color: white;
+  background: linear-gradient(90deg, #6a11cb, #2575fc); /* dégradé violet → bleu */
+  color: #fff;
   padding: 20px;
   text-align: center;
 }
 
-/*HERO*/
-.hero {
-  width: 100%;
-  background-color: #f8f8f8;
-  padding: 60px 20px;
-  text-align: center;
+.header h1 {
+  font-size: 2rem;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
-/* MENU SECTION  */
+.header nav a {
+  color: #fff;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.header nav a:hover {
+  color: #ffd700; /* accent doré au hover */
+}
+
+/* HERO */
+.hero {
+  width: 100%;
+  background: linear-gradient(135deg, #fddb92, #d1fdff); /* dégradé très doux */
+  padding: 60px 20px;
+  text-align: center;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  color: #6a11cb;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #333;
+  font-size: 1.1rem;
+}
+
+/* MENU SECTION */
 .menu {
   width: 100%;
   padding: 40px 20px;
+  background-color: #fefefe;
 }
 
-/*GRID DES CARTES*/
+/* GRID DES CARTES */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -52,18 +82,19 @@ body {
   margin: 0 auto;
 }
 
-/*MENU CARD*/
+/* MENU CARD */
 .card {
-  background-color: white;
+  background: linear-gradient(145deg, #ffecd2, #fcb69f); /* couleurs attractives */
   border-radius: 12px;
   padding: 15px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
 .card img {
@@ -75,18 +106,20 @@ body {
 
 .card h3 {
   margin: 12px 0 6px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  color: #6a11cb;
 }
 
 .card p {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   margin-bottom: 6px;
+  color: #333;
 }
 
-/*BADGES*/
+/* BADGES */
 .badge {
   display: inline-block;
-  background-color: #ff6347;
+  background-color: #ff4d6d; /* rouge vif et rare */
   color: white;
   padding: 4px 10px;
   border-radius: 6px;
@@ -95,28 +128,28 @@ body {
 }
 
 .badge-vege {
-  background-color: green;
+  background-color: #00c49a; /* vert tropical */
 }
 
 .badge-new {
-  background-color: orange;
+  background-color: #ff9500; /* orange vif */
 }
 
 .badge-stock {
-  background-color: blue;
+  background-color: #6a11cb; /* violet premium */
 }
 
-/*FOOTER*/
+/* FOOTER */
 .footer {
   margin-top: auto;
   width: 100%;
-  background-color: #222;
+  background: linear-gradient(90deg, #2575fc, #6a11cb); /* miroir du header */
   color: white;
   padding: 20px;
   text-align: center;
 }
 
-/*RESPONSIVE*/
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .hero {
     padding: 40px 15px;

@@ -61,7 +61,7 @@ function HomePage() {
       />
 
       {/* Affichage conditionnel du panier */}
-      {showCart && (
+      { (
         <CartSummary
           cart={cart}
           removeFromCart={removeFromCart}
