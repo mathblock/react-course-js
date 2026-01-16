@@ -1,0 +1,52 @@
+Il etait question de mettre en place la gestion de l’état du panier dans une application React en utilisant le hook useState.
+Le panier permet d’ajouter des plats, de modifier leurs quantités, de supprimer des éléments et de vider complètement le panier.
+
+État du Panier: 
+
+Le panier est stocké dans le composant App.jsx sous forme d’un tableau.
+
+const [cart, setCart] = useState([]);
+Chaque élément du panier contient les informations du plat ainsi qu’une propriété quantity.
+
+Fonctions du Panier:
+addToCart(item)
+
+Ajoute un plat au panier.
+
+Si le plat existe déjà, sa quantité est augmentée de 1.
+
+Sinon, le plat est ajouté avec une quantité initiale de 1.
+
+removeFromCart(itemId)
+
+Supprime complètement un plat du panier à partir de son identifiant (id).
+
+updateQuantity(itemId, quantity)
+
+Modifie la quantité d’un plat existant.
+
+Si la quantité est inférieure ou égale à 0, le plat est automatiquement retiré du panier.
+
+ clearCart()
+
+Vide entièrement le panier en réinitialisant l’état.
+
+Règles Critiques Respectées:
+
+Le state n’est jamais modifié directement.
+
+cart.push() n’est jamais utilisé.
+
+Les mises à jour du panier se font uniquement via :
+
+setCart()
+
+.map() pour modifier un élément
+
+.filter() pour supprimer un élément
+
+Une nouvelle copie du tableau est toujours créée lors des modifications.
+
+Conclusion:
+
+Cette implémentation respecte les bonnes pratiques React, garantit l’immuabilité de l’état et fournit une base solide pour la gestion d’un panier dans une application e-commerce ou de restaurant.
