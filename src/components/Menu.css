@@ -1,48 +1,62 @@
 .menu {
-padding: 2rem;
-max-width: 1200px;
-margin: 0 auto;
+	padding: 4rem 2rem;
+	max-width: none;
+	width: 100%;
+	margin: 0 auto;
+	background: var(--bg-primary);
 }
 
 .menu h2 {
-text-align: center;
-margin-bottom: 2rem;
-font-size: 2rem;
+	text-align: center;
+	margin-bottom: 2rem;
+	font-size: 2.4rem;
+	color: var(--text-primary);
 }
 
 .menu-filters {
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 1rem;
-margin-bottom: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1rem;
+	flex-wrap: wrap;
 }
 
 .menu-filters input[type="text"] {
-padding: 0.5rem;
-width: 300px;
-border: 1px solid var(--text-secondary);
-border-radius: 5px;
+	padding: 0.75rem 1rem;
+	border-radius: 999px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	min-width: 240px;
+	background: var(--bg-secondary);
+	color: var(--text-primary);
+	box-shadow: var(--shadow);
 }
 
 .menu-filters label {
-display: flex;
-align-items: center;
-gap: 0.5rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.4rem 0.8rem;
+	border-radius: 999px;
+	background: var(--bg-secondary);
+	box-shadow: var(--shadow);
+	color: var(--text-secondary);
 }
 
 .menu-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-gap: 2rem;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 2rem;
+	max-width: 1200px; /* Center grid content */
+	margin: 0 auto; /* Center the grid */
 }
 
 @media (max-width: 768px) {
-.menu-grid {
-grid-template-columns: 1fr;
-}
+	.menu {
+		width: 100vw;
+	}
 
-.menu-filters {
-flex-direction: column;
-}
+	.menu-grid {
+		grid-template-columns: 1fr;
+	}
 }

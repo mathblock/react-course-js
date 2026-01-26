@@ -1,20 +1,33 @@
+import { useEffect, useState } from 'react';
 import './App.css';
-import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage.jsx";
-//import Menu from "./pages/MenuPage";
-//import Cart from "./pages/Cart";
-//import NotFoundPage from "./pages/NotFoundPage";
-import Layout from './components/layout.jsx';
-import Contact from './components/Contact.jsx'
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Menu from './components/Menu';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+import { useCart } from './context/CartContext';
 
 function App() {
+  const [theme, setTheme] = useState('dark');
+  const { addToCart } = useCart();
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+  };
+
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route path="contact" element={<Contact />} />
-      </Route>
-    </Routes>
+    <div className="App" id="accueil">
+      <Header toggleTheme={toggleTheme} theme={theme} />
+      <Hero />
+      <Menu addToCart={addToCart} /> {/* Pass addToCart to Menu */}
+      <Contact />
+      <Footer />
+    </div>
   );
 }
 

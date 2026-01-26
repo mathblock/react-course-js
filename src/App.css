@@ -1,55 +1,55 @@
-/* Refined for a more beautiful, modern look: smoother transitions, better spacing, consistent borders */
+
 :root {
 	--bg-primary: #f8f9fa;
-	--bg-secondary: #ffffff;
-	--text-primary: #212529;
-	--text-secondary: #6c757d;
-	--accent: #fd7e14;
-	--shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-	--border-radius: 0.5rem;
-	--transition: all 0.3s ease;
+	--bg-secondary: white;
+	--text-primary: #333;
+	--text-secondary: #666;
+	--accent: #ff6b35;
+	--shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	--radius-lg: 18px;
 }
 
 body.light {
 	--bg-primary: #f8f9fa;
-	--bg-secondary: #ffffff;
-	--text-primary: #212529;
-	--text-secondary: #6c757d;
-	--accent: #fd7e14;
-	--shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+	--bg-secondary: white;
+	--text-primary: #333;
+	--text-secondary: #666;
+	--accent: #ff6b35;
+	--shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 body.dark {
-	--bg-primary: #212529;
-	--bg-secondary: #343a40;
-	--text-primary: #f8f9fa;
-	--text-secondary: #adb5bd;
-	--accent: #fd7e14;
-	--shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+	--bg-primary: #1a1a1a;
+	--bg-secondary: #2d2d2d;
+	--text-primary: #fff;
+	--text-secondary: #ccc;
+	--accent: #ff6b35;
+	--shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 html {
 	scroll-behavior: smooth;
+	scroll-padding-top: 90px;
 }
 
 #root {
-	max-width: 100%;
+	width: 100%;
 	margin: 0;
 	padding: 0;
 	background-color: var(--bg-primary);
 	min-height: 100vh;
-	color: var(--text-primary);
-	transition: var(--transition);
 }
 
 .App {
-	font-family: 'Poppins', sans-serif;
-	transition: var(--transition);
+	width: 100%;
+	overflow-x: hidden;
+	padding-top: 80px;
 }
 
-/* Global button styles for consistency */
-button, a.hero-button {
-	transition: var(--transition);
+body {
+	margin: 0;
+	padding: 0;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+	transition: background-color 0.3s, color 0.3s;
 }
-
-/* ... retain other styles, ensuring no overlaps or issues */

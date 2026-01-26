@@ -1,9 +1,9 @@
 .menu-card {
-background-color: white;
-border-radius: 15px;
-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+background-color: var(--bg-secondary);
+border-radius: var(--radius-lg);
+box-shadow: var(--shadow);
 overflow: hidden;
-transition: all 0.4s ease;
+transition: all 0.3s ease;
 display: flex;
 flex-direction: column;
 animation: fadeInUp 0.6s ease-out forwards;
@@ -47,12 +47,12 @@ flex-direction: column;
 .menu-card h3 {
 margin: 0 0 0.5rem 0;
 font-size: 1.4rem;
-color: #333;
+color: var(--text-primary);
 }
 
 .menu-card p {
 margin: 0 0 1rem 0;
-color: #777;
+color: var(--text-secondary);
 line-height: 1.5;
 }
 
@@ -79,7 +79,14 @@ font-weight: bold;
 box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
 }
 
-/* ... other badge styles as before */
+.badge-vege {
+background: linear-gradient(135deg, #4caf50, #45a049);
+}
+
+.badge-new {
+background: linear-gradient(135deg, #ff6b35, #f7931e);
+box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+}
 
 .menu-card button {
 margin-top: 1rem;
